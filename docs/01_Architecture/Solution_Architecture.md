@@ -28,17 +28,63 @@ Atlas must:
 ## High-Level Architecture
 
 ```mermaid
-flowchart TD
-    A[Market Data APIs<br/>Delayed or Historical Feeds] --> B[Fabric Pipelines]
-    B --> C[Bronze Lakehouse<br/>Raw Market Data]
-    C --> D[Silver Lakehouse<br/>Cleansed & Standardised Data]
-    D --> E[Gold Warehouse<br/>Curated Analytics Model]
-    E --> F[Semantic Model<br/>Power BI Dataset]
-    F --> G[Power BI Dashboard<br/>Trading Intelligence]
-    E --> H[Trading Signal Engine<br/>Rules & Indicators]
-    H --> G
-    H --> I[Future AI Intelligence Layer<br/>Azure AI / AI Foundry / Agents]
-    I --> G
+flowchart LR
+
+    subgraph External["External Data Sources"]
+        A1["Market Data APIs<br/>(Delayed / Historical)"]
+        A2["Reference Data<br/>(Symbols, Markets, Sectors)"]
+        A3["Future Data Sources<br/>(News, Sentiment, Economic Events)"]
+    end
+
+    subgraph Fabric["Microsoft Fabric Data Platform"]
+        B1["Fabric Pipelines<br/>Ingestion & Orchestration"]
+        B2["Bronze Lakehouse<br/>Raw Source Data"]
+        B3["Silver Lakehouse<br/>Cleansed & Standardised Data"]
+        B4["Gold Warehouse<br/>Curated Analytics Model"]
+        B5["Eventhouse<br/>Future Real-Time Analytics"]
+    end
+
+    subgraph Intelligence["Trading Intelligence Layer"]
+        C1["Technical Indicators"]
+        C2["Trading Signal Engine<br/>Buy / Hold / Sell"]
+        C3["Future AI Intelligence<br/>Azure AI / AI Foundry / Agents"]
+    end
+
+    subgraph Consumption["Consumption Layer"]
+        D1["Power BI Semantic Model"]
+        D2["Power BI Dashboard"]
+        D3["Future Website"]
+        D4["Future API"]
+    end
+
+    subgraph Engineering["Engineering & Governance"]
+        E1["VS Code"]
+        E2["GitHub Repository"]
+        E3["GitHub Actions<br/>Future CI/CD"]
+        E4["Documentation & ADRs"]
+    end
+
+    A1 --> B1
+    A2 --> B1
+    A3 -. Future .-> B1
+
+    B1 --> B2
+    B2 --> B3
+    B3 --> B4
+    B3 -. Future .-> B5
+
+    B4 --> C1
+    C1 --> C2
+    C2 --> D1
+    D1 --> D2
+
+    C3 -. Future .-> D2
+    D2 -. Future .-> D3
+    B4 -. Future .-> D4
+
+    E1 --> E2
+    E2 --> E3
+    E2 --> E4
 ```
 
 ---
