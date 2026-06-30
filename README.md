@@ -1,6 +1,8 @@
 # atlas
 Enterprise AI Intelligence Platform powered by Microsoft Fabric, Azure AI and Power BI
 
+**Current Release:** v0.1.0 – Foundation
+
 ## High-Level Architecture
 
 ```mermaid
