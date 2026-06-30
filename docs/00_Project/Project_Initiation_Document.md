@@ -30,6 +30,16 @@ Atlas will begin as an AI Trading Intelligence Platform and may later form part 
 
 ---
 
+## Product Philosophy
+
+Atlas is being developed using an iterative product approach.
+
+The initial MVP will focus on delivering a small, high-quality, end-to-end solution that demonstrates enterprise engineering practices and delivers genuine business value.
+
+Future releases will build incrementally on this foundation, adding intelligence, automation and commercial capability while maintaining architectural consistency across the UKFI product portfolio.
+
+---
+
 ## Project Charter
 
 To build enterprise-grade AI products that demonstrate modern Microsoft Data & AI engineering while solving real business problems and creating reusable commercial assets.
@@ -333,3 +343,49 @@ A feature or milestone is considered done when:
 **Current Release:** v0.1.0 Foundation  
 **Status:** In progress  
 **Next Step:** Complete PID, roadmap, release plan and initial ADRs.
+
+
+---
+
+## Success Measures
+
+The success of Atlas will be evaluated using both engineering and business measures.
+
+### Engineering Success Measures (MVP)
+
+| Measure | Target |
+|---------|--------|
+| Professional GitHub repository established | ✓ |
+| Complete Project Initiation Document | ✓ |
+| Enterprise architecture documented | ✓ |
+| End-to-end Microsoft Fabric solution | ✓ |
+| Automated data ingestion pipeline | ✓ |
+| Medallion architecture implemented | ✓ |
+| Power BI dashboard completed | ✓ |
+| Initial AI-assisted trading insights generated | ✓ |
+| CI/CD pipeline established | ✓ |
+| Production-quality documentation completed | ✓ |
+
+### Professional Success Measures
+
+| Measure | Target |
+|---------|--------|
+| Demonstrable during technical interviews | ✓ |
+| Showcase end-to-end Microsoft Data & AI capability | ✓ |
+| Demonstrate enterprise architecture skills | ✓ |
+| Demonstrate consultancy-quality documentation | ✓ |
+| Demonstrate AI-assisted software engineering methodology | ✓ |
+
+### Commercial Success Measures
+
+The MVP is intended to establish the technical and architectural foundation for future commercial development.
+
+Future commercial success will be measured against objectives such as:
+
+- Demonstration to potential clients.
+- Support for securing Microsoft Fabric consultancy engagements.
+- Creation of reusable intellectual property.
+- Foundation for future UKFI products.
+- First commercial proof-of-concept deployment.
+- First licensed customer.
+- Expansion into additional intelligence platforms (Healthcare, Creative AI and others).
