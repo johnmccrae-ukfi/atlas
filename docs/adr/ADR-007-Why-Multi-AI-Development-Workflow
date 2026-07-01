@@ -1,0 +1,154 @@
+# ADR-007 – Why Multi-AI Development Workflow
+
+## Status
+
+Accepted
+
+---
+
+## Context
+
+Atlas is intended to demonstrate professional software engineering practices as well as modern AI-assisted development.
+
+Large Language Models have different strengths.
+
+Rather than relying on a single AI assistant throughout the development lifecycle, Atlas adopts a structured multi-AI workflow where each assistant has a clearly defined engineering role.
+
+The objective is to improve software quality while ensuring that all architectural decisions remain under human control.
+
+---
+
+## Decision
+
+Atlas adopts the following engineering workflow.
+
+### ChatGPT
+
+Role: Solution Architect
+
+Responsibilities:
+
+- Product vision
+- Architecture
+- Technology selection
+- Architecture Decision Records (ADRs)
+- Sprint planning
+- Solution design
+- Engineering governance
+
+ChatGPT is responsible for deciding *what* should be built and *why*.
+
+---
+
+### GitHub Chat (Copilot)
+
+Role: Implementation Engineer
+
+Responsibilities:
+
+- Implement approved designs
+- Generate production code
+- Create unit tests
+- Suggest refactoring
+- Follow project coding standards
+- Use project context documentation
+
+GitHub Chat is responsible for implementing approved designs.
+
+---
+
+### Claude Code
+
+Role: Senior Engineer / Code Reviewer
+
+Responsibilities:
+
+- Review implementations
+- Identify architectural inconsistencies
+- Improve maintainability
+- Strengthen validation
+- Expand test coverage
+- Challenge unnecessary complexity
+
+Claude reviews implementations before they are committed.
+
+---
+
+### Human Developer
+
+Role: Technical Lead
+
+Responsibilities:
+
+- Make architectural decisions
+- Review AI suggestions
+- Accept or reject changes
+- Maintain engineering quality
+- Approve commits and releases
+
+No AI assistant has authority to make final engineering decisions.
+
+---
+
+## Workflow
+
+```
+Requirements
+      │
+      ▼
+Architecture (ChatGPT)
+      │
+      ▼
+Implementation (GitHub Chat)
+      │
+      ▼
+Code Review (Claude)
+      │
+      ▼
+Human Approval
+      │
+      ▼
+Tests
+      │
+      ▼
+Git Commit
+      │
+      ▼
+Release
+```
+
+---
+
+## Consequences
+
+### Advantages
+
+- Clear separation of responsibilities.
+- Reduced architectural drift.
+- Better code quality through independent review.
+- Stronger automated testing.
+- Human ownership of all important decisions.
+- Repeatable engineering process.
+
+### Risks
+
+- Slightly longer development cycle.
+- Requires discipline to maintain roles.
+- AI suggestions may occasionally conflict and require judgement.
+
+---
+
+## Future Evolution
+
+Additional AI assistants may be introduced where they provide clear value, for example:
+
+- Security review
+- Documentation generation
+- Performance optimisation
+- Automated release note generation
+
+The core principle remains unchanged:
+
+AI assists.
+
+Humans decide.

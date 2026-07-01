@@ -10,7 +10,7 @@ Deliverables
 
 ✔ Massive provider
 
-✔ Common market model
+✔ Common market model - Completed
 
 ✔ First successful API call
 
