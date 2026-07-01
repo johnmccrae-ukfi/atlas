@@ -1,0 +1,187 @@
+# ADR-005 — Why Certified Semantic Models
+
+**Status:** Accepted
+
+**Date:** 2026-07-01
+
+**Decision Makers:** UK Future Innovations (Atlas Engineering)
+
+---
+
+# Context
+
+Atlas will expose business intelligence through Power BI dashboards, future web applications, APIs and AI services.
+
+Without governance, different developers may create their own DAX measures and KPIs within individual semantic models or reports. Over time this leads to inconsistent business definitions, duplicated logic and conflicting reporting.
+
+For example:
+
+Developer A defines:
+
+Total Profit
+
+Developer B defines:
+
+Net Profit
+
+Developer C defines:
+
+Trading Profit
+
+Although each measure appears similar, slight differences in calculation logic can produce different values across reports, reducing confidence in the platform.
+
+As Atlas grows into a commercial product, consistency of business metrics is essential.
+
+---
+
+# Decision
+
+Atlas will adopt a **Certified Semantic Model** as the single source of truth for all business calculations.
+
+Business measures, KPIs and calculated metrics will be defined once within the certified semantic model and reused by every consuming application.
+
+All Power BI reports, dashboards and future AI services should consume these centrally managed measures rather than creating local report-specific calculations.
+
+---
+
+# Architecture
+
+```
+Raw Market Data
+        │
+        ▼
+Bronze Lakehouse
+        │
+        ▼
+Silver Lakehouse
+        │
+        ▼
+Gold Warehouse
+        │
+        ▼
+Atlas Certified Semantic Model
+        │
+        ├─────────────┐
+        │             │
+        ▼             ▼
+ Power BI        Future Website
+        │             │
+        ├─────────────┤
+        ▼             ▼
+Future API      AI Agents / Copilots
+```
+
+---
+
+# Benefits
+
+Using a certified semantic model provides:
+
+- Single version of the truth.
+- Consistent KPI calculations.
+- Shared DAX measures.
+- Reduced duplication.
+- Easier maintenance.
+- Simplified report development.
+- Trusted business reporting.
+- Improved governance.
+- Better scalability as additional products are developed.
+
+---
+
+# Measure Governance
+
+Measures will be organised into logical business areas.
+
+Examples include:
+
+## Price
+
+- Current Price
+- Opening Price
+- Daily High
+- Daily Low
+- Moving Average
+
+## Trading
+
+- ABS-1 Signal
+- Buy Signals
+- Sell Signals
+- Hold Signals
+
+## Performance
+
+- Total Trades
+- Winning Trades
+- Win Percentage
+- Profit/Loss
+- Maximum Drawdown
+
+## AI (Future)
+
+- Atlas Intelligence Score
+- Confidence Score
+- Sentiment Rating
+
+This organisation improves discoverability and promotes consistent report development.
+
+---
+
+# Future Certification Process
+
+The Atlas Semantic Model will follow Microsoft's endorsement model.
+
+Development progresses through:
+
+Uncertified
+
+↓
+
+Promoted
+
+↓
+
+Certified
+
+Only certified semantic models should be used for production dashboards and customer-facing reports.
+
+---
+
+# Consequences
+
+Positive
+
+- Consistent reporting across the platform.
+- Easier onboarding of future developers.
+- Reusable business logic.
+- Better performance through reduced duplicated calculations.
+- Enterprise-grade governance.
+
+Negative
+
+- Slightly more effort required when introducing new KPIs.
+- Changes to business logic require governance and version control.
+
+The advantages significantly outweigh these additional governance requirements.
+
+---
+
+# Future Enhancements
+
+Future versions of Atlas may include:
+
+- Calculation Groups
+- Shared KPI catalogue
+- Versioned semantic models
+- Automated semantic model deployment
+- AI-generated documentation for measures
+- Semantic model testing within CI/CD pipelines
+
+---
+
+# Summary
+
+Atlas adopts Certified Semantic Models to ensure that every dashboard, report, API and AI component consumes the same centrally governed business definitions.
+
+This decision establishes a single source of truth for business calculations and aligns Atlas with Microsoft Fabric and Power BI enterprise best practices.

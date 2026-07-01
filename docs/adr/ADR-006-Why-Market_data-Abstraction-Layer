@@ -1,0 +1,194 @@
+# ADR-006 — Why Market Data Abstraction Layer
+
+**Status:** Accepted
+
+**Date:** 2026-07-01
+
+**Decision Makers:** UK Future Innovations (Atlas Engineering)
+
+---
+
+# Context
+
+Atlas requires market data to support trading analysis, dashboards and future AI-driven intelligence.
+
+A wide range of commercial market data providers are available, including:
+
+- Massive
+- Finnhub
+- Alpha Vantage
+- Twelve Data
+- Polygon.io
+- Yahoo Finance
+- Future proprietary or enterprise data providers
+
+Each provider offers different:
+
+- APIs
+- Authentication methods
+- Pricing models
+- Asset coverage
+- Rate limits
+- Data formats
+
+Building Atlas directly against a single provider would tightly couple the platform to that vendor.
+
+Changing providers in the future would require significant changes throughout the application.
+
+---
+
+# Decision
+
+Atlas will separate market data acquisition from business processing by introducing a Market Data Abstraction Layer.
+
+The remainder of the platform will consume a common market data interface rather than communicating directly with vendor-specific APIs.
+
+This creates loose coupling between Atlas and external data providers.
+
+---
+
+# Architecture
+
+```
+                Market Data Provider
+
+          Massive
+             │
+          Finnhub
+             │
+       Alpha Vantage
+             │
+        Yahoo Finance
+             │
+             ▼
+
+      Market Data Adapter
+
+             ▼
+
+      Common Market Model
+
+             ▼
+
+      Fabric Pipeline
+
+             ▼
+
+ Bronze → Silver → Gold
+
+             ▼
+
+ Certified Semantic Model
+
+             ▼
+
+ Power BI / API / AI
+```
+
+---
+
+# Provider Responsibilities
+
+Each provider adapter will be responsible for:
+
+- Authentication
+- API communication
+- Rate limiting
+- Error handling
+- Retry logic
+- Data validation
+- Conversion into the Atlas common data model
+
+Downstream Fabric components should never require provider-specific logic.
+
+---
+
+# Benefits
+
+The abstraction layer provides:
+
+- Reduced vendor lock-in.
+- Easier migration between providers.
+- Support for multiple providers simultaneously.
+- Simplified testing using mock providers.
+- Consistent downstream processing.
+- Greater resilience if provider pricing changes.
+- Improved maintainability.
+
+---
+
+# Initial Provider Strategy
+
+The first implementation will target:
+
+**Massive**
+
+Reasons include:
+
+- Futures support.
+- REST API suitable for scheduled ingestion.
+- WebSocket support for future streaming.
+- Multiple financial asset classes.
+- Enterprise-grade documentation.
+
+Future implementations may support additional providers without requiring changes to the Fabric architecture.
+
+---
+
+# Common Market Data Model
+
+Each provider should map incoming data into a common structure.
+
+Example:
+
+- Instrument
+- Timestamp
+- Open
+- High
+- Low
+- Close
+- Volume
+- Source Provider
+
+This ensures Bronze, Silver and Gold layers remain provider independent.
+
+---
+
+# Future Enhancements
+
+Future versions may include:
+
+- Automatic provider failover.
+- Multiple provider comparison.
+- Data quality scoring.
+- Provider health monitoring.
+- Cost-aware provider selection.
+- Real-time streaming adapters.
+- Historical backfill providers.
+
+---
+
+# Consequences
+
+Positive
+
+- Flexible architecture.
+- Reduced long-term cost risk.
+- Easier testing.
+- Cleaner code.
+- Enterprise-grade design.
+
+Negative
+
+- Slightly more code in the initial implementation.
+- Additional abstraction layer to maintain.
+
+The long-term architectural benefits significantly outweigh the additional implementation effort.
+
+---
+
+# Summary
+
+Atlas adopts a Market Data Abstraction Layer to isolate business logic from external market data providers.
+
+This decision enables Atlas to evolve independently of vendor-specific APIs while maintaining a clean, modular and extensible architecture suitable for future commercial products.
