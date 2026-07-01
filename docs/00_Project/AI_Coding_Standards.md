@@ -79,3 +79,12 @@ When suggesting code:
 - Do not make provider-specific assumptions in common models.
 - Prefer understandable code over clever code.
 - Keep implementation aligned with the current sprint goal.
+
+---
+
+## Repository Operations
+
+- AI agents may implement code.
+- The engineer owns repository operations.
+- File moves, renames and large refactors should be reviewed carefully.
+- On Windows, filename case-only changes may require a two-step rename to remain compatible with Git and Linux CI.
