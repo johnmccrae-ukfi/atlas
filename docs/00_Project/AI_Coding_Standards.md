@@ -46,6 +46,14 @@ It should be used alongside `AI_Context.md`.
 
 ---
 
+## Naming Conventions
+
+Interfaces use an `I` prefix (e.g. `IMarketDataProvider`) to distinguish contracts from implementations.
+
+Concrete implementations omit the prefix (e.g. `MassiveProvider`).
+
+---
+
 ## Atlas Domain Standards
 
 Bronze preserves raw provider data.
