@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 from src.common.providers.MassiveProvider import MassiveProvider
-from src.common.transformers.market_bar_transformer import (
+from common.transformers.market_bar_dataframe_transformer import (
     market_bars_to_dataframe,
 )
 from src.common.storage.parquet_writer import write_dataframe_to_parquet
