@@ -4,7 +4,9 @@ import os
 from dotenv import load_dotenv
 
 from src.common.providers.MassiveProvider import MassiveProvider
-
+from src.common.transformers.market_bar_transformer import (
+    market_bars_to_dataframe,
+)
 
 load_dotenv(override=True)
 
@@ -19,7 +21,8 @@ bars = provider.get_bars(
     timeframe="1d",
 )
 
-print(f"Received {len(bars)} bars")
+df = market_bars_to_dataframe(bars)
 
-for bar in bars:
-    print(bar)
+print(df)
+print()
+print(df.dtypes)
