@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atlas"
+version = "0.1.0"
+description = "Atlas Market Data Platform"
+readme = "README.md"
+requires-python = ">=3.11"
+
+authors = [
+    { name = "John McCrae" }
+]
+
+dependencies = [
+    "requests>=2.32",
+    "python-dotenv>=1.1",
+]
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
