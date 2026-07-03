@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import pandas as pd
 
 
@@ -9,8 +10,15 @@ class BronzeWriter:
         self.output_dir = self.output_root / dataset_name
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-    def write_chunk(self, chunk: pd.DataFrame, chunk_no: int) -> Path:
-        output_path = self.output_dir / f"{self.dataset_name}_bronze_chunk_{chunk_no:04d}.parquet"
+    def write_chunk(
+        self,
+        chunk: pd.DataFrame,
+        chunk_no: int,
+        file_prefix: str | None = None,
+    ) -> Path:
+        prefix = file_prefix or f"{self.dataset_name}_bronze"
+
+        output_path = self.output_dir / f"{prefix}_chunk_{chunk_no:04d}.parquet"
 
         chunk.to_parquet(output_path, index=False)
 

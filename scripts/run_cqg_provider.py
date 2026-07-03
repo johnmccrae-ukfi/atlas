@@ -3,6 +3,8 @@ from src.common.writers.BronzeWriter import BronzeWriter
 
 
 def main():
+    max_chunks_to_process = None  # set to None to process the full file
+
     provider = CQGLegacyProvider(
         source_path=r"F:\ukfi\Source\CQG\F.US.EU6M12_201203.ts",
         chunk_size=1_000_000,
@@ -13,8 +15,17 @@ def main():
         dataset_name="cqg",
     )
 
+    print("=" * 60)
+    print("CQG Legacy Provider")
+    print("=" * 60)
+    print(f"Source file : {provider.source_path}")
+    print(f"Chunk size  : {provider.chunk_size:,}")
+    print(f"Chunk limit : {max_chunks_to_process}")
+    print()
+
     for chunk_no, chunk in enumerate(provider.read_chunks(), start=1):
-        print(f"Chunk {chunk_no}: {len(chunk):,} rows")
+        
+        print(f"Processing chunk {chunk_no:,} ({len(chunk):,} rows)")
 
         print(chunk[[
             "source_row_number",
@@ -30,14 +41,23 @@ def main():
         print()
         print(chunk["event_type"].value_counts())
 
-        output_path = writer.write_chunk(chunk, chunk_no)
+        instrument = chunk["instrument"].iat[0].replace(".", "_")
+        month = str(chunk["trade_date_raw"].iat[0])[:6]
+
+        file_prefix = f"cqg_{instrument}_{month}"
+
+        output_path = writer.write_chunk(
+            chunk,
+            chunk_no,
+            file_prefix=provider.file_prefix,
+        )
 
         print()
         print("Wrote Parquet file:")
         print(output_path)
 
-        break
-
+        if max_chunks_to_process is not None and chunk_no >= max_chunks_to_process:
+            break
 
 if __name__ == "__main__":
     main()

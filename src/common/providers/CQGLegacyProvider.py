@@ -21,6 +21,12 @@ class CQGLegacyProvider:
             "size",
         ]
 
+    @property
+    def file_prefix(self) -> str:
+        stem = self.source_path.stem
+        safe_stem = stem.replace(".", "_")
+        return f"cqg_{safe_stem}"
+
     def read_chunks(self):
         if not self.source_path.exists():
             raise FileNotFoundError(f"CQG source file not found: {self.source_path}")
