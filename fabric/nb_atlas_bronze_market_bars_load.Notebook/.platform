@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_atlas_bronze_market_bars_load"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9ff6ba69-05ac-8024-4251-00b760543773"
+  }
+}
