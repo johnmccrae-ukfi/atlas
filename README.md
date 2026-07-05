@@ -1,7 +1,7 @@
 # atlas
 Enterprise AI Intelligence Platform powered by Microsoft Fabric, Azure AI and Power BI
 
-**Current Release:** v0.1.0 – Foundation
+**Current Release:** v0.3.0 – Silver Foundation
 
 ## High-Level Architecture
 
