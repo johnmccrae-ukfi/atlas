@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_atlas_silver_cqg_ticks"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "31ae379a-51b7-b598-467d-c24390bd5897"
+  }
+}

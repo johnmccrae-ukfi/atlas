@@ -100,7 +100,7 @@ bronze_df.printSchema()
 
 # CELL ********************
 
-# Cell 2 - Read Bronze CQG Parquet files and validate row count
+# Read Bronze CQG Parquet files and validate row count
 
 expected_row_count = 17_317_408
 
@@ -131,7 +131,7 @@ print("Bronze Parquet read validation passed.")
 
 # CELL ********************
 
-# Cell 3 - Inspect Bronze schema and sample rows
+# Inspect Bronze schema and sample rows
 
 print("Bronze DataFrame schema:")
 bronze_df.printSchema()
@@ -147,7 +147,7 @@ display(bronze_df.limit(10))
 
 # CELL ********************
 
-# Cell 4 - Write Bronze DataFrame to managed Delta table
+# Write Bronze DataFrame to managed Delta table
 
 (
     bronze_df.write
@@ -168,7 +168,7 @@ print(f"Bronze Delta table written successfully: {target_table}")
 
 # CELL ********************
 
-# Cell 5 - Validate Bronze Delta table
+# Validate Bronze Delta table
 
 bronze_delta_df = spark.table(target_table)
 
@@ -195,7 +195,7 @@ display(bronze_delta_df.limit(10))
 
 # CELL ********************
 
-# Cell 6 - Bronze Load Summary
+# Bronze Load Summary
 
 print("=" * 60)
 print("ATLAS BRONZE LOAD SUMMARY")
