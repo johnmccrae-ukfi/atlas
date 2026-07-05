@@ -101,6 +101,26 @@ Push to GitHub
 
 ---
 
+## Fabric Source Control Workflow
+
+Fabric artefacts are committed from within the Fabric Workspace using the
+Workspace-level Source Control panel.
+
+Typical workflow:
+
+1. Develop notebook in Fabric.
+2. Save notebook.
+3. Commit Workspace changes to Git (dev branch).
+4. Pull latest changes in VS Code.
+5. Continue documentation and Python development.
+6. Commit documentation/code from VS Code.
+7. Push dev.
+8. Create Pull Request.
+9. Merge into main.
+10. Tag release.
+
+---
+
 # Feature Completion
 
 When a logical milestone is complete:
