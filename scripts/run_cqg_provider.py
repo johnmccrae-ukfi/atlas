@@ -28,7 +28,8 @@ def main():
         print(f"Processing chunk {chunk_no:,} ({len(chunk):,} rows)")
 
         print(chunk[[
-            "source_row_number",
+            "source_file_row_number",
+            "event_sequence_in_file",
             "instrument",
             "trade_date_raw",
             "time_raw",
