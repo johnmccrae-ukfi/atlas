@@ -42,12 +42,21 @@ class CQGLegacyProvider:
         ):
             row_count = len(chunk)
 
-            chunk.insert(0, "source_file", self.source_path.name)
+            chunk.insert(0, "source_file_name", self.source_path.name)
+            chunk.insert(1, "source_file_path", str(self.source_path))
             chunk.insert(
-                1,
-                "source_row_number",
+                2,
+                "source_file_row_number",
                 range(source_row_offset + 1, source_row_offset + row_count + 1),
             )
+
+            chunk.insert(
+                3,
+                "event_sequence_in_file",
+                range(source_row_offset + 1, source_row_offset + row_count + 1),
+            )
+
+            chunk.insert(4, "source_provider", "CQG_LEGACY")
 
             chunk["trade_date"] = pd.to_datetime(
                 chunk["trade_date_raw"].astype(str),
@@ -59,7 +68,7 @@ class CQGLegacyProvider:
 
             chunk["price_decimal"] = chunk["price_raw"] / 10000
 
-            chunk["loaded_at_utc"] = datetime.now(timezone.utc)
+            chunk["bronze_loaded_at_utc"] = datetime.now(timezone.utc)
 
             source_row_offset += row_count
 
