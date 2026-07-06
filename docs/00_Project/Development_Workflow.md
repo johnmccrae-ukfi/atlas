@@ -119,6 +119,8 @@ Typical workflow:
 9. Merge into main.
 10. Tag release.
 
+When a release contains both Fabric notebook changes and VS Code changes, commit and push the Fabric changes first. Synchronize VS Code with the updated dev branch before committing documentation or Python changes.
+
 ---
 
 # Feature Completion

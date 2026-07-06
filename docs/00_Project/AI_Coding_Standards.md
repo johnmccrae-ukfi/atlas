@@ -35,6 +35,44 @@ It should be used alongside `AI_Context.md`.
 
 ---
 
+## Fabric Notebook Standards
+
+Fabric notebooks should follow a consistent structure:
+
+1. Markdown overview
+2. Imports
+3. Configuration
+4. Read source data
+5. Inspect source schema and sample rows
+6. Apply transformation logic
+7. Validate transformation results
+8. Persist output tables
+9. Validate persisted output tables
+
+Notebook code should be organised so that each cell has a clear purpose.
+
+Each notebook should clearly document:
+
+- source tables
+- target tables
+- expected row counts where known
+- key business or engineering rules
+- validation checks
+- release scope
+
+Gold layer notebooks must prove that Open and Close values are derived from event ordering, not from `MIN()` or `MAX()`.
+
+Persisted Delta tables should always be validated after writing by:
+
+- reading the table back from Spark
+- checking row counts
+- printing the schema
+- displaying ordered sample rows
+
+Notebook transformations should prefer deterministic ordering and explicit validation over implicit assumptions.
+
+---
+
 ## Testing Standards
 
 - Use Python `unittest` unless another test framework is explicitly added.
