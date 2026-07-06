@@ -88,6 +88,7 @@ minute_window = (
     Window
     .partitionBy(
         "source_provider",
+        "instrument",
         "source_file_name",
         "trade_date",
         "time_hhmm"
@@ -142,6 +143,7 @@ silver_df = (
     )
     .select(
         "source_provider",
+        "instrument",
         "trade_date",
         "time_hhmm",
         "event_minute_ts",
@@ -221,6 +223,7 @@ display(
 display(
     silver_validated_df
     .select(
+        "instrument",
         "trade_date",
         "time_hhmm",
         "event_sequence_in_file",
@@ -247,7 +250,7 @@ display(
 
 display(
     silver_validated_df
-    .groupBy("trade_date", "time_hhmm")
+    .groupBy("instrument", "trade_date", "time_hhmm")
     .agg(
         F.count("*").alias("events_in_minute"),
         F.min("event_sequence_in_minute").alias("min_sequence_in_minute"),
