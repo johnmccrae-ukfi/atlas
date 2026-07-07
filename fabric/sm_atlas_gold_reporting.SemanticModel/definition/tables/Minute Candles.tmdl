@@ -1,0 +1,218 @@
+/// Original table is called gold_cqg_minute_candles
+table 'Minute Candles'
+	lineageTag: 4952e91c-9858-4352-b8f8-4b47e316a8d5
+	sourceLineageTag: [dbo].[gold_cqg_minute_candles]
+
+	/// Financial instrument symbol for the aggregated candlestick.
+	column Instrument
+		dataType: string
+		displayFolder: Trading
+		lineageTag: 81e08ff2-3e3a-4506-83a5-f1e261e49624
+		sourceLineageTag: Instrument
+		summarizeBy: none
+		sourceColumn: Instrument
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Trading date associated with the one-minute candlestick.
+	column TradingDate
+		dataType: dateTime
+		formatString: General Date
+		displayFolder: Trading
+		lineageTag: bf7ae6fe-d71b-43b4-a944-2e41295029a4
+		sourceLineageTag: TradingDate
+		summarizeBy: none
+		sourceColumn: TradingDate
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Start timestamp of the one-minute aggregation period.
+	column MinuteTimestamp
+		dataType: dateTime
+		formatString: dd mmmm yyyy hh:nn
+		displayFolder: Trading
+		lineageTag: ccdc8cc7-8b42-4ec7-8f4e-a2582ec7e2bc
+		sourceLineageTag: MinuteTimestamp
+		summarizeBy: none
+		sourceColumn: MinuteTimestamp
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	/// First traded price recorded during the one-minute period.
+	column Open
+		dataType: double
+		formatString: 0.00000
+		displayFolder: Price
+		lineageTag: f1dda0bf-e926-4897-a38b-dedb8a897665
+		sourceLineageTag: Open
+		summarizeBy: none
+		sourceColumn: Open
+
+		changedProperty = SummarizeBy
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = User
+
+	/// Highest traded price recorded during the one-minute period.
+	column High
+		dataType: double
+		formatString: 0.00000
+		displayFolder: Price
+		lineageTag: b43c6afb-7f53-4d54-908b-0731bf4598e3
+		sourceLineageTag: High
+		summarizeBy: none
+		sourceColumn: High
+
+		changedProperty = SummarizeBy
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = User
+
+	/// Lowest traded price recorded during the one-minute period.
+	column Low
+		dataType: double
+		formatString: 0.00000
+		displayFolder: Price
+		lineageTag: c57415d8-27c7-45a1-b823-b8c0eee0fad2
+		sourceLineageTag: Low
+		summarizeBy: none
+		sourceColumn: Low
+
+		changedProperty = SummarizeBy
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = User
+
+	/// Last traded price recorded during the one-minute period.
+	column Close
+		dataType: double
+		formatString: 0.00000
+		displayFolder: Price
+		lineageTag: 74944232-e761-4d22-a60f-bc85e9cc200d
+		sourceLineageTag: Close
+		summarizeBy: none
+		sourceColumn: Close
+
+		changedProperty = SummarizeBy
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = User
+
+	column Volume
+		dataType: double
+		isHidden
+		lineageTag: e0632fb6-1304-4347-9873-cf16ce2376a0
+		sourceLineageTag: Volume
+		summarizeBy: sum
+		sourceColumn: Volume
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Number of CQG tick events aggregated into the one-minute candlestick.
+	column TradeCount
+		dataType: int64
+		formatString: #,0
+		displayFolder: Statistics
+		lineageTag: 43ea9e84-3a7c-4291-a828-097b4a896f6c
+		sourceLineageTag: TradeCount
+		summarizeBy: sum
+		sourceColumn: TradeCount
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstEventSequence
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2f52051a-2d76-45af-ab87-15295bbe6f31
+		sourceLineageTag: FirstEventSequence
+		summarizeBy: sum
+		sourceColumn: FirstEventSequence
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastEventSequence
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 21ad49de-8aee-4f26-8b8f-a717f2e19c85
+		sourceLineageTag: LastEventSequence
+		summarizeBy: sum
+		sourceColumn: LastEventSequence
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column GoldLoadedUTC
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: 77f2a5f0-0d8b-44fc-9d78-cf7cd6122d04
+		sourceLineageTag: GoldLoadedUTC
+		summarizeBy: none
+		sourceColumn: GoldLoadedUTC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Minute Candles' = entity
+		mode: directLake
+		source
+			entityName: gold_cqg_minute_candles
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_atlas_dev'
+
+	changedProperty = Description
+
+	changedProperty = Name
+
