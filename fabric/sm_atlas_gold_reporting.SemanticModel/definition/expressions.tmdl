@@ -1,0 +1,11 @@
+expression 'DirectLake - lh_atlas_dev' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/7da777a8-e7db-4c0a-9423-3c91eaad9dda/3691f7ef-8726-4cdd-a6df-ac92e8f2a972", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: 86e0cf52-9118-43a5-b601-427466d3270b
+
+	annotation PBI_IncludeFutureArtifacts = False
+
+	annotation PBI_RemovedChildren = [{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[bronze_cqg_legacy_ticks]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[bronze_market_bars]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[silver_cqg_ticks]"}},"objectType":"Table"}]
+

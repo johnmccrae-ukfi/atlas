@@ -1,0 +1,265 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "fa974339417312d97127",
+  "position": {
+    "x": 57.700091996320147,
+    "y": 88.31646734130635,
+    "z": 0,
+    "height": 498.10487580496778,
+    "width": 1170.48758049678,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "PBI_CV_886A053E_9DFD_4EA0_A47D_CCAEB89AF969",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Candles"
+                    }
+                  },
+                  "Property": "TradingDate"
+                }
+              },
+              "queryRef": "Daily Candles.TradingDate",
+              "nativeQueryRef": "TradingDate",
+              "active": true
+            }
+          ]
+        },
+        "open": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Daily Candles"
+                        }
+                      },
+                      "Property": "Open"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "CountNonNull(Daily Candles.Open)",
+              "nativeQueryRef": "Max of Open"
+            }
+          ]
+        },
+        "close": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Daily Candles"
+                        }
+                      },
+                      "Property": "Close"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "CountNonNull(Daily Candles.Close)",
+              "nativeQueryRef": "Max of Close"
+            }
+          ]
+        },
+        "high": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Daily Candles"
+                        }
+                      },
+                      "Property": "High"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "CountNonNull(Daily Candles.High)",
+              "nativeQueryRef": "Max of High"
+            }
+          ]
+        },
+        "low": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Daily Candles"
+                        }
+                      },
+                      "Property": "Low"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "CountNonNull(Daily Candles.Low)",
+              "nativeQueryRef": "Max of Low"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Daily Candles"
+                  }
+                },
+                "Property": "TradingDate"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'EUR/USD Futures - Daily Candlestick Chart'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "3d75f47346927d9126ff",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Daily Candles"
+              }
+            },
+            "Property": "TradingDate"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "06b5a1c078a4711777f8",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Daily Candles"
+                  }
+                },
+                "Property": "Open"
+              }
+            },
+            "Function": 4
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "12a46bab6ce470ecf1ba",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Daily Candles"
+                  }
+                },
+                "Property": "Close"
+              }
+            },
+            "Function": 4
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3257769bd088bbe9a5b8",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Daily Candles"
+                  }
+                },
+                "Property": "High"
+              }
+            },
+            "Function": 4
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "83d5bc810a6221176962",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Daily Candles"
+                  }
+                },
+                "Property": "Low"
+              }
+            },
+            "Function": 4
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

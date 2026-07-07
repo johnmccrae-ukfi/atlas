@@ -1,0 +1,199 @@
+/// Original tabled is called gold_cqg_daily_candles
+table 'Daily Candles'
+	lineageTag: fd934c6c-8bb1-4bb2-8e9e-18bc8cfd56ce
+	sourceLineageTag: [dbo].[gold_cqg_daily_candles]
+
+	measure 'Total Trades' =
+			
+			SUM('Daily Candles'[TotalTrades])
+		formatString: #,0
+		displayFolder: Measures
+		lineageTag: 7cde381e-7d8f-4ab4-ba15-889f48ccf564
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Trading Days' =
+			
+			COUNTROWS('Daily Candles')
+		formatString: 0
+		displayFolder: Measures
+		lineageTag: aa10e8d1-2347-4b80-83ea-33e6fa55579d
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+	measure 'Average Trades / Day' =
+			
+			DIVIDE([Total Trades], [Trading Days])
+		formatString: #,0.00
+		displayFolder: Measures
+		lineageTag: decf2227-7484-489e-95df-21751c89f8c5
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Financial instrument symbol for the aggregated candlestick.
+	column Instrument
+		dataType: string
+		displayFolder: Trading
+		lineageTag: 6ec51ca4-15e1-4518-8442-9e976cc7a809
+		sourceLineageTag: Instrument
+		summarizeBy: none
+		sourceColumn: Instrument
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Trading date associated with the daily candlestick.
+	column TradingDate
+		dataType: dateTime
+		formatString: Short Date
+		displayFolder: Trading
+		lineageTag: e041c65b-ad32-44eb-ae46-4096a3ab34bb
+		sourceLineageTag: TradingDate
+		summarizeBy: none
+		sourceColumn: TradingDate
+
+		changedProperty = DataType
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// First traded price recorded during the trading day.
+	column Open
+		dataType: double
+		formatString: 0.00000
+		displayFolder: Price
+		lineageTag: 8ca2b899-7442-4884-ac60-db3f19a7da77
+		sourceLineageTag: Open
+		summarizeBy: none
+		sourceColumn: Open
+
+		changedProperty = SummarizeBy
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = User
+
+	/// Highest traded price recorded during the trading day.
+	column High
+		dataType: double
+		formatString: 0.00000
+		displayFolder: Price
+		lineageTag: dd52b1b2-ed6f-47bb-a975-a106dad2d550
+		sourceLineageTag: High
+		summarizeBy: none
+		sourceColumn: High
+
+		changedProperty = SummarizeBy
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = User
+
+	/// Lowest traded price recorded during the trading day.
+	column Low
+		dataType: double
+		formatString: 0.00000
+		displayFolder: Price
+		lineageTag: a7d42664-7855-4419-a92f-72c3cd43d66a
+		sourceLineageTag: Low
+		summarizeBy: none
+		sourceColumn: Low
+
+		changedProperty = SummarizeBy
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = User
+
+	/// Last traded price recorded during the trading day.
+	column Close
+		dataType: double
+		formatString: 0.00000
+		displayFolder: Price
+		lineageTag: a22a712b-aa30-42b7-9010-c433bbf642a8
+		sourceLineageTag: Close
+		summarizeBy: none
+		sourceColumn: Close
+
+		changedProperty = SummarizeBy
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = User
+
+	/// Total number of CQG tick events aggregated into the daily candlestick.
+	column TotalTrades
+		dataType: int64
+		formatString: #,0
+		displayFolder: Statistics
+		lineageTag: ef6db50e-296b-4911-9988-b47cb16dde32
+		sourceLineageTag: TotalTrades
+		summarizeBy: sum
+		sourceColumn: TotalTrades
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	column GoldLoadedUTC
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: 069d72e0-8313-456a-9e60-8973ffe48928
+		sourceLineageTag: GoldLoadedUTC
+		summarizeBy: none
+		sourceColumn: GoldLoadedUTC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Daily Candles' = entity
+		mode: directLake
+		source
+			entityName: gold_cqg_daily_candles
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_atlas_dev'
+
+	changedProperty = Description
+
+	changedProperty = Name
+
