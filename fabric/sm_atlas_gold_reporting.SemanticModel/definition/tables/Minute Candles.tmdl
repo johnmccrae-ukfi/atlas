@@ -3,6 +3,57 @@ table 'Minute Candles'
 	lineageTag: 4952e91c-9858-4352-b8f8-4b47e316a8d5
 	sourceLineageTag: [dbo].[gold_cqg_minute_candles]
 
+	measure 'Session High' =
+			
+			MAX('Minute Candles'[High])
+		formatString: 0.00000
+		displayFolder: Measures
+		lineageTag: 0b7f77e9-8e6f-4fa4-937f-19229eda60a3
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+	measure 'Last Price' =
+			
+			MAX('Minute Candles'[Close])
+		formatString: 0.00000
+		displayFolder: Measures
+		lineageTag: ea6ccd6c-cd4b-4b6d-9c28-85b36978e36f
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+	measure 'Session Low' =
+			
+			MIN('Minute Candles'[Low])
+		formatString: 0.00000
+		displayFolder: Measures
+		lineageTag: fb54b39f-caf4-48f6-a425-8adab055ed14
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+	measure 'Session Volume' =
+			
+			SUM('Minute Candles'[Volume])
+		displayFolder: Measures
+		lineageTag: 5bfaebcd-0481-41bf-911a-5e1c50b6c128
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	/// Financial instrument symbol for the aggregated candlestick.
 	column Instrument
 		dataType: string
@@ -21,7 +72,7 @@ table 'Minute Candles'
 	/// Trading date associated with the one-minute candlestick.
 	column TradingDate
 		dataType: dateTime
-		formatString: General Date
+		formatString: Short Date
 		displayFolder: Trading
 		lineageTag: bf7ae6fe-d71b-43b4-a944-2e41295029a4
 		sourceLineageTag: TradingDate
@@ -32,7 +83,13 @@ table 'Minute Candles'
 
 		changedProperty = DisplayFolder
 
+		changedProperty = DataType
+
+		changedProperty = FormatString
+
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	/// Start timestamp of the one-minute aggregation period.
 	column MinuteTimestamp
@@ -152,7 +209,7 @@ table 'Minute Candles'
 	column TradeCount
 		dataType: int64
 		formatString: #,0
-		displayFolder: Statistics
+		displayFolder: Market Activity
 		lineageTag: 43ea9e84-3a7c-4291-a828-097b4a896f6c
 		sourceLineageTag: TradeCount
 		summarizeBy: sum
@@ -202,6 +259,67 @@ table 'Minute Candles'
 		sourceColumn: GoldLoadedUTC
 
 		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Time of the trading session (HH:mm).
+	column 'Trading Time'
+		dataType: string
+		displayFolder: Trading
+		lineageTag: c6a5f8ad-adbf-42d4-92d8-c043771b4b96
+		sourceLineageTag: TradingTime
+		summarizeBy: none
+		sourceColumn: TradingTime
+		sortByColumn: 'Minute of Day'
+
+		changedProperty = Description
+
+		changedProperty = SortByColumn
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Hour of the trading session (0–23).
+	column 'Trading Hour'
+		dataType: int64
+		formatString: 0
+		displayFolder: Trading
+		lineageTag: 3f0a11f3-9f52-4322-933c-311749662dd8
+		sourceLineageTag: TradingHour
+		summarizeBy: none
+		sourceColumn: TradingHour
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Description
+
+		changedProperty = SummarizeBy
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = User
+
+	/// Sequential minute number within the trading session.
+	column 'Minute of Day'
+		dataType: int64
+		isHidden
+		formatString: 0
+		displayFolder: Trading
+		lineageTag: 8e2cf7a9-5813-4eaf-ae93-8144ebc4e3bd
+		sourceLineageTag: MinuteOfDay
+		summarizeBy: sum
+		sourceColumn: MinuteOfDay
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		changedProperty = IsHidden
+
+		changedProperty = Name
 
 		annotation SummarizationSetBy = Automatic
 

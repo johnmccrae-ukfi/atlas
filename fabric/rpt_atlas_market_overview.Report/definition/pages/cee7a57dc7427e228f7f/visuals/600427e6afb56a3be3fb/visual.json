@@ -1,0 +1,74 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "600427e6afb56a3be3fb",
+  "position": {
+    "x": 658.25206991720324,
+    "y": 609.9724011039558,
+    "z": 8007,
+    "height": 110,
+    "width": 200,
+    "tabOrder": 8007
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Minute Candles"
+                    }
+                  },
+                  "Property": "Session Volume"
+                }
+              },
+              "queryRef": "Minute Candles.Session Volume",
+              "nativeQueryRef": "Session Volume"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Minute Candles"
+                  }
+                },
+                "Property": "Session Volume"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "df0e0e1acd9388d22d89",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Minute Candles"
+              }
+            },
+            "Property": "Session Volume"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

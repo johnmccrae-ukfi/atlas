@@ -4,10 +4,10 @@
   "position": {
     "x": 57.700091996320147,
     "y": 599.374425022999,
-    "z": 2,
+    "z": 2000,
     "height": 120,
     "width": 200,
-    "tabOrder": 2
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "card",
@@ -96,23 +96,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "49af3198336a7ff1d39c",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Daily Candles"
-              }
-            },
-            "Property": "Trading Days"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

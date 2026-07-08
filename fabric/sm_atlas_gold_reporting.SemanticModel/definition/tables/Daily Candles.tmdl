@@ -65,8 +65,6 @@ table 'Daily Candles'
 		summarizeBy: none
 		sourceColumn: TradingDate
 
-		changedProperty = DataType
-
 		changedProperty = FormatString
 
 		changedProperty = Description

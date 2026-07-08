@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "fa974339417312d97127",
+  "name": "dc72b358b292ac6dc066",
   "position": {
     "x": 57.700091996320147,
     "y": 150.72677092916283,
@@ -20,38 +20,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Daily Candles"
+                      "Entity": "Minute Candles"
                     }
                   },
-                  "Property": "TradingDate"
+                  "Property": "Trading Time"
                 }
               },
-              "queryRef": "Daily Candles.TradingDate",
-              "nativeQueryRef": "TradingDate",
+              "queryRef": "Minute Candles.Trading Time",
+              "nativeQueryRef": "Trading Time",
               "active": true
-            }
-          ]
-        },
-        "open": {
-          "projections": [
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Daily Candles"
-                        }
-                      },
-                      "Property": "Open"
-                    }
-                  },
-                  "Function": 4
-                }
-              },
-              "queryRef": "CountNonNull(Daily Candles.Open)",
-              "nativeQueryRef": "Max of Open"
             }
           ]
         },
@@ -64,7 +41,7 @@
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Daily Candles"
+                          "Entity": "Minute Candles"
                         }
                       },
                       "Property": "Close"
@@ -73,7 +50,7 @@
                   "Function": 4
                 }
               },
-              "queryRef": "CountNonNull(Daily Candles.Close)",
+              "queryRef": "CountNonNull(Minute Candles.Close)",
               "nativeQueryRef": "Max of Close"
             }
           ]
@@ -87,7 +64,7 @@
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Daily Candles"
+                          "Entity": "Minute Candles"
                         }
                       },
                       "Property": "High"
@@ -96,7 +73,7 @@
                   "Function": 4
                 }
               },
-              "queryRef": "CountNonNull(Daily Candles.High)",
+              "queryRef": "CountNonNull(Minute Candles.High)",
               "nativeQueryRef": "Max of High"
             }
           ]
@@ -110,7 +87,7 @@
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Daily Candles"
+                          "Entity": "Minute Candles"
                         }
                       },
                       "Property": "Low"
@@ -119,30 +96,57 @@
                   "Function": 4
                 }
               },
-              "queryRef": "CountNonNull(Daily Candles.Low)",
+              "queryRef": "CountNonNull(Minute Candles.Low)",
               "nativeQueryRef": "Max of Low"
             }
           ]
+        },
+        "open": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Minute Candles"
+                        }
+                      },
+                      "Property": "Open"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "CountNonNull(Minute Candles.Open)",
+              "nativeQueryRef": "Max of Open"
+            }
+          ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Daily Candles"
-                  }
-                },
-                "Property": "TradingDate"
+      }
+    },
+    "objects": {
+      "xAxis": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
               }
             },
-            "direction": "Ascending"
+            "gridline": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
           }
-        ],
-        "isDefaultSort": true
-      }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [
@@ -151,7 +155,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'EUR/USD Futures - Daily Candlestick Chart'"
+                  "Value": "'EUR/USD Futures - Intraday Candlestick Chart'"
                 }
               }
             },
@@ -164,6 +168,19 @@
             }
           }
         }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
@@ -171,47 +188,14 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "6efec561cf62e9d6926e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Daily Candles"
-              }
-            },
-            "Property": "TradingDate"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "f87aceb119ab4609030a",
+        "name": "6f4ca8a47d9d924af16d",
         "field": {
           "Aggregation": {
             "Expression": {
               "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Daily Candles"
-                  }
-                },
-                "Property": "Open"
-              }
-            },
-            "Function": 4
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "c4e965d548b92fe180ad",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Daily Candles"
+                    "Entity": "Minute Candles"
                   }
                 },
                 "Property": "Close"
@@ -223,14 +207,14 @@
         "type": "Advanced"
       },
       {
-        "name": "f5b1a259a2da1489d34a",
+        "name": "59cb1ce1c07f879f1cb5",
         "field": {
           "Aggregation": {
             "Expression": {
               "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Daily Candles"
+                    "Entity": "Minute Candles"
                   }
                 },
                 "Property": "High"
@@ -242,14 +226,14 @@
         "type": "Advanced"
       },
       {
-        "name": "de5cf8da1e2894e501f9",
+        "name": "b18210d5082193dc55f3",
         "field": {
           "Aggregation": {
             "Expression": {
               "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Daily Candles"
+                    "Entity": "Minute Candles"
                   }
                 },
                 "Property": "Low"
@@ -259,6 +243,39 @@
           }
         },
         "type": "Advanced"
+      },
+      {
+        "name": "ee16e09dda415e3e5a1b",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Minute Candles"
+                  }
+                },
+                "Property": "Open"
+              }
+            },
+            "Function": 4
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ec2407609bb0fdb470ca",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Minute Candles"
+              }
+            },
+            "Property": "Trading Time"
+          }
+        },
+        "type": "Categorical"
       }
     ]
   }
