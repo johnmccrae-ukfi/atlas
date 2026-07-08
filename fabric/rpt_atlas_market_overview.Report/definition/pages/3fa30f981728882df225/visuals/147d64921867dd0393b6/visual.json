@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "147d64921867dd0393b6",
   "position": {
-    "x": 505.17019319227228,
-    "y": 44.747010119595217,
-    "z": 8001,
+    "x": 505,
+    "y": 52,
+    "z": 8000,
     "height": 105.97976080956761,
     "width": 419.2088316467341,
-    "tabOrder": 8001
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "slicer",
@@ -189,23 +189,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "7f78da0748ff5ae712d8",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Daily Candles"
-              }
-            },
-            "Property": "TradingDate"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

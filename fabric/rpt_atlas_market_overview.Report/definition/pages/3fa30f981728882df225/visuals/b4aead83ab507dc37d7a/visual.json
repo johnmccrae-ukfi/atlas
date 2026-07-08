@@ -21,7 +21,8 @@
                   {
                     "value": "Atlas Trading Intelligence Platform",
                     "textStyle": {
-                      "fontSize": "20pt"
+                      "fontSize": "20pt",
+                      "color": "#12239e"
                     }
                   }
                 ]
@@ -31,7 +32,8 @@
                   {
                     "value": "Daily Market Overview",
                     "textStyle": {
-                      "fontSize": "18pt"
+                      "fontSize": "18pt",
+                      "color": "#12239e"
                     }
                   }
                 ]

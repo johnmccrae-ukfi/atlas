@@ -123,6 +123,24 @@
               "nativeQueryRef": "Max of Low"
             }
           ]
+        },
+        "trends": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Candles"
+                    }
+                  },
+                  "Property": "5-Day MA Close"
+                }
+              },
+              "queryRef": "Daily Candles.5-Day MA Close",
+              "nativeQueryRef": "5-Day MA Close"
+            }
+          ]
         }
       },
       "sortDefinition": {
@@ -167,99 +185,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "6efec561cf62e9d6926e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Daily Candles"
-              }
-            },
-            "Property": "TradingDate"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "f87aceb119ab4609030a",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Daily Candles"
-                  }
-                },
-                "Property": "Open"
-              }
-            },
-            "Function": 4
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "c4e965d548b92fe180ad",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Daily Candles"
-                  }
-                },
-                "Property": "Close"
-              }
-            },
-            "Function": 4
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "f5b1a259a2da1489d34a",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Daily Candles"
-                  }
-                },
-                "Property": "High"
-              }
-            },
-            "Function": 4
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "de5cf8da1e2894e501f9",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Daily Candles"
-                  }
-                },
-                "Property": "Low"
-              }
-            },
-            "Function": 4
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

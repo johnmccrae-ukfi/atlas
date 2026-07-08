@@ -4,10 +4,10 @@
   "position": {
     "x": 658.25206991720324,
     "y": 609.9724011039558,
-    "z": 8007,
-    "height": 110,
-    "width": 200,
-    "tabOrder": 8007
+    "z": 9000,
+    "height": 109.51241950321987,
+    "width": 240,
+    "tabOrder": 9000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -23,11 +23,11 @@
                       "Entity": "Minute Candles"
                     }
                   },
-                  "Property": "Session Volume"
+                  "Property": "Session Trade Count"
                 }
               },
-              "queryRef": "Minute Candles.Session Volume",
-              "nativeQueryRef": "Session Volume"
+              "queryRef": "Minute Candles.Session Trade Count",
+              "nativeQueryRef": "Session Trade Count"
             }
           ]
         }
@@ -42,7 +42,7 @@
                     "Entity": "Minute Candles"
                   }
                 },
-                "Property": "Session Volume"
+                "Property": "Session Trade Count"
               }
             },
             "direction": "Descending"
@@ -52,23 +52,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "df0e0e1acd9388d22d89",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Minute Candles"
-              }
-            },
-            "Property": "Session Volume"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

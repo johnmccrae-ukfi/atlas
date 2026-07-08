@@ -4,46 +4,5 @@
   "displayName": "Intraday Analysis",
   "displayOption": "FitToPage",
   "height": 720,
-  "width": 1280,
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "afaba9bf6235c3842801",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Minute Candles"
-              }
-            },
-            "Property": "TradingDate"
-          }
-        },
-        "type": "Categorical",
-        "howCreated": "Drillthrough"
-      }
-    ]
-  },
-  "pageBinding": {
-    "name": "c578a46490888a135fa3",
-    "type": "Drillthrough",
-    "parameters": [
-      {
-        "name": "cd6bc20acaf2a5117815",
-        "boundFilter": "afaba9bf6235c3842801",
-        "asAggregation": false,
-        "qnaSingleSelectRequired": false,
-        "fieldExpr": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Minute Candles"
-              }
-            },
-            "Property": "TradingDate"
-          }
-        }
-      }
-    ]
-  }
+  "width": 1280
 }

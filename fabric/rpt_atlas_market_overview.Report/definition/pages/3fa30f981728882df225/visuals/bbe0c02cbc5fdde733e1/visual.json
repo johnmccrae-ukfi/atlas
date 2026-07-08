@@ -96,5 +96,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "be0883deb0fe879e3975",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Daily Candles"
+              }
+            },
+            "Property": "Total Trades"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }
