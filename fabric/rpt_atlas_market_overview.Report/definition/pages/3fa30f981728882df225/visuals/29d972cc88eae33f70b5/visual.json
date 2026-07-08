@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "b4aead83ab507dc37d7a",
+  "name": "29d972cc88eae33f70b5",
   "position": {
     "x": 57.700091996320147,
-    "y": 0,
-    "z": 1000,
-    "height": 88.31646734130635,
-    "width": 447.47010119595217,
-    "tabOrder": 1000
+    "y": 88.31646734130635,
+    "z": 7000,
+    "height": 50,
+    "width": 120,
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "textbox",
@@ -19,19 +19,10 @@
               {
                 "textRuns": [
                   {
-                    "value": "Atlas Trading Intelligence Platform",
+                    "value": "Instrument:",
                     "textStyle": {
-                      "fontSize": "20pt"
-                    }
-                  }
-                ]
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "Daily Market Overview",
-                    "textStyle": {
-                      "fontSize": "18pt"
+                      "fontWeight": "bold",
+                      "fontSize": "12pt"
                     }
                   }
                 ]

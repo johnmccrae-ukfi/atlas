@@ -192,6 +192,11 @@ gold_minute_df = (
             F.col("instrument").alias("Instrument"),
             F.col("trade_date").alias("TradingDate"),
             F.col("event_minute_ts").alias("MinuteTimestamp"),
+            F.date_format(F.col("event_minute_ts"), "HH:mm").alias("TradingTime"),
+            F.hour(F.col("event_minute_ts")).alias("TradingHour"),
+            (
+                F.hour(F.col("event_minute_ts")) * 60 + F.minute(F.col("event_minute_ts"))
+            ).alias("MinuteOfDay"),
             "Open",
             "High",
             "Low",

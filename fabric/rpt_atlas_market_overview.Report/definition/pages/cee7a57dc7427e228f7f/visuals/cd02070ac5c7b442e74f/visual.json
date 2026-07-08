@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "b4aead83ab507dc37d7a",
+  "name": "cd02070ac5c7b442e74f",
   "position": {
     "x": 57.700091996320147,
     "y": 0,
@@ -29,7 +29,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Daily Market Overview",
+                    "value": "Intraday Analysis",
                     "textStyle": {
                       "fontSize": "18pt"
                     }
