@@ -3,11 +3,11 @@
   "name": "605b9c37c4482e25f23d",
   "position": {
     "x": 505.17019319227228,
-    "y": 78.896044158233664,
-    "z": 8000,
+    "y": 80,
+    "z": 5000,
     "height": 60.055197792088315,
     "width": 153.081876724931,
-    "tabOrder": 8000
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "slicer",
@@ -176,23 +176,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "5c3ef072d6bc9bc684d0",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Minute Candles"
-              }
-            },
-            "Property": "TradingDate"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

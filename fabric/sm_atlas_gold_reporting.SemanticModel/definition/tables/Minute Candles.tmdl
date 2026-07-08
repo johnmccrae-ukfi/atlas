@@ -54,6 +54,17 @@ table 'Minute Candles'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure 'Session Trade Count' =
+			
+			SUM ( 'Minute Candles'[TradeCount] )
+		formatString: 0
+		displayFolder: Market Activity
+		lineageTag: 6141d79b-d890-465e-bcaa-1a22a5be3d59
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
 	/// Financial instrument symbol for the aggregated candlestick.
 	column Instrument
 		dataType: string

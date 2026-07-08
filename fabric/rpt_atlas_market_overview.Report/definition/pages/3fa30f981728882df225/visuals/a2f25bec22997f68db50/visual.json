@@ -23,11 +23,11 @@
                       "Entity": "Daily Candles"
                     }
                   },
-                  "Property": "Trading Days"
+                  "Property": "Daily Range"
                 }
               },
-              "queryRef": "Daily Candles.Trading Days",
-              "nativeQueryRef": "Trading Days"
+              "queryRef": "Daily Candles.Daily Range",
+              "nativeQueryRef": "Daily Range"
             }
           ]
         }
@@ -42,7 +42,7 @@
                     "Entity": "Daily Candles"
                   }
                 },
-                "Property": "Trading Days"
+                "Property": "Daily Range"
               }
             },
             "direction": "Descending"
@@ -80,7 +80,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Trading Days'"
+                  "Value": "'Daily Range'"
                 }
               }
             },
@@ -96,5 +96,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "484c57c3e86e37ca1e9f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Daily Candles"
+              }
+            },
+            "Property": "Daily Range"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

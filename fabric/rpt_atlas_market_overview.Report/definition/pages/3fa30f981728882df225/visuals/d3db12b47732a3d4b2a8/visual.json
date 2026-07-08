@@ -3,9 +3,9 @@
   "name": "d3db12b47732a3d4b2a8",
   "position": {
     "x": 177.81048758049678,
-    "y": 88.31646734130635,
+    "y": 87,
     "z": 5000,
-    "height": 50.634774609015636,
+    "height": 44,
     "width": 149.54921803127874,
     "tabOrder": 5000
   },
@@ -125,23 +125,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "fe19eb6b321156b6e27f",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Daily Candles"
-              }
-            },
-            "Property": "Instrument"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

@@ -4,10 +4,10 @@
   "position": {
     "x": 458.06807727690892,
     "y": 609.9724011039558,
-    "z": 8006,
+    "z": 8000,
     "height": 110,
     "width": 200.18399264029438,
-    "tabOrder": 8006
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -52,23 +52,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "d56dfc77e7aaa0d807bb",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Minute Candles"
-              }
-            },
-            "Property": "Session Low"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

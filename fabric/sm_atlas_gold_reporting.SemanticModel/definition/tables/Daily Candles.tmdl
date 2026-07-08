@@ -40,6 +40,80 @@ table 'Daily Candles'
 
 		changedProperty = FormatString
 
+	measure 'Daily Range' =
+			
+			MAX ( 'Daily Candles'[High] ) - MIN ( 'Daily Candles'[Low] )
+		formatString: 0.00000
+		displayFolder: Statistics
+		lineageTag: 8a2ecc78-8fce-40cc-8d9a-3174b706a51d
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Daily Range (%)' =
+			
+			DIVIDE (
+			    [Daily Range],
+			    MIN ( 'Daily Candles'[Open] )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Statistics
+		lineageTag: 17818e22-e8f1-485b-9084-83b46ed1bda5
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure '5-Day MA Close' =
+			
+			VAR CurrentDate =
+			    MAX ( 'Daily Candles'[TradingDate] )
+			VAR Last5TradingDays =
+			    TOPN (
+			        5,
+			        FILTER (
+			            ALLSELECTED ( 'Daily Candles' ),
+			            'Daily Candles'[Instrument] = MAX ( 'Daily Candles'[Instrument] )
+			                && 'Daily Candles'[TradingDate] <= CurrentDate
+			        ),
+			        'Daily Candles'[TradingDate],
+			        DESC
+			    )
+			RETURN
+			    AVERAGEX (
+			        Last5TradingDays,
+			        'Daily Candles'[Close]
+			    )
+		displayFolder: Indicators
+		lineageTag: 5993628b-2688-47ba-8674-add876cdd5f6
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Daily Return %' =
+			
+			DIVIDE (
+			    MAX ( 'Daily Candles'[Close] )
+			        - MIN ( 'Daily Candles'[Open] ),
+			    MIN ( 'Daily Candles'[Open] )
+			)
+		displayFolder: Statistics
+		lineageTag: e14e4eb6-7905-491b-b1ee-049f071279a5
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	/// Financial instrument symbol for the aggregated candlestick.
 	column Instrument
 		dataType: string

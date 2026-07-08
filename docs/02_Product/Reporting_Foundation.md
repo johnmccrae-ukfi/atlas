@@ -93,3 +93,32 @@ Features:
 - Display folders
 - Column descriptions
 - Professional formatting
+
+## v0.7.0 – Trading Analytics and Report UX
+
+This release enhanced the Atlas Power BI reporting layer with improved trading analytics and a cleaner report experience.
+
+### Added
+
+- Added `Session Trade Count` measure to the Minute Candles table.
+- Replaced ambiguous `Session Volume` KPI with `Session Trade Count`.
+- Added `Daily Range` measure.
+- Added `Daily Range %` measure.
+- Added `Daily Return %` measure.
+- Added `5-Day MA Close` moving average indicator.
+- Added moving average trend line to the Daily Candlestick visual.
+- Refined Market Overview KPI row:
+  - Daily Range
+  - Total Trades
+  - Daily Return %
+- Refined Intraday Analysis KPI row:
+  - Last Price
+  - Session High
+  - Session Low
+  - Session Trade Count
+
+### Design Notes
+
+- Drillthrough from the candlestick visual was evaluated but deferred.
+- The candlestick visual supports report filtering but does not expose the required categorical context for Power BI drillthrough.
+- A shared `DimDate` and `DimInstrument` model will be considered after v1.0.0.
