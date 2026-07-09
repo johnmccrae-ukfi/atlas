@@ -178,8 +178,17 @@ class AIProvider:
     AZURE_OPENAI = "AzureOpenAI"
     PHI = "Phi"
 
-AI_PROVIDER = AIProvider.STUB          # Stub | FabricAI | AzureOpenAI | Phi
-MODEL_NAME = "DeterministicStub-v1"
+AI_PROVIDER = AIProvider.FABRIC      # Stub | FabricAI | AzureOpenAI | Phi
+MODEL_NAME = "FabricAI-v1"
+
+# ------------------------------------------------------------
+# Inference Configuration
+# ------------------------------------------------------------
+
+TEMPERATURE = 0.2
+MAX_TOKENS = 300
+ENABLE_STREAMING = False
+ENABLE_STRUCTURED_OUTPUT = False
 
 # ------------------------------------------------------------
 # Prompt Configuration
@@ -222,10 +231,13 @@ print(f"Run UTC        : {RUN_UTC}")
 # Imports and Helper Functions
 # ============================================================
 
+import synapse.ml.spark.aifunc as aifunc
+
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import (
     col,
     lit,
+    when,
     current_timestamp,
     sha2,
     concat_ws,
@@ -467,6 +479,27 @@ def generate_stub_commentary(row) -> str:
 
 
 # ------------------------------------------------------------
+# Helper: Validate Configured Provider
+# ------------------------------------------------------------
+
+def validate_ai_provider() -> None:
+    """
+    Validate that the configured AI provider is supported by this notebook.
+    """
+    supported_providers = [
+        AIProvider.STUB,
+        AIProvider.FABRIC,
+        AIProvider.AZURE_OPENAI,
+        AIProvider.PHI
+    ]
+
+    if AI_PROVIDER not in supported_providers:
+        raise ValueError(f"Unsupported AI provider: {AI_PROVIDER}")
+
+    print(f"Configured AI provider is supported: {AI_PROVIDER}")
+
+
+# ------------------------------------------------------------
 # Helper: Generate Market Commentary
 # ------------------------------------------------------------
 
@@ -474,9 +507,10 @@ def generate_market_commentary(row) -> dict:
     """
     Generate market commentary using the configured AI provider.
 
-    The notebook calls this function without needing to know which provider
-    generated the commentary. This keeps AI inference isolated from the
-    orchestration logic.
+    This function is currently used by the Stub provider only.
+
+    Fabric AI inference is handled as a distributed DataFrame transformation
+    in Cell 7 using Fabric AI Functions.
     """
     try:
         if AI_PROVIDER == AIProvider.STUB:
@@ -492,7 +526,7 @@ def generate_market_commentary(row) -> dict:
 
         elif AI_PROVIDER == AIProvider.FABRIC:
             raise NotImplementedError(
-                "Fabric AI provider has not yet been implemented."
+                "Fabric AI provider is executed as a DataFrame transformation in Cell 7."
             )
 
         elif AI_PROVIDER == AIProvider.AZURE_OPENAI:
@@ -505,9 +539,6 @@ def generate_market_commentary(row) -> dict:
                 "Phi provider has not yet been implemented."
             )
 
-        else:
-            raise ValueError(f"Unsupported AI provider: {AI_PROVIDER}")
-
     except Exception as error:
         return {
             "Commentary": None,
@@ -517,6 +548,12 @@ def generate_market_commentary(row) -> dict:
             "ModelName": MODEL_NAME
         }
 
+
+# ------------------------------------------------------------
+# Validate Provider Configuration
+# ------------------------------------------------------------
+
+validate_ai_provider()
 
 print(f"AI provider interface initialised successfully: {AI_PROVIDER}")
 
@@ -536,44 +573,86 @@ print(f"AI provider interface initialised successfully: {AI_PROVIDER}")
 print("Generating market commentary...")
 
 # ------------------------------------------------------------
-# Convert Source Rows for Provider Processing
+# Generate Commentary Using Configured Provider
 # ------------------------------------------------------------
 
-source_rows = df_session_summary.collect()
+if AI_PROVIDER == AIProvider.STUB:
 
-commentary_results = []
+    source_rows = df_session_summary.collect()
+    commentary_results = []
 
-# ------------------------------------------------------------
-# Generate Commentary Per Session
-# ------------------------------------------------------------
+    for row in source_rows:
+        result = generate_market_commentary(row)
 
-for row in source_rows:
-    result = generate_market_commentary(row)
+        commentary_results.append({
+            "Instrument": row["Instrument"],
+            "TradingDate": row["TradingDate"],
+            "PromptVersion": row["PromptVersion"],
+            "PromptTemplate": row["PromptTemplate"],
+            "InputHash": row["InputHash"],
+            "Commentary": result["Commentary"],
+            "InferenceStatus": result["InferenceStatus"],
+            "InferenceError": result["InferenceError"],
+            "ModelProvider": result["ModelProvider"],
+            "ModelName": result["ModelName"],
+            "GeneratedUTC": RUN_UTC,
+            "SourceTable": SOURCE_TABLE,
+            "SourceNotebook": SOURCE_NOTEBOOK
+        })
 
-    commentary_results.append({
-        "Instrument": row["Instrument"],
-        "TradingDate": row["TradingDate"],
-        "PromptVersion": row["PromptVersion"],
-        "PromptTemplate": row["PromptTemplate"],
-        "InputHash": row["InputHash"],
-        "Commentary": result["Commentary"],
-        "InferenceStatus": result["InferenceStatus"],
-        "InferenceError": result["InferenceError"],
-        "ModelProvider": result["ModelProvider"],
-        "ModelName": result["ModelName"],
-        "GeneratedUTC": RUN_UTC,
-        "SourceTable": SOURCE_TABLE,
-        "SourceNotebook": SOURCE_NOTEBOOK
-    })
+    print(f"Generated stub commentary for {len(commentary_results):,} session(s).")
 
-# ------------------------------------------------------------
-# Validate Commentary Result Count
-# ------------------------------------------------------------
 
-if len(commentary_results) == 0:
-    raise RuntimeError("No commentary results were generated.")
+elif AI_PROVIDER == AIProvider.FABRIC:
 
-print(f"Generated commentary for {len(commentary_results):,} session(s).")
+    print("Using Fabric AI Functions provider.")
+
+    df_fabric_commentary = (
+        df_session_summary
+        .ai.generate_response(
+            prompt="Write concise, factual market commentary using this prepared market prompt: {PromptTemplate}",
+            is_prompt_template=True,
+            output_col="Commentary",
+            error_col="RawInferenceError",
+            response_format="text"
+        )
+        .withColumn(
+            "InferenceStatus",
+            when(
+                col("Commentary").isNotNull() & (col("Commentary") != ""),
+                lit("Succeeded")
+            ).otherwise(lit("Failed"))
+        )
+        .withColumn("InferenceError", col("RawInferenceError.response").cast("string"))
+        .withColumn("ModelProvider", lit(AI_PROVIDER))
+        .withColumn("ModelName", lit(MODEL_NAME))
+        .withColumn("GeneratedUTC", lit(RUN_UTC))
+        .withColumn("SourceTable", lit(SOURCE_TABLE))
+        .withColumn("SourceNotebook", lit(SOURCE_NOTEBOOK))
+    )
+
+    fabric_record_count = df_fabric_commentary.count()
+
+    if fabric_record_count == 0:
+        raise RuntimeError("No Fabric AI commentary results were generated.")
+
+    print(f"Generated Fabric AI commentary for {fabric_record_count:,} session(s).")
+
+
+elif AI_PROVIDER == AIProvider.AZURE_OPENAI:
+    raise NotImplementedError(
+        "Azure OpenAI provider has not yet been implemented."
+    )
+
+
+elif AI_PROVIDER == AIProvider.PHI:
+    raise NotImplementedError(
+        "Phi provider has not yet been implemented."
+    )
+
+
+else:
+    raise ValueError(f"Unsupported AI provider: {AI_PROVIDER}")
 
 # METADATA ********************
 
@@ -619,13 +698,36 @@ market_commentary_schema = StructType([
 ])
 
 # ------------------------------------------------------------
-# Create Spark DataFrame from Commentary Results
+# Create Output DataFrame
 # ------------------------------------------------------------
 
-df_market_commentary = spark.createDataFrame(
-    commentary_results,
-    schema=market_commentary_schema
-)
+if AI_PROVIDER == AIProvider.STUB:
+
+    df_market_commentary = spark.createDataFrame(
+        commentary_results,
+        schema=market_commentary_schema
+    )
+
+elif AI_PROVIDER == AIProvider.FABRIC:
+
+    df_market_commentary = df_fabric_commentary.select(
+        "Instrument",
+        "TradingDate",
+        "PromptVersion",
+        "PromptTemplate",
+        "InputHash",
+        "Commentary",
+        "InferenceStatus",
+        "InferenceError",
+        "ModelProvider",
+        "ModelName",
+        "GeneratedUTC",
+        "SourceTable",
+        "SourceNotebook"
+    )
+
+else:
+    raise ValueError(f"Unsupported output DataFrame path for provider: {AI_PROVIDER}")
 
 # ------------------------------------------------------------
 # Select Final Output Columns
