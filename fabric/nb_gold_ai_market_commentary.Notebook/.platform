@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_gold_ai_market_commentary"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "dd76cb40-573d-abc0-4b7f-c7b1c57ecc8f"
+  }
+}
