@@ -2,15 +2,24 @@
 
 ## Release
 
-v0.4.0 — Gold Foundation
+v0.8.0 — AI Trading Intelligence Foundation
 
 ## Purpose
 
 The Gold layer provides business-ready analytical structures derived from validated Silver market events.
 
-For this release, Gold is focused on OHLC candle generation for reporting and visualization.
+The Gold layer provides business-ready analytical structures derived from validated Silver market events.
 
-This release does not introduce trading signals, strategy logic, forecasting, or AI interpretation.
+Gold now consists of two logical analytical tiers:
+
+- Gold Analytics
+- Gold AI Intelligence
+
+Gold Analytics produces deterministic market structures suitable for reporting.
+
+Gold AI Intelligence derives reproducible market intelligence and AI-ready prompt templates from trusted Gold analytical data.
+
+The Gold layer does not generate trading signals, forecasts or Large Language Model (LLM) responses.
 
 ## Source Layer
 
@@ -79,6 +88,42 @@ Fields:
 
 Daily Open and Close must be derived from the first and last minute candles in event order.
 
+### gold_ai_session_summary
+
+AI-ready trading session summaries generated from Gold analytical tables.
+
+Fields:
+
+* Instrument
+* TradingDate
+* Open
+* High
+* Low
+* Close
+* TotalTrades
+* SessionHigh
+* SessionLow
+* SessionTradeCount
+* MostActiveMinute
+* MostActiveMinuteTradeCount
+* DailyRange
+* DailyMovement
+* DailyRangePct
+* DailyReturnPct
+* PriceDirection
+* SessionDirection
+* VolatilityBand
+* ActivityBand
+* SessionCharacter
+* PromptVersion
+* PromptTemplate
+
+This table is deterministic and reproducible.
+
+PromptTemplate is an AI-ready prompt constructed from validated market analytics.
+
+No Large Language Model inference is performed within the Gold layer.
+
 ## Design Principles
 
 The Gold layer must be:
@@ -86,29 +131,32 @@ The Gold layer must be:
 * analytical
 * reproducible
 * deterministic
+* AI-ready
+* deterministic prompt generation
 * derived only from trusted Silver data
 * suitable for Power BI reporting
 * free from strategy or signal logic
 
 ## Exclusions
 
-The following are explicitly out of scope for v0.4.0:
+The following are explicitly out of scope for v0.8.0:
 
 * trading indicators
 * buy/sell signals
 * backtesting
 * predictive modelling
-* AI commentary
+* AI-generated trading advice
+* LLM inference within the Gold layer
 * real-time streaming
 * profit and loss calculations
 
 ## Success Criteria
 
-v0.4.0 is complete when:
+v0.8.0 is complete when:
 
-1. The Gold contract is documented.
-2. Minute OHLC candles are generated and written to Delta.
-3. Daily OHLC candles are generated from minute candles.
-4. Open and Close are proven to use event ordering.
-5. Power BI can consume Gold tables.
-6. A first candlestick visual can be built from the Gold layer.
+1. Gold analytical tables are documented.
+2. AI session summaries are generated from Gold analytical data.
+3. Session classifications are deterministic and reproducible.
+4. AI prompt templates are generated without LLM inference.
+5. Gold AI session summaries are written to Delta.
+6. The Semantic Model can consume AI-ready Gold tables.
