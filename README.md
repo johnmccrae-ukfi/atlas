@@ -1,33 +1,45 @@
 # atlas
 Enterprise AI Intelligence Platform powered by Microsoft Fabric, Azure AI and Power BI
 
-**Current Release:** v0.3.0 – Silver Foundation
+**Current Release:** v0.8.0 – AI Trading Intelligence Foundation
 
 ## High-Level Data Architecture
 
 ```mermaid
 flowchart LR
 
-A["Market Data Providers"]
+A["Market Data Provider APIs"]
 
-B["Microsoft Fabric"]
+B["Microsoft Fabric Lakehouse"]
 
-C["Bronze Delta"]
+C["Market Data Legacy Files"]
 
-D["Silver Delta"]
+D["Python/Visual Studio Code"]
 
-E["Gold Delta"]
+E["Bronze Layer"]
 
-F["Power BI"]
+F["Silver Layer"]
 
-G["Future AI Services"]
+G["Gold Analytics"]
+
+H["AI Intelligence Layer"]
+
+I["Direct Lake Semantic Model"]
+
+J["PowerBI Reports"]
+
+K["Future AI Services"]
 
 A --> B
-B --> C
 C --> D
-D --> E
+D --> B
+B --> E
 E --> F
-E --> G
+F --> G
+G --> H
+H --> I
+H --> K
+I --> J
 ```
 
 ## Development Architecture
