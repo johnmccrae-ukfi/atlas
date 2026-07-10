@@ -125,5 +125,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "0c4c14bd1a42909c421e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Daily Candles"
+              }
+            },
+            "Property": "Instrument"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }
