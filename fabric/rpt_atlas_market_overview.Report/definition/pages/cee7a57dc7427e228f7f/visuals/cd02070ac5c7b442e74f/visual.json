@@ -19,9 +19,9 @@
               {
                 "textRuns": [
                   {
-                    "value": "Atlas Trading Intelligence Platform",
+                    "value": "Atlas Enterprise AI Intelligence Platform",
                     "textStyle": {
-                      "fontSize": "20pt",
+                      "fontSize": "18pt",
                       "color": "#12239e"
                     }
                   }
