@@ -1,0 +1,53 @@
+###############################################################################
+# Atlas Trading Intelligence Platform (MVP)
+#
+# Python dependencies for local development.
+#
+# This file intentionally lists only packages required when developing or
+# executing the local Python components of the project.
+#
+# Microsoft Fabric notebooks already provide many runtime libraries (including
+# PySpark), so these are documented separately rather than duplicated here.
+###############################################################################
+
+###############################################################################
+# Core Data Processing
+###############################################################################
+
+pandas>=2.2
+
+pyarrow>=18.0
+
+###############################################################################
+# HTTP / API Communication
+###############################################################################
+
+requests>=2.32
+
+###############################################################################
+# Environment Configuration
+###############################################################################
+
+python-dotenv>=1.0
+
+###############################################################################
+# Microsoft Fabric Runtime
+#
+# The following packages are provided by the Microsoft Fabric notebook runtime
+# and do NOT normally need installing locally.
+#
+# pyspark
+# notebookutils
+#
+###############################################################################
+
+###############################################################################
+# Optional Future AI Providers
+#
+# These are intentionally omitted until implemented.
+#
+# openai
+# azure-ai-inference
+# azure-identity
+#
+###############################################################################
