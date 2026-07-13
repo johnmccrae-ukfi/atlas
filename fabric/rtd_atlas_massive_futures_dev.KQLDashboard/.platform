@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "KQLDashboard",
+    "displayName": "rtd_atlas_massive_futures_dev",
+    "description": "rtd_atlas_massive_futures_dev"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "d3b2d564-2a07-a373-4578-aa5d033f3ba6"
+  }
+}

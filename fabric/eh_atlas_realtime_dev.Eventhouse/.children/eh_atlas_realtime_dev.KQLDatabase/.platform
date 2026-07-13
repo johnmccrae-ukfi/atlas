@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "KQLDatabase",
+    "displayName": "eh_atlas_realtime_dev",
+    "description": "eh_atlas_realtime_dev"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ef76a78f-0132-8b26-40c3-77bbc3284272"
+  }
+}

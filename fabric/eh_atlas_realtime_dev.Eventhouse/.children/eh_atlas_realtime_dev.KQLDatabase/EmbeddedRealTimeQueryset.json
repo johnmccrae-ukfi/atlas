@@ -1,0 +1,34 @@
+{
+  "queryset": {
+    "version": "1.0.0",
+    "dataSources": [
+      {
+        "id": "3030bd08-ac6a-42dc-bd24-359cc8922775",
+        "clusterUri": "https://trd-vk7evh48a64pk2yra8.z0.kusto.fabric.microsoft.com",
+        "type": "Fabric",
+        "databaseItemId": "c3284272-77bb-40c3-8b26-0132ef76a78f"
+      }
+    ],
+    "tabs": [
+      {
+        "id": "501cd29f-714d-4a55-89b1-c7fbea290ccd",
+        "content": "// ============================================================\n// Atlas v1.1.0 — Massive Futures Streaming Validation Queries\n// Table: raw_massive_futures_minute_aggregates\n// ============================================================\n\n\n// 1. Latest events\nraw_massive_futures_minute_aggregates\n| extend fabric_ingested_utc = ingestion_time()\n| order by fabric_ingested_utc desc\n| take 20;\n\n\n// 2. Duplicate Atlas event IDs\nraw_massive_futures_minute_aggregates\n| summarize row_count = count() by atlas_event_id\n| where row_count > 1\n| order by row_count desc;\n\n\n// 3. Minute continuity\nraw_massive_futures_minute_aggregates\n| where atlas_event_id != \"massive|AM|MESU6|1783932120000\"\n| order by event_start_utc asc\n| serialize\n| extend previous_event_start_utc = prev(event_start_utc)\n| extend gap_seconds = datetime_diff(\n    \"second\",\n    event_start_utc,\n    previous_event_start_utc\n)\n| project\n    event_start_utc,\n    previous_event_start_utc,\n    gap_seconds,\n    atlas_event_id;\n\n\n// 4. OHLC and non-negative measure validation\nraw_massive_futures_minute_aggregates\n| where\n    high_price < open_price\n    or high_price < close_price\n    or high_price < low_price\n    or low_price > open_price\n    or low_price > close_price\n    or volume < 0\n    or event_count < 0\n    or dollar_volume < 0\n| project\n    event_start_utc,\n    symbol,\n    open_price,\n    high_price,\n    low_price,\n    close_price,\n    volume,\n    event_count,\n    dollar_volume,\n    atlas_event_id;\n\n\n// 5. Latency profile\nraw_massive_futures_minute_aggregates\n| extend fabric_ingested_utc = ingestion_time()\n| extend\n    feed_delay_seconds = datetime_diff(\n        \"millisecond\",\n        atlas_received_utc,\n        event_end_utc\n    ) / 1000.0,\n    fabric_ingestion_seconds = datetime_diff(\n        \"millisecond\",\n        fabric_ingested_utc,\n        atlas_received_utc\n    ) / 1000.0,\n    end_to_end_seconds = datetime_diff(\n        \"millisecond\",\n        fabric_ingested_utc,\n        event_end_utc\n    ) / 1000.0\n| where atlas_event_id != \"massive|AM|MESU6|1783932120000\"\n| summarize\n    event_count = count(),\n    average_feed_delay_seconds = avg(feed_delay_seconds),\n    minimum_feed_delay_seconds = min(feed_delay_seconds),\n    maximum_feed_delay_seconds = max(feed_delay_seconds),\n    average_fabric_ingestion_seconds = avg(fabric_ingestion_seconds),\n    minimum_fabric_ingestion_seconds = min(fabric_ingestion_seconds),\n    maximum_fabric_ingestion_seconds = max(fabric_ingestion_seconds),\n    average_end_to_end_seconds = avg(end_to_end_seconds)\n    by symbol",
+        "title": "Massive Futures Streaming Validation",
+        "dataSourceId": "3030bd08-ac6a-42dc-bd24-359cc8922775"
+      },
+      {
+        "id": "2759f1dc-c5dc-4c38-93d9-92e66263393f",
+        "content": "raw_massive_futures_minute_aggregates\n| extend fabric_ingested_utc = ingestion_time()\n| extend\n    feed_delay_seconds = datetime_diff(\n        \"millisecond\",\n        atlas_received_utc,\n        event_end_utc\n    ) / 1000.0,\n    fabric_ingestion_seconds = datetime_diff(\n        \"millisecond\",\n        fabric_ingested_utc,\n        atlas_received_utc\n    ) / 1000.0\n| where atlas_event_id != \"massive|AM|MESU6|1783932120000\"\n| order by event_start_utc desc\n| project\n    event_start_utc,\n    symbol,\n    open_price,\n    high_price,\n    low_price,\n    close_price,\n    volume,\n    event_count,\n    feed_delay_seconds,\n    fabric_ingestion_seconds,\n    fabric_ingested_utc\n| take 50",
+        "title": "Massive Futures Market Monitoring",
+        "dataSourceId": "3030bd08-ac6a-42dc-bd24-359cc8922775"
+      },
+      {
+        "id": "0adfd87f-8b3b-4e12-8b52-b884485e5157",
+        "content": "raw_massive_futures_minute_aggregates\n| where atlas_event_id != \"massive|AM|MESU6|1783932120000\"\n| where event_start_utc >= ago(1h)\n| order by event_start_utc asc\n| project\n    event_start_utc,\n    symbol,\n    open_price,\n    high_price,\n    low_price,\n    close_price,\n    volume,\n    event_count",
+        "title": "Massive Futures Dashboard Source",
+        "dataSourceId": "3030bd08-ac6a-42dc-bd24-359cc8922775"
+      }
+    ],
+    "querysetType": "Embedded"
+  }
+}

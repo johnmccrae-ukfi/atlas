@@ -1,0 +1,53 @@
+{
+  "sources": [
+    {
+      "id": "43352093-13b1-449d-8699-bb1079770aa1",
+      "name": "src_atlas_massive_futures",
+      "type": "CustomEndpoint",
+      "properties": {}
+    }
+  ],
+  "destinations": [
+    {
+      "id": "618bf29e-e25c-4138-8d9e-e5cef3e73f3b",
+      "name": "dest_atlas_massive_futures_raw",
+      "type": "Eventhouse",
+      "properties": {
+        "dataIngestionMode": "DirectIngestion",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "itemId": "ef76a78f-0132-8b26-40c3-77bbc3284272",
+        "tableName": "raw_massive_futures_minute_aggregates",
+        "connectionName": "es_atlas_massive_futures_dev_j33vdq",
+        "mappingRuleName": "raw_massive_futures_minute_aggregates_json_mapping"
+      },
+      "inputNodes": [
+        {
+          "name": "es_atlas_massive_futures_dev-stream"
+        }
+      ],
+      "inputSchemas": [
+        {
+          "name": "es_atlas_massive_futures_dev-stream",
+          "schema": {
+            "columns": []
+          }
+        }
+      ]
+    }
+  ],
+  "streams": [
+    {
+      "id": "fd5c9cfd-6047-4637-8a3a-8ef19beff818",
+      "name": "es_atlas_massive_futures_dev-stream",
+      "type": "DefaultStream",
+      "properties": {},
+      "inputNodes": [
+        {
+          "name": "src_atlas_massive_futures"
+        }
+      ]
+    }
+  ],
+  "operators": [],
+  "compatibilityLevel": "1.1"
+}
