@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Eventstream",
+    "displayName": "es_atlas_massive_futures_dev"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "7144f8ee-4aed-81fb-4e7d-69552130df54"
+  }
+}

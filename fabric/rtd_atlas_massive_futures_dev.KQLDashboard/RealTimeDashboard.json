@@ -1,0 +1,207 @@
+{
+  "schema_version": 76,
+  "changeDetection": {
+    "kind": "liveUpdates",
+    "fallbackRefreshRate": "5m",
+    "minRefreshRate": "30s"
+  },
+  "tiles": [
+    {
+      "id": "731685b2-1771-44eb-b682-f4dd44365c25",
+      "title": "Recent MESU6 Minute Aggregates",
+      "visualType": "table",
+      "pageId": "f6563162-8a61-468d-8a35-a1a174f2ede8",
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "width": 19,
+        "height": 5
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "1a16a7ca-7c2c-40c1-beb0-09ffb96b4b55"
+      },
+      "description": "Recent delayed MESU6 one-minute OHLC, volume, and event-count aggregates ingested through the Atlas near-real-time market-data pipeline.",
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRulesDisabled": true,
+        "crossFilter": [],
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "drillthrough": [],
+        "table__renderLinks": [],
+        "colorRules": [],
+        "selectedDataOnLoad": {
+          "all": true,
+          "limit": 10
+        }
+      }
+    },
+    {
+      "id": "259906e6-2c57-4e3f-b8e0-4851f7fb698e",
+      "title": "MESU6 Close Price — Delayed Minute Aggregates",
+      "description": "Delayed MESU6 one-minute aggregate close prices ingested from the Massive Futures WebSocket through the Atlas Python streaming adapter, Microsoft Fabric Eventstream, and Eventhouse.",
+      "visualType": "line",
+      "pageId": "f6563162-8a61-468d-8a35-a1a174f2ede8",
+      "layout": {
+        "x": 0,
+        "y": 5,
+        "width": 10,
+        "height": 7
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "f8f0d3b3-39a3-4c5b-a8f3-9287ff0b7e22"
+      },
+      "visualOptions": {
+        "multipleYAxes": {
+          "base": {
+            "id": "-1",
+            "label": "",
+            "columns": [],
+            "yAxisMaximumValue": null,
+            "yAxisMinimumValue": null,
+            "yAxisScale": "linear",
+            "horizontalLines": []
+          },
+          "additional": [],
+          "showMultiplePanels": false
+        },
+        "seriesColors": {},
+        "hideLegend": false,
+        "legendLocation": "bottom",
+        "xColumnTitle": "",
+        "xColumn": "event_start_utc",
+        "yColumns": [
+          "close_price"
+        ],
+        "seriesColumns": [
+          "symbol"
+        ],
+        "xAxisScale": "linear",
+        "verticalLine": "",
+        "crossFilter": [],
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "forceAxisTicks": false,
+        "drillthrough": []
+      }
+    },
+    {
+      "id": "cfb73ab0-50be-4ee0-8962-29739756ede5",
+      "title": "MESU6 Volume — Delayed Minute Aggregates",
+      "description": "Delayed MESU6 one-minute aggregate volume ingested from the Massive Futures WebSocket through the Atlas Python streaming adapter, Microsoft Fabric Eventstream, and Eventhouse.",
+      "visualType": "column",
+      "pageId": "f6563162-8a61-468d-8a35-a1a174f2ede8",
+      "layout": {
+        "x": 10,
+        "y": 5,
+        "width": 9,
+        "height": 7
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "f3cf1919-a11a-4240-821d-5b13fb7c1530"
+      },
+      "visualOptions": {
+        "multipleYAxes": {
+          "base": {
+            "id": "-1",
+            "label": "",
+            "columns": [],
+            "yAxisMaximumValue": null,
+            "yAxisMinimumValue": null,
+            "yAxisScale": "linear",
+            "horizontalLines": []
+          },
+          "additional": [],
+          "showMultiplePanels": false
+        },
+        "seriesColors": {},
+        "hideLegend": false,
+        "legendLocation": "bottom",
+        "xColumnTitle": "",
+        "xColumn": "event_start_utc",
+        "yColumns": [
+          "volume"
+        ],
+        "seriesColumns": [
+          "symbol"
+        ],
+        "xAxisScale": "linear",
+        "verticalLine": "",
+        "crossFilter": [],
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "forceAxisTicks": false,
+        "drillthrough": []
+      }
+    }
+  ],
+  "baseQueries": [],
+  "parameters": [
+    {
+      "kind": "duration",
+      "id": "8ec28d37-cb36-4dc6-aaa2-c474e9586e17",
+      "displayName": "Time range",
+      "description": "",
+      "beginVariableName": "_startTime",
+      "endVariableName": "_endTime",
+      "defaultValue": {
+        "kind": "dynamic",
+        "count": 1,
+        "unit": "hours"
+      },
+      "showOnPages": {
+        "kind": "all"
+      }
+    }
+  ],
+  "dataSources": [
+    {
+      "id": "fa64eac1-fd5c-4a34-adc4-90879c3624a7",
+      "kind": "kusto-trident",
+      "name": "eh_atlas_realtime_dev",
+      "clusterUri": "",
+      "databaseArtifactId": "c3284272-77bb-40c3-8b26-0132ef76a78f",
+      "database": "ef76a78f-0132-8b26-40c3-77bbc3284272",
+      "workspace": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "pages": [
+    {
+      "name": "Page 1",
+      "id": "f6563162-8a61-468d-8a35-a1a174f2ede8"
+    }
+  ],
+  "queries": [
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "fa64eac1-fd5c-4a34-adc4-90879c3624a7"
+      },
+      "text": "raw_massive_futures_minute_aggregates\n| where atlas_event_id != \"massive|AM|MESU6|1783932120000\"\n| where event_start_utc >= ago(1h)\n| order by event_start_utc asc\n| project\n    event_start_utc,\n    symbol,\n    open_price,\n    high_price,\n    low_price,\n    close_price,\n    volume,\n    event_count",
+      "id": "1a16a7ca-7c2c-40c1-beb0-09ffb96b4b55",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "fa64eac1-fd5c-4a34-adc4-90879c3624a7"
+      },
+      "text": "raw_massive_futures_minute_aggregates\r\n| where atlas_event_id != \"massive|AM|MESU6|1783932120000\"\r\n| where event_start_utc >= ago(1h)\r\n| order by event_start_utc asc\r\n| project\r\n    event_start_utc,\r\n    close_price,\r\n    symbol",
+      "id": "f8f0d3b3-39a3-4c5b-a8f3-9287ff0b7e22",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "fa64eac1-fd5c-4a34-adc4-90879c3624a7"
+      },
+      "text": "raw_massive_futures_minute_aggregates\r\n| where atlas_event_id != \"massive|AM|MESU6|1783932120000\"\r\n| where event_start_utc >= ago(1h)\r\n| order by event_start_utc asc\r\n| project\r\n    event_start_utc,\r\n    volume,\r\n    symbol",
+      "id": "f3cf1919-a11a-4240-821d-5b13fb7c1530",
+      "usedVariables": []
+    }
+  ],
+  "embeddedApps": []
+}
