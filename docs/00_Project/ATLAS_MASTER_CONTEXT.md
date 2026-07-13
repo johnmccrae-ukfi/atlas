@@ -1339,9 +1339,66 @@ Completed the professional MVP release, including repository presentation, insta
 
 # 23. Current Roadmap
 
-The roadmap is incremental and may be refined as implementation discoveries are made.
+The roadmap is incremental and may be refined as implementation discoveries, platform constraints, portfolio priorities, and contract-market opportunities emerge.
 
-## v1.1.0 — Reporting Navigation and Time Intelligence
+The post-MVP sequence deliberately introduces a small near-real-time vertical slice before the wider reporting, multi-instrument, AI, and production streaming phases. This allows Atlas to demonstrate both historical analytics and live market-data ingestion without prematurely implementing the complete real-time architecture.
+
+## v1.1.0 — Near-Real_time Market Data Foundation
+
+Planned focus:
+
+* introduce the first end-to-end streaming market-data pathway;
+* connect to a Massive delayed market-data WebSocket feed;
+* begin with one event type and one or a small number of liquid instruments;
+* create an Atlas Python streaming adapter;
+* forward JSON market events into Microsoft Fabric Eventstream;
+* route Eventstream output into Eventhouse;
+* create a KQL database and raw market-event table;
+* preserve provider timestamps and Atlas ingestion metadata;
+* validate event arrival, schema, latency, ordering, and record counts;
+* create basic KQL queries for current and recent market activity;
+* create a minimal real-time dashboard or visual validation experience;
+* document the distinction between real-time ingestion and delayed market data;
+* add an ADR covering the initial streaming architecture;
+* document subscription, licensing, capacity, and environment limitations.
+
+The intended scope is a controlled architectural foundation rather than a production-complete streaming platform.
+
+The initial flow is expected to resemble:
+
+Massive delayed WebSocket
+        |
+        v
+Atlas Python streaming adapter
+        |
+        v
+Microsoft Fabric Eventstream
+        |
+        v
+Eventhouse and KQL Database
+        |
+        v
+Raw near-real-time market events
+        |
+        v
+KQL validation and basic visualisation
+
+This release should prove that Atlas can ingest and analyse continuously arriving market data while preserving the existing historical Lakehouse and medallion architecture.
+
+It should not yet attempt to deliver:
+
+* enterprise-grade continuous hosting;
+* broad multi-instrument subscriptions;
+* full streaming Silver and Gold models;
+* live algorithm execution;
+* advanced duplicate or correction handling;
+* comprehensive monitoring and alerting;
+* production deployment automation;
+* historical and streaming reconciliation.
+
+Those capabilities remain part of the later Real-Time Intelligence expansion.
+
+## v1.2.0 — Reporting Navigation and Time Intelligence
 
 Planned focus:
 
@@ -1350,47 +1407,72 @@ Planned focus:
 * improved time intelligence;
 * reporting UX refinements;
 * clearer navigation between daily and intraday views;
+* reusable semantic-model measures;
 * documentation updates;
 * validation of semantic-model relationships and filtering behaviour.
 
-## v1.2.0 — Multi-Instrument Architecture
+This release will improve the usability and analytical consistency of the existing historical reporting solution.
+
+## v1.3.0 — Multi-Instrument Architecture
 
 Planned focus:
 
 * support multiple instruments;
 * validate provider-neutral canonical modelling;
-* strengthen instrument dimensions;
-* review Gold partitioning and grain;
+* introduce or strengthen instrument dimensions;
+* distinguish asset class, provider, exchange, and instrument identity;
+* review Silver and Gold keys, partitioning, and grain;
+* validate aggregation behaviour across instruments;
 * improve semantic-model governance;
-* progress the certified semantic-model approach.
+* progress the certified semantic-model approach;
+* assess how historical and streamed instruments should converge on shared domain models.
 
-## v1.3.0 — Production-Style AI Inference
+This release will establish the structural foundations required for Atlas to grow beyond its initial CQG futures dataset and the limited instruments used by the first streaming implementation.
+
+## v1.4.0 — Production-Style AI Inference
 
 Planned focus:
 
 * Azure AI Foundry or Azure OpenAI integration;
 * configurable AI providers;
-* secure configuration;
-* prompt versioning;
-* structured outputs;
+* secure configuration and secret handling;
+* prompt templates and prompt versioning;
+* structured model inputs and outputs;
 * inference logging;
+* model and provider traceability;
 * validation and fallback behaviour;
-* cost and capacity awareness.
+* responsible handling of unsupported claims;
+* cost and capacity awareness;
+* controlled integration with trusted Gold analytical outputs;
+* potential commentary across multiple instruments.
 
-## v1.4.0 — Real-Time Intelligence
+The AI layer will continue to consume deterministic analytical results rather than calculate authoritative market facts through generative inference.
+
+## v1.5.0 — Real-Time Intelligence Expansion
 
 Planned focus:
 
-* Eventstream;
-* Eventhouse;
-* KQL;
-* streaming market-data architecture;
-* near-real-time analytics;
-* operational monitoring.
+* expand the v1.1.0 streaming foundation into a more complete Real-Time Intelligence architecture;
+* support additional instruments and event types;
+* improve WebSocket resilience, reconnection, retry, and operational recovery;
+* introduce production-style stream hosting;
+* implement schema management and evolution controls;
+* address duplicate events, corrections, late arrival, and incomplete intervals;
+* create streaming transformations;
+* develop real-time or near-real-time OHLC aggregations;
+* introduce governed KQL functions and reusable query patterns;
+* improve Eventhouse and KQL performance design;
+* add real-time dashboards;
+* introduce configurable alerts and Fabric Activator capabilities where appropriate;
+* add operational monitoring, observability, and failure handling;
+* reconcile streamed data with historical Lakehouse data;
+* define promotion from the streaming hot path into canonical Silver and Gold models;
+* establish security, deployment, capacity, and environment-management patterns;
+perform performance and cost testing.
 
-Real-time functionality is intentionally post-MVP. It should be implemented only when it adds coherent architectural value.
+The v1.1.0 implementation should therefore be treated as the first vertical slice of this future architecture, not as its completed state.
 
-## v1.5.0 and Beyond
+## v1.6.0 and Beyond
 
 Potential later capabilities:
 
@@ -1398,17 +1480,25 @@ Potential later capabilities:
 * volatility analytics;
 * comparative instrument analysis;
 * anomaly detection;
-* configurable alerts;
-* AI-assisted investigation;
-* historical replay;
+* configurable trading and data-quality alerts;
+* AI-assisted market investigation;
+* historical market replay;
+* strategy-research and backtesting foundations;
 * model evaluation;
 * data-quality dashboards;
-* orchestration;
+* Fabric pipeline orchestration;
 * deployment automation;
 * environment promotion;
+* CI/CD expansion;
 * observability;
 * cost monitoring;
-* advanced governance.
+* performance optimisation;
+* advanced governance;
+* security hardening;
+* semantic-model certification;
+* operational support documentation.
+
+The exact ordering of later capabilities will depend on architectural dependencies, available Fabric capacity, data-provider licensing, portfolio value, and relevance to current contract opportunities.
 
 ---
 
