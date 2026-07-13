@@ -6,6 +6,85 @@ The format is based on the principles of **Keep a Changelog**, with releases org
 
 ---
 
+# v1.1.0 — Near-Real-Time Market Data Foundation
+
+## Added
+
+- Massive Futures contract discovery utility
+- Massive delayed Futures REST aggregate diagnostics
+- Massive delayed Futures WebSocket authentication and subscription testing
+- Support for the `AM.MESU6` minute-aggregate subscription
+- Atlas Massive Futures minute-aggregate transformer
+- Required-field, timestamp, interval, OHLC, and non-negative measure validation
+- Deterministic Atlas streaming event identifiers
+- Raw Massive provider payload preservation
+- Fabric Eventstream writer using the Event Hubs-compatible custom endpoint
+- End-to-end local Python streaming adapter
+- One-event Fabric Eventstream diagnostic sender
+- Microsoft Fabric Eventstream:
+  - `es_atlas_massive_futures_dev`
+  - `src_atlas_massive_futures`
+  - `dest_atlas_massive_futures_raw`
+- Microsoft Fabric Eventhouse:
+  - `eh_atlas_realtime_dev`
+- Raw KQL table:
+  - `raw_massive_futures_minute_aggregates`
+- Explicit JSON ingestion mapping:
+  - `raw_massive_futures_minute_aggregates_json_mapping`
+- Reusable KQL validation, monitoring, and dashboard-source queries
+- Real-Time Dashboard:
+  - `rtd_atlas_massive_futures_dev`
+  - recent MESU6 minute-aggregate table
+  - delayed close-price line chart
+  - delayed volume column chart
+  - live refresh
+- Near-real-time market-data architecture documentation
+- Fabric Eventstream and Eventhouse configuration variables in `.env.example`
+- Azure Event Hubs Python dependency
+
+## Changed
+
+- Extended Atlas from a historical-only analytics platform to include a governed near-real-time ingestion pathway
+- Updated the Atlas master context with the implemented v1.1.0 architecture and asset inventory
+- Updated Python dependency management for Fabric Eventstream publishing
+- Updated environment configuration to support Massive Futures and Fabric Eventstream connectivity
+- Standardised streaming timestamps on UTC while preserving provider epoch-millisecond values
+- Separated provider WebSocket handling, Atlas transformation, and Fabric delivery responsibilities
+- Adopted explicit KQL schema governance instead of automatic schema inference
+- Enabled ingestion-aware live refresh for the Real-Time Dashboard
+
+## Validation
+
+- Confirmed successful Massive Futures WebSocket connection and authentication
+- Confirmed successful subscription to `AM.MESU6`
+- Confirmed genuine delayed minute-aggregate receipt
+- Confirmed successful publication through Fabric Eventstream
+- Confirmed successful direct ingestion into Eventhouse
+- Confirmed exact KQL schema and decimal handling
+- Confirmed nested raw provider payload preservation
+- Confirmed no duplicate live Atlas event identifiers
+- Confirmed 60-second continuity while the local adapter was running
+- Confirmed no invalid OHLC or negative-measure rows
+- Confirmed automatic Real-Time Dashboard refresh after Eventhouse ingestion
+- Observed average provider delay of approximately 603.9 seconds
+- Observed average Fabric ingestion latency of approximately 0.47 seconds
+- Observed average end-to-end latency of approximately 604.4 seconds
+
+## Known Limitations
+
+- The streaming adapter is development-hosted and must currently run locally
+- Only delayed `AM.MESU6` minute aggregates are supported
+- Automatic futures contract rollover is not implemented
+- Durable buffering and replay are not implemented
+- Duplicate suppression is validated but not enforced at the destination
+- Provider correction handling is not implemented
+- Advanced WebSocket reconnect and recovery behaviour remains future work
+- Production cloud hosting and managed secret integration are deferred
+- Historical Lakehouse and near-real-time Eventhouse pathways remain intentionally separate
+- Streaming Silver and Gold models are not yet implemented
+
+---
+
 # v1.0.0 — Atlas Enterprise AI Intelligence Platform MVP
 
 ## Added
