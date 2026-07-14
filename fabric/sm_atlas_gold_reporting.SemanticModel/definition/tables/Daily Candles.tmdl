@@ -18,7 +18,7 @@ table 'Daily Candles'
 
 	measure 'Trading Days' =
 			
-			COUNTROWS('Daily Candles')
+			DISTINCTCOUNT ( 'Daily Candles'[TradingDate] )
 		formatString: 0
 		displayFolder: Measures
 		lineageTag: aa10e8d1-2347-4b80-83ea-33e6fa55579d
@@ -42,7 +42,7 @@ table 'Daily Candles'
 
 	measure 'Daily Range' =
 			
-			MAX ( 'Daily Candles'[High] ) - MIN ( 'Daily Candles'[Low] )
+			[Selected Period High] - [Selected Period Low]
 		formatString: 0.00000
 		displayFolder: Statistics
 		lineageTag: 8a2ecc78-8fce-40cc-8d9a-3174b706a51d
@@ -53,11 +53,11 @@ table 'Daily Candles'
 
 		changedProperty = FormatString
 
-	measure 'Daily Range (%)' =
+	measure 'Daily Range %' =
 			
 			DIVIDE (
 			    [Daily Range],
-			    MIN ( 'Daily Candles'[Open] )
+			    [Selected Period Open]
 			)
 		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: Statistics
@@ -89,6 +89,7 @@ table 'Daily Candles'
 			        Last5TradingDays,
 			        'Daily Candles'[Close]
 			    )
+		formatString: 0.00000
 		displayFolder: Indicators
 		lineageTag: 5993628b-2688-47ba-8674-add876cdd5f6
 
@@ -96,15 +97,15 @@ table 'Daily Candles'
 
 		changedProperty = DisplayFolder
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		changedProperty = FormatString
 
-	measure 'Daily Return %' =
+	measure 'Selected Period Return %' =
 			
 			DIVIDE (
-			    MAX ( 'Daily Candles'[Close] )
-			        - MIN ( 'Daily Candles'[Open] ),
-			    MIN ( 'Daily Candles'[Open] )
+			    [Selected Period Close] - [Selected Period Open],
+			    [Selected Period Open]
 			)
+		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: Statistics
 		lineageTag: e14e4eb6-7905-491b-b1ee-049f071279a5
 
@@ -112,7 +113,173 @@ table 'Daily Candles'
 
 		changedProperty = DisplayFolder
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		changedProperty = FormatString
+
+	measure 'Selected Period Open' =
+			
+			VAR FirstTradingDate =
+			    MIN ( 'Daily Candles'[TradingDate] )
+			RETURN
+			    CALCULATE (
+			        MAX ( 'Daily Candles'[Open] ),
+			        'Daily Candles'[TradingDate] = FirstTradingDate
+			    )
+		formatString: 0.00000
+		displayFolder: Price
+		lineageTag: 12a07783-58ac-4d73-a0e4-1287b243212c
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Selected Period Close' =
+			
+			VAR LastTradingDate =
+			    MAX ( 'Daily Candles'[TradingDate] )
+			RETURN
+			    CALCULATE (
+			        MAX ( 'Daily Candles'[Close] ),
+			        'Daily Candles'[TradingDate] = LastTradingDate
+			    )
+		formatString: 0.00000
+		displayFolder: Price
+		lineageTag: 40032ec4-6203-4774-9fd3-43f3fbf760e5
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Selected Period High' =
+			
+			MAX ( 'Daily Candles'[High] )
+		formatString: 0.00000
+		displayFolder: Price
+		lineageTag: 318cb57b-7f60-45e7-ba3a-9ded29db8643
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Selected Period Low' =
+			
+			MIN ( 'Daily Candles'[Low] )
+		formatString: 0.00000
+		displayFolder: Price
+		lineageTag: a00de683-717a-4aef-8296-01510d1bc1fb
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Selected Trading Date' =
+			
+			MAX ( 'gold_dim_date'[Date] )
+		formatString: Short Date
+		displayFolder: Time Intelligence
+		lineageTag: 677213b7-899b-4425-880d-d547210c0b29
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+	measure 'Previous Trading Date' =
+			
+			VAR CurrentDate =
+			    [Selected Trading Date]
+			RETURN
+			    CALCULATE (
+			        MAX ( 'Daily Candles'[TradingDate] ),
+			        REMOVEFILTERS ( 'gold_dim_date' ),
+			        'Daily Candles'[TradingDate] < CurrentDate
+			    )
+		formatString: Short Date
+		displayFolder: Time Intelligence
+		lineageTag: 493ae585-7f2e-46f3-ac24-67e9fe1c0364
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Previous Trading Day Close' =
+			
+			VAR PreviousDate =
+			    [Previous Trading Date]
+			RETURN
+			    CALCULATE (
+			        MAX ( 'Daily Candles'[Close] ),
+			        REMOVEFILTERS ( 'gold_dim_date' ),
+			        'Daily Candles'[TradingDate] = PreviousDate
+			    )
+		formatString: 0.00000
+		displayFolder: Time Intelligence
+		lineageTag: 4a229a86-6120-4918-9d45-485077f236a4
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Selected Trading Day Close' =
+			
+			VAR CurrentDate =
+			    [Selected Trading Date]
+			RETURN
+			    CALCULATE (
+			        MAX ( 'Daily Candles'[Close] ),
+			        REMOVEFILTERS ( 'gold_dim_date' ),
+			        'Daily Candles'[TradingDate] = CurrentDate
+			    )
+		formatString: 0.00000
+		displayFolder: Time Intelligence
+		lineageTag: b40cc2fb-706c-4067-adf3-95719e6d5cc0
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Trading Day Change' =
+			
+			[Selected Trading Day Close] - [Previous Trading Day Close]
+		formatString: 0.00000
+		displayFolder: Time Intelligence
+		lineageTag: 266b36e3-ba89-4e3b-87d1-e45f27748189
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Trading Day Change %' =
+			
+			DIVIDE (
+			    [Trading Day Change],
+			    [Previous Trading Day Close]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Time Intelligence
+		lineageTag: 4f1e124c-1b3a-43b4-b373-44e30d630139
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
 
 	/// Financial instrument symbol for the aggregated candlestick.
 	column Instrument

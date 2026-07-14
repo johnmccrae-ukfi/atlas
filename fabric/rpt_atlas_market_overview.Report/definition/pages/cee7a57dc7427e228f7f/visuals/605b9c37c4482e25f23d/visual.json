@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "605b9c37c4482e25f23d",
   "position": {
     "x": 505.17019319227228,
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Minute Candles"
+                      "Entity": "gold_dim_date"
                     }
                   },
-                  "Property": "TradingDate"
+                  "Property": "Date"
                 }
               },
-              "queryRef": "Minute Candles.TradingDate",
-              "nativeQueryRef": "TradingDate",
+              "queryRef": "gold_dim_date.Date",
+              "nativeQueryRef": "Date",
               "active": true
             }
           ]
@@ -40,10 +40,10 @@
               "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Minute Candles"
+                    "Entity": "gold_dim_date"
                   }
                 },
-                "Property": "TradingDate"
+                "Property": "Date"
               }
             },
             "direction": "Ascending"
@@ -81,8 +81,8 @@
                 "Version": 2,
                 "From": [
                   {
-                    "Name": "m",
-                    "Entity": "Minute Candles",
+                    "Name": "g",
+                    "Entity": "gold_dim_date",
                     "Type": 0
                   }
                 ],
@@ -95,10 +95,10 @@
                             "Column": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Source": "m"
+                                  "Source": "g"
                                 }
                               },
-                              "Property": "TradingDate"
+                              "Property": "Date"
                             }
                           }
                         ],
@@ -106,7 +106,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "datetime'2012-03-22T00:00:00'"
+                                "Value": "datetime'2012-03-07T00:00:00'"
                               }
                             }
                           ]
@@ -176,5 +176,81 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "3a6b2249006846f57f5f",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold_dim_date"
+              }
+            },
+            "Property": "Date"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "g",
+              "Entity": "gold_dim_date",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "g"
+                              }
+                            },
+                            "Property": "Date"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
   }
 }

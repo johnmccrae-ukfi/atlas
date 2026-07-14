@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "1255f350cb74be1f3036",
   "position": {
     "x": 177.81048758049678,
@@ -125,23 +125,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "0c4c14bd1a42909c421e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Daily Candles"
-              }
-            },
-            "Property": "Instrument"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

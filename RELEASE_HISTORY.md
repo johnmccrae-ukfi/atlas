@@ -8,6 +8,99 @@ The project has been developed incrementally using a milestone-based approach, w
 
 ---
 
+# v1.2.0 — Reporting Navigation and Time Intelligence
+
+**Release Date:** July 2026
+
+Introduced a governed date dimension, reusable time-intelligence measures, and a more consistent historical reporting experience.
+
+This milestone strengthens the existing Direct Lake reporting architecture without redesigning the underlying Bronze, Silver, or Gold candle pipelines.
+
+The historical reporting path now includes:
+
+```text
+gold_dim_date
+→ Direct Lake relationships
+→ shared daily and intraday filtering
+→ reusable selected-period measures
+→ previous-trading-day comparisons
+→ improved report navigation and KPI presentation
+```
+
+Highlights:
+
+- New governed Gold date dimension:
+  - `gold_dim_date`
+  - one row per calendar date
+  - dynamic minimum-to-maximum Gold date range
+  - continuous date coverage including weekends
+  - deterministic year, quarter, month, weekday, and sort attributes
+- New Fabric notebook:
+  - `nb_gold_dim_date`
+  - dynamic Gold date-range discovery
+  - continuous calendar generation
+  - pre-write and persisted-table validation
+  - relationship-key validation
+- New Direct Lake relationships from `gold_dim_date` to:
+  - daily candle data
+  - minute candle data
+- Shared Date filtering across Market Overview and Intraday Analysis
+- Reusable selected-period measures for:
+  - Open
+  - High
+  - Low
+  - Close
+  - Range
+  - Range percentage
+  - Return percentage
+- Reusable trading-day measures for:
+  - selected trading date
+  - previous trading date
+  - selected trading-day close
+  - previous trading-day close
+  - absolute trading-day change
+  - percentage trading-day change
+- Multi-instrument-safe distinct Trading Days measure
+- Preserved five-trading-day moving average
+- Explicit page-navigation controls between Market Overview and Intraday Analysis
+- Consistent KPI-card styling and spacing across both report pages
+- Updated Gold layer contract and validation rules
+
+Validation results:
+
+- 30 continuous calendar rows generated from `2012-03-01` through `2012-03-30`
+- No null or duplicate Date values
+- No unmatched daily or minute candle trading dates
+- No null candle `TradingDate` values
+- Active one-to-many, single-direction relationships confirmed
+- Daily and intraday report filtering confirmed
+- Expected weekend behaviour confirmed
+- Selected-period Open confirmed as `1.33550`
+- Selected-period Close confirmed as `1.33460`
+- Selected-period Return confirmed as approximately `-0.07%`
+- Selected-period Range confirmed as `0.03830`
+- Selected-period Range percentage confirmed as approximately `2.87%`
+- Trading Days confirmed as `26`
+- Previous trading-day close confirmed as `1.33610`
+- Selected trading-day close confirmed as `1.33460`
+- Trading Day Change confirmed as `-0.00150`
+- Trading Day Change percentage confirmed as approximately `-0.11%`
+- Moving-average behaviour confirmed after report refresh
+- Page navigation confirmed in edit and reading modes
+
+Current limitations:
+
+- The date dimension currently spans only the governed date range present in the current Gold candle tables
+- Formal exchange calendars and holiday classifications are not implemented
+- `IsTradingDay` is not inferred from historical candle presence
+- Multi-instrument filtering and instrument dimensions remain part of `v1.3.0`
+- Daily-to-intraday drill-through was evaluated but deferred
+- The current free candlestick custom visual does not expose compatible Power BI drill-through context
+- Explicit page navigation is used instead of candle-level drill-through
+- Historical Lakehouse reporting remains separate from the near-real-time Eventhouse pathway
+
+---
+
 # v1.1.0 — Near-Real-Time Market Data Foundation
 
 **Release Date:** July 2026
@@ -255,7 +348,7 @@ This enables the platform to evolve in a controlled, enterprise-style manner whi
 
 # Looking Ahead
 
-Following the v1.1.0 Near-Real-Time Market Data Foundation release, future development may include:
+Following the v1.2.0 Reporting Navigation and Time Intelligence release, future development may include:
 
 - configurable multi-instrument ingestion
 - current and next futures contract ingestion
@@ -283,4 +376,4 @@ Following the v1.1.0 Near-Real-Time Market Data Foundation release, future devel
 
 **Current Stable Release**
 
-**v1.1.0 — Near-Real-Time Market Data Foundation**
+**v1.2.0 — Reporting Navigation and Time Intelligence**
