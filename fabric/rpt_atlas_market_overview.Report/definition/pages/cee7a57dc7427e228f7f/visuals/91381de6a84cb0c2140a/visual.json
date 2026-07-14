@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "91381de6a84cb0c2140a",
   "position": {
     "x": 57.700091996320147,
@@ -168,5 +168,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "dd6c13d57805e15599d6",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Minute Candles"
+              }
+            },
+            "Property": "Last Price"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

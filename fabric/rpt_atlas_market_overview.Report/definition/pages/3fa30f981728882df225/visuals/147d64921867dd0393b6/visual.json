@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "147d64921867dd0393b6",
   "position": {
     "x": 505,
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Daily Candles"
+                      "Entity": "gold_dim_date"
                     }
                   },
-                  "Property": "TradingDate"
+                  "Property": "Date"
                 }
               },
-              "queryRef": "Daily Candles.TradingDate",
-              "nativeQueryRef": "TradingDate",
+              "queryRef": "gold_dim_date.Date",
+              "nativeQueryRef": "Date",
               "active": true
             }
           ]
@@ -40,10 +40,10 @@
               "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Daily Candles"
+                    "Entity": "gold_dim_date"
                   }
                 },
-                "Property": "TradingDate"
+                "Property": "Date"
               }
             },
             "direction": "Ascending"
@@ -88,8 +88,8 @@
                 "Version": 2,
                 "From": [
                   {
-                    "Name": "d",
-                    "Entity": "Daily Candles",
+                    "Name": "g",
+                    "Entity": "gold_dim_date",
                     "Type": 0
                   }
                 ],
@@ -104,10 +104,10 @@
                               "Column": {
                                 "Expression": {
                                   "SourceRef": {
-                                    "Source": "d"
+                                    "Source": "g"
                                   }
                                 },
-                                "Property": "TradingDate"
+                                "Property": "Date"
                               }
                             },
                             "Right": {
@@ -124,10 +124,10 @@
                               "Column": {
                                 "Expression": {
                                   "SourceRef": {
-                                    "Source": "d"
+                                    "Source": "g"
                                   }
                                 },
-                                "Property": "TradingDate"
+                                "Property": "Date"
                               }
                             },
                             "Right": {
@@ -193,18 +193,33 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "f9ebbb948317e2ced104",
+        "name": "87626e3a4c309a19c98a",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "Daily Candles"
+                "Entity": "gold_dim_date"
               }
             },
-            "Property": "TradingDate"
+            "Property": "Date"
           }
         },
-        "type": "Categorical"
+        "type": "Categorical",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
       }
     ]
   }

@@ -1,0 +1,8 @@
+relationship e0db900d-fc51-0728-8b40-db2871e64eac
+	fromColumn: 'Daily Candles'.TradingDate
+	toColumn: gold_dim_date.Date
+
+relationship 6d7e1e06-01b8-14f4-6e1d-5ef885eae88a
+	fromColumn: 'Minute Candles'.TradingDate
+	toColumn: gold_dim_date.Date
+

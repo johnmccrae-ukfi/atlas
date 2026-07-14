@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "56ecb30e867117943fd6",
+  "name": "170a77e1e03d027bb664",
   "position": {
-    "x": 549.91720331186752,
+    "x": 262.59429622815088,
     "y": 599.374425022999,
-    "z": 4000,
+    "z": 11000,
     "height": 120.11039558417663,
-    "width": 203.71665133394663,
-    "tabOrder": 4000
+    "width": 150,
+    "tabOrder": 11000
   },
   "visual": {
     "visualType": "card",
@@ -23,11 +23,11 @@
                       "Entity": "Daily Candles"
                     }
                   },
-                  "Property": "Selected Period Return %"
+                  "Property": "Daily Range %"
                 }
               },
-              "queryRef": "Daily Candles.Selected Period Return %",
-              "nativeQueryRef": "Selected Period Return %"
+              "queryRef": "Daily Candles.Daily Range %",
+              "nativeQueryRef": "Daily Range %"
             }
           ]
         }
@@ -42,7 +42,7 @@
                     "Entity": "Daily Candles"
                   }
                 },
-                "Property": "Selected Period Return %"
+                "Property": "Daily Range %"
               }
             },
             "direction": "Descending"
@@ -80,7 +80,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Selected Period Return (%)'"
+                  "Value": "'Daily Range (%)'"
                 }
               }
             },
@@ -100,7 +100,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "7d05a42f5941c51ecdbd",
+        "name": "42bbcc6d84961f24bd1b",
         "field": {
           "Measure": {
             "Expression": {
@@ -108,7 +108,7 @@
                 "Entity": "Daily Candles"
               }
             },
-            "Property": "Selected Period Return %"
+            "Property": "Daily Range %"
           }
         },
         "type": "Advanced"

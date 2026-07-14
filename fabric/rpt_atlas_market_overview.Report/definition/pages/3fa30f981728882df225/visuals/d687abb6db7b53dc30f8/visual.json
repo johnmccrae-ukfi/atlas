@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "56ecb30e867117943fd6",
+  "name": "d687abb6db7b53dc30f8",
   "position": {
-    "x": 549.91720331186752,
+    "x": 753.63385464581415,
     "y": 599.374425022999,
-    "z": 4000,
+    "z": 10000,
     "height": 120.11039558417663,
-    "width": 203.71665133394663,
-    "tabOrder": 4000
+    "width": 150,
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "card",
@@ -23,11 +23,11 @@
                       "Entity": "Daily Candles"
                     }
                   },
-                  "Property": "Selected Period Return %"
+                  "Property": "Trading Days"
                 }
               },
-              "queryRef": "Daily Candles.Selected Period Return %",
-              "nativeQueryRef": "Selected Period Return %"
+              "queryRef": "Daily Candles.Trading Days",
+              "nativeQueryRef": "Trading Days"
             }
           ]
         }
@@ -42,7 +42,7 @@
                     "Entity": "Daily Candles"
                   }
                 },
-                "Property": "Selected Period Return %"
+                "Property": "Trading Days"
               }
             },
             "direction": "Descending"
@@ -80,7 +80,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Selected Period Return (%)'"
+                  "Value": "'Trading Days'"
                 }
               }
             },
@@ -100,7 +100,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "7d05a42f5941c51ecdbd",
+        "name": "e4bbfc8c69030e72c1c6",
         "field": {
           "Measure": {
             "Expression": {
@@ -108,7 +108,7 @@
                 "Entity": "Daily Candles"
               }
             },
-            "Property": "Selected Period Return %"
+            "Property": "Trading Days"
           }
         },
         "type": "Advanced"

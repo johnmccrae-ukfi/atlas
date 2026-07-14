@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "42d8a61743264c0bfb4d",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "9b0256dc92e926997071",
   "position": {
     "x": 0,
     "y": 0,
-    "z": 10000,
+    "z": 10001,
     "height": 40,
-    "width": 100,
-    "tabOrder": 10000
+    "width": 57,
+    "tabOrder": 10001
   },
   "visual": {
     "visualType": "actionButton",
@@ -18,7 +18,7 @@
             "shapeType": {
               "expr": {
                 "Literal": {
-                  "Value": "'back'"
+                  "Value": "'leftArrow'"
                 }
               }
             }
@@ -43,7 +43,21 @@
             "type": {
               "expr": {
                 "Literal": {
-                  "Value": "'Back'"
+                  "Value": "'PageNavigation'"
+                }
+              }
+            },
+            "navigationSection": {
+              "expr": {
+                "Literal": {
+                  "Value": "'3fa30f981728882df225'"
+                }
+              }
+            },
+            "tooltip": {
+              "expr": {
+                "Literal": {
+                  "Value": "'CTRL+Click to return to Market Overview'"
                 }
               }
             }
