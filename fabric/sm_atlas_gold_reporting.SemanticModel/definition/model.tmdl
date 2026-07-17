@@ -10,9 +10,12 @@ annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation PBI_QueryOrder = ["DirectLake - lh_atlas_dev"]
 
-annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit"]
+annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit","TMDLView_Desktop"]
 
 ref table 'Minute Candles'
 ref table 'Daily Candles'
 ref table gold_dim_date
+ref table gold_massive_futures_minute_candles
+ref table gold_massive_futures_daily_candles
+ref table gold_dim_instrument
 

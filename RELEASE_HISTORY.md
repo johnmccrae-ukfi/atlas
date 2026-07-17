@@ -8,6 +8,173 @@ The project has been developed incrementally using a milestone-based approach, w
 
 ---
 
+# v1.3.0 — Multi-Instrument Architecture
+
+**Release Date:** July 2026  
+**Status:** Implementation complete; release consolidation in progress
+
+Introduced Atlas’s first governed multi-instrument historical architecture.
+
+This milestone expands Atlas beyond the original CQG historical dataset by adding a second provider-specific Lakehouse pathway for Massive Futures historical minute aggregates.
+
+The implemented historical architecture now includes:
+
+```text
+CQG legacy Futures events
+→ CQG Bronze
+→ silver_cqg_ticks
+→ CQG minute and daily Gold candles
+```
+
+and:
+
+```text
+Massive Futures Flat Files
+→ bronze_massive_futures_minute_aggregates
+→ silver_massive_futures_minute_aggregates
+→ Massive minute and daily Gold candles
+```
+
+Both historical paths are exposed through the existing Direct Lake semantic model while retaining separate physical fact tables appropriate to their different source grains and activity semantics.
+
+Highlights:
+
+- Massive Futures historical Flat File discovery and controlled ingestion
+- Azure Key Vault-backed provider credentials
+- Initial governed contracts:
+  - `MESU6`
+  - `MNQU6`
+- Stable Atlas product and contract keys
+- Provider-neutral contract business identity
+- New governed instrument dimension:
+  - `gold_dim_instrument`
+- New Massive historical tables:
+  - `bronze_massive_futures_minute_aggregates`
+  - `silver_massive_futures_minute_aggregates`
+  - `gold_massive_futures_minute_candles`
+  - `gold_massive_futures_daily_candles`
+- New Fabric notebooks for:
+  - instrument-dimension generation;
+  - Massive Bronze ingestion;
+  - Massive Silver validation and enrichment;
+  - Massive Gold candle generation.
+- Expansion of `sm_atlas_gold_reporting` from three to six tables
+- New Date relationships to both Massive fact tables
+- New Instrument relationships to both Massive fact tables
+- Guarded daily and intraday price measures
+- Massive activity measures for:
+  - Volume;
+  - Transactions;
+  - Dollar Volume;
+  - minute-bar counts.
+- Governed measure display folders
+- Hidden technical relationship and provider fields
+- Deterministic contract display ordering
+- New development semantic-model validation report:
+  - `rpt_atlas_semantic_model_validation_dev`
+- Updated public README and architecture visuals
+
+Controlled validation results:
+
+```text
+Massive Bronze rows:
+2,760
+
+Massive Silver rows:
+2,760
+
+Massive Gold minute rows:
+2,760
+
+Massive Gold daily rows:
+2
+```
+
+Per-contract coverage:
+
+```text
+MESU6:
+1,380 minute rows
+
+MNQU6:
+1,380 minute rows
+```
+
+Controlled session:
+
+```text
+TradingDate:
+2026-07-14
+
+Session start:
+2026-07-13 22:00:00 UTC
+
+Session end:
+2026-07-14 20:59:00 UTC
+```
+
+Semantic-model validation confirmed:
+
+- active one-to-many Date relationships;
+- active one-to-many Instrument relationships;
+- single-direction filtering;
+- consistent daily and intraday contract filtering;
+- correct `MESU6` results;
+- correct `MNQU6` results;
+- blank guarded price measures under zero or multiple contract selections;
+- preserved CQG relationships and measures.
+
+Validated `MESU6` values:
+
+```text
+Open:      7,558.25
+High:      7,613.75
+Low:       7,531.75
+Close:     7,590.50
+Return:    0.43%
+Range:     82.00
+Volume:    958,226
+```
+
+Validated `MNQU6` values:
+
+```text
+Open:      29,440.00
+High:      29,922.00
+Low:       29,303.25
+Close:     29,794.75
+Return:    1.20%
+Range:     618.75
+Volume:    2,726,737
+```
+
+The release preserves:
+
+- the validated CQG historical path;
+- deterministic CQG event ordering;
+- `Decimal(18,5)` OHLC precision;
+- `gold_dim_date`;
+- existing CQG selected-period and previous-trading-day measures;
+- the existing five-trading-day moving average;
+- the separate v1.1.0 Eventstream and Eventhouse pathway.
+
+Current limitations:
+
+- Massive historical coverage currently includes one controlled trading session
+- Only `MESU6` and `MNQU6` are included
+- Multiple contract months and expired contract chains are not yet modelled
+- Automatic Futures rollover is not implemented
+- Continuous contracts are not implemented
+- CQG facts are not yet mapped into `gold_dim_instrument`
+- Massive and CQG facts remain physically separate
+- Historical and near-real-time Massive data are not reconciled
+- Provider correction precedence is not yet defined
+- Streaming Silver and Gold models are not implemented
+- Production orchestration and incremental historical loading remain future work
+- Hosted AI inference remains environment-limited
+
+---
+
 # v1.2.0 — Reporting Navigation and Time Intelligence
 
 **Release Date:** July 2026
@@ -348,32 +515,44 @@ This enables the platform to evolve in a controlled, enterprise-style manner whi
 
 # Looking Ahead
 
-Following the v1.2.0 Reporting Navigation and Time Intelligence release, future development may include:
+Following the v1.3.0 Multi-Instrument Architecture release, the next planned phase is:
 
-- configurable multi-instrument ingestion
-- current and next futures contract ingestion
-- automated futures contract rollover
-- streaming Silver and Gold models
-- historical and near-real-time reconciliation
-- advanced KQL analytics
-- near-real-time Power BI reporting over Eventhouse
-- richer Real-Time Dashboard monitoring
-- real-time alerts and Fabric Activator
-- resilient WebSocket reconnection
-- durable buffering and replay
-- provider correction handling
-- destination-level deduplication
-- cloud hosting for the Atlas streaming adapter
-- managed secrets and production security controls
-- automated testing
-- CI/CD pipelines
-- multiple AI providers
-- advanced market analytics
-- trading strategy research
-- AI-assisted signal generation
+> **v1.4.0 — Production-Style AI Inference**
+
+Planned focus includes:
+
+- Azure AI Foundry or Azure OpenAI integration;
+- secure provider configuration;
+- prompt versioning;
+- structured model outputs;
+- inference logging;
+- provider and model traceability;
+- validation and fallback behaviour;
+- cost and capacity awareness;
+- multi-instrument commentary built from trusted Gold analytics.
+
+Later Real-Time Intelligence work may include:
+
+- production-style streaming hosting;
+- multiple simultaneous instruments;
+- resilient WebSocket recovery;
+- durable buffering and replay;
+- duplicate and correction handling;
+- streaming Silver and Gold models;
+- governed contract rollover;
+- Real-Time Dashboard expansion;
+- alerts and Fabric Activator;
+- historical and streaming reconciliation;
+- operational monitoring and deployment controls.
+
+Atlas will continue to evolve through small, governed releases rather than broad unsupported claims.
 
 ---
 
 **Current Stable Release**
 
 **v1.2.0 — Reporting Navigation and Time Intelligence**
+
+**Current Development Release**
+
+**v1.3.0 — Multi-Instrument Architecture**

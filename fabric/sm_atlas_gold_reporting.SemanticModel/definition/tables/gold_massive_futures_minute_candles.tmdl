@@ -1,0 +1,574 @@
+table gold_massive_futures_minute_candles
+	lineageTag: e68bbefb-4c27-4e34-a9ea-f92b3b836134
+	sourceLineageTag: [dbo].[gold_massive_futures_minute_candles]
+
+	measure 'Massive Last Price' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR LatestMinuteTimestamp =
+			    MAX (
+			        gold_massive_futures_minute_candles[MinuteTimestamp]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( LatestMinuteTimestamp ),
+			        BLANK (),
+			        CALCULATE (
+			            MAX (
+			                gold_massive_futures_minute_candles[Close]
+			            ),
+			            gold_massive_futures_minute_candles[MinuteTimestamp]
+			                = LatestMinuteTimestamp
+			        )
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Intraday Price
+		lineageTag: bb717c4b-518f-4a54-ba81-6aefbd04a13b
+
+	measure 'Massive Session Open' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR EarliestMinuteTimestamp =
+			    MIN (
+			        gold_massive_futures_minute_candles[MinuteTimestamp]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( EarliestMinuteTimestamp ),
+			        BLANK (),
+			        CALCULATE (
+			            MAX (
+			                gold_massive_futures_minute_candles[Open]
+			            ),
+			            gold_massive_futures_minute_candles[MinuteTimestamp]
+			                = EarliestMinuteTimestamp
+			        )
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Intraday Price
+		lineageTag: c30526e3-8703-46b5-bccc-1878bdb244b2
+
+	measure 'Massive Session High' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract,
+			        BLANK (),
+			        MAX (
+			            gold_massive_futures_minute_candles[High]
+			        )
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Intraday Price
+		lineageTag: d6c69cf0-b277-470c-8f9e-e5fb9559f85c
+
+	measure 'Massive Session Low' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract,
+			        BLANK (),
+			        MIN (
+			            gold_massive_futures_minute_candles[Low]
+			        )
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Intraday Price
+		lineageTag: 2b2895c9-7ad8-42c1-8769-4ab9ed4f088e
+
+	measure 'Massive Session Close' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR LatestMinuteTimestamp =
+			    MAX (
+			        gold_massive_futures_minute_candles[MinuteTimestamp]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( LatestMinuteTimestamp ),
+			        BLANK (),
+			        CALCULATE (
+			            MAX (
+			                gold_massive_futures_minute_candles[Close]
+			            ),
+			            gold_massive_futures_minute_candles[MinuteTimestamp]
+			                = LatestMinuteTimestamp
+			        )
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Intraday Price
+		lineageTag: 6052185a-da56-4087-9515-fa8d4413c9d7
+
+	measure 'Massive Session Change' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR EarliestMinuteTimestamp =
+			    MIN (
+			        gold_massive_futures_minute_candles[MinuteTimestamp]
+			    )
+			VAR LatestMinuteTimestamp =
+			    MAX (
+			        gold_massive_futures_minute_candles[MinuteTimestamp]
+			    )
+			VAR SessionOpen =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_minute_candles[Open]
+			        ),
+			        gold_massive_futures_minute_candles[MinuteTimestamp]
+			            = EarliestMinuteTimestamp
+			    )
+			VAR SessionClose =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_minute_candles[Close]
+			        ),
+			        gold_massive_futures_minute_candles[MinuteTimestamp]
+			            = LatestMinuteTimestamp
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( SessionOpen )
+			            || ISBLANK ( SessionClose ),
+			        BLANK (),
+			        SessionClose - SessionOpen
+			    )
+		formatString: #,0.00;-#,0.00;0.00
+		displayFolder: Massive\Intraday Price
+		lineageTag: d3396edc-7235-4715-a8f5-7f8dfa87093d
+
+	measure 'Massive Session Change %' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR EarliestMinuteTimestamp =
+			    MIN (
+			        gold_massive_futures_minute_candles[MinuteTimestamp]
+			    )
+			VAR LatestMinuteTimestamp =
+			    MAX (
+			        gold_massive_futures_minute_candles[MinuteTimestamp]
+			    )
+			VAR SessionOpen =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_minute_candles[Open]
+			        ),
+			        gold_massive_futures_minute_candles[MinuteTimestamp]
+			            = EarliestMinuteTimestamp
+			    )
+			VAR SessionClose =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_minute_candles[Close]
+			        ),
+			        gold_massive_futures_minute_candles[MinuteTimestamp]
+			            = LatestMinuteTimestamp
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( SessionOpen )
+			            || ISBLANK ( SessionClose ),
+			        BLANK (),
+			        DIVIDE (
+			            SessionClose - SessionOpen,
+			            SessionOpen
+			        )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Massive\Intraday Price
+		lineageTag: db93d98a-61c3-4dcb-8193-6f93199185de
+
+	measure 'Massive Session Range' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR SessionHigh =
+			    MAX (
+			        gold_massive_futures_minute_candles[High]
+			    )
+			VAR SessionLow =
+			    MIN (
+			        gold_massive_futures_minute_candles[Low]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract,
+			        BLANK (),
+			        SessionHigh - SessionLow
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Intraday Price
+		lineageTag: cffe67e6-99f0-4502-b788-3cbac9e3cab1
+
+	measure 'Massive Session Range %' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR EarliestMinuteTimestamp =
+			    MIN (
+			        gold_massive_futures_minute_candles[MinuteTimestamp]
+			    )
+			VAR SessionOpen =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_minute_candles[Open]
+			        ),
+			        gold_massive_futures_minute_candles[MinuteTimestamp]
+			            = EarliestMinuteTimestamp
+			    )
+			VAR SessionHigh =
+			    MAX (
+			        gold_massive_futures_minute_candles[High]
+			    )
+			VAR SessionLow =
+			    MIN (
+			        gold_massive_futures_minute_candles[Low]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( SessionOpen ),
+			        BLANK (),
+			        DIVIDE (
+			            SessionHigh - SessionLow,
+			            SessionOpen
+			        )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Massive\Intraday Price
+		lineageTag: ede1f324-a8c1-4898-8f1c-d1e6799c0dbf
+
+	measure 'Massive Session Volume' =
+			
+			SUM (
+			    gold_massive_futures_minute_candles[Volume]
+			)
+		formatString: #,0
+		displayFolder: Massive\Intraday Activity
+		lineageTag: c16e0f96-e8e2-4cf1-9e70-0940cfc506c6
+
+	measure 'Massive Session Transactions' =
+			
+			SUM (
+			    gold_massive_futures_minute_candles[TransactionCount]
+			)
+		formatString: #,0
+		displayFolder: Massive\Intraday Activity
+		lineageTag: 5f1ed47a-4703-4c90-938c-1609c3056c85
+
+	measure 'Massive Session Dollar Volume' =
+			
+			SUM (
+			    gold_massive_futures_minute_candles[DollarVolume]
+			)
+		formatString: #,0.00
+		displayFolder: Massive\Intraday Activity
+		lineageTag: 633a7b59-f841-4ff5-9d33-fbf23e2abe32
+
+	measure 'Massive Minute Bar Count' =
+			
+			COUNTROWS (
+			    gold_massive_futures_minute_candles
+			)
+		formatString: #,0
+		displayFolder: Massive\Intraday Activity
+		lineageTag: 06cd58fb-a2f9-4f0c-abdd-b3efbcd2c1f0
+
+	measure 'Massive Intraday Average Volume / Minute' =
+			
+			DIVIDE (
+			    SUM (
+			        gold_massive_futures_minute_candles[Volume]
+			    ),
+			    COUNTROWS (
+			        gold_massive_futures_minute_candles
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Massive\Intraday Activity
+		lineageTag: 3be59ff5-c49b-44b7-a76c-0e589e90e08b
+
+	measure 'Massive Intraday Average Transactions / Minute' =
+			
+			DIVIDE (
+			    SUM (
+			        gold_massive_futures_minute_candles[TransactionCount]
+			    ),
+			    COUNTROWS (
+			        gold_massive_futures_minute_candles
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Massive\Intraday Activity
+		lineageTag: 0148e36c-1859-4ed7-ae9b-02fc80f4dabe
+
+	measure 'Massive Intraday Average Dollar Volume / Minute' =
+			
+			DIVIDE (
+			    SUM (
+			        gold_massive_futures_minute_candles[DollarVolume]
+			    ),
+			    COUNTROWS (
+			        gold_massive_futures_minute_candles
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Massive\Intraday Activity
+		lineageTag: cbd4b684-0d37-4a1d-88b5-8751832b2f85
+
+	measure 'Massive First Minute Timestamp' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract,
+			        BLANK (),
+			        MIN (
+			            gold_massive_futures_minute_candles[MinuteTimestamp]
+			        )
+			    )
+		formatString: dd/MM/yyyy HH:mm
+		displayFolder: Massive\Intraday Time
+		lineageTag: 13e81d41-eec3-448b-afd9-df2fa402ed9e
+
+	measure 'Massive Last Minute Timestamp' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract,
+			        BLANK (),
+			        MAX (
+			            gold_massive_futures_minute_candles[MinuteTimestamp]
+			        )
+			    )
+		formatString: dd/MM/yyyy HH:mm
+		displayFolder: Massive\Intraday Time
+		lineageTag: 31fbcb4d-6820-424e-885a-5032f8015e1f
+
+	column AtlasContractKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 69993a7d-cabc-467f-aac1-2e214f9e18cd
+		sourceLineageTag: AtlasContractKey
+		summarizeBy: none
+		sourceColumn: AtlasContractKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column AtlasContractBusinessKey
+		dataType: string
+		lineageTag: 2e9618e2-f4ee-4524-a08a-f1201349ce8b
+		sourceLineageTag: AtlasContractBusinessKey
+		summarizeBy: none
+		sourceColumn: AtlasContractBusinessKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column AtlasProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 3d4898b8-4bd1-41bd-b049-b360c460e92d
+		sourceLineageTag: AtlasProductKey
+		summarizeBy: count
+		sourceColumn: AtlasProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column AtlasProductBusinessKey
+		dataType: string
+		lineageTag: 6bc84973-3108-4cbc-a350-8d19b50237ce
+		sourceLineageTag: AtlasProductBusinessKey
+		summarizeBy: none
+		sourceColumn: AtlasProductBusinessKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Instrument
+		dataType: string
+		lineageTag: 1a9cd8ee-b832-4abc-8485-b772dbda87e2
+		sourceLineageTag: Instrument
+		summarizeBy: none
+		sourceColumn: Instrument
+
+		annotation SummarizationSetBy = Automatic
+
+	column TradingDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 642ef82a-8766-4340-9a1b-b6eec8f51de6
+		sourceLineageTag: TradingDate
+		summarizeBy: none
+		sourceColumn: TradingDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column MinuteTimestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e39b8013-cb82-4ecc-bc21-82c140b21aa4
+		sourceLineageTag: MinuteTimestamp
+		summarizeBy: none
+		sourceColumn: MinuteTimestamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column TradingTime
+		dataType: string
+		lineageTag: 6f308f69-2a82-4a17-9408-c10b8cec56bd
+		sourceLineageTag: TradingTime
+		summarizeBy: none
+		sourceColumn: TradingTime
+
+		annotation SummarizationSetBy = Automatic
+
+	column TradingHour
+		dataType: int64
+		formatString: 0
+		lineageTag: 5295ca0b-026a-4b01-83bd-fdbc5159f0d0
+		sourceLineageTag: TradingHour
+		summarizeBy: sum
+		sourceColumn: TradingHour
+
+		annotation SummarizationSetBy = Automatic
+
+	column MinuteOfDay
+		dataType: int64
+		formatString: 0
+		lineageTag: 219a4275-8f1d-4858-96bf-0e6f8b8157b3
+		sourceLineageTag: MinuteOfDay
+		summarizeBy: sum
+		sourceColumn: MinuteOfDay
+
+		annotation SummarizationSetBy = Automatic
+
+	column Open
+		dataType: double
+		lineageTag: 0d013675-b361-492f-b737-1094887bb557
+		sourceLineageTag: Open
+		summarizeBy: sum
+		sourceColumn: Open
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column High
+		dataType: double
+		lineageTag: a93394bd-ec84-44b1-8b18-9cb00d957e6b
+		sourceLineageTag: High
+		summarizeBy: sum
+		sourceColumn: High
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Low
+		dataType: double
+		lineageTag: a7866371-89e0-457c-9dfb-808ba98179dc
+		sourceLineageTag: Low
+		summarizeBy: sum
+		sourceColumn: Low
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Close
+		dataType: double
+		lineageTag: 0cc2b528-bcc3-412d-b5df-6f7f4389d824
+		sourceLineageTag: Close
+		summarizeBy: sum
+		sourceColumn: Close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Volume
+		dataType: int64
+		formatString: 0
+		lineageTag: 116c22b9-86c0-4c07-9c24-191a6ba8819a
+		sourceLineageTag: Volume
+		summarizeBy: sum
+		sourceColumn: Volume
+
+		annotation SummarizationSetBy = Automatic
+
+	column TransactionCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 614d442f-6003-4a76-857b-ac935462b262
+		sourceLineageTag: TransactionCount
+		summarizeBy: sum
+		sourceColumn: TransactionCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column DollarVolume
+		dataType: double
+		lineageTag: 59525d21-a9ec-405a-b07d-64cd1248af14
+		sourceLineageTag: DollarVolume
+		summarizeBy: sum
+		sourceColumn: DollarVolume
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GoldLoadedUTC
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b233479b-17a8-4e99-bdc8-00d10749edfc
+		sourceLineageTag: GoldLoadedUTC
+		summarizeBy: none
+		sourceColumn: GoldLoadedUTC
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_massive_futures_minute_candles = entity
+		mode: directLake
+		source
+			entityName: gold_massive_futures_minute_candles
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_atlas_dev'
+

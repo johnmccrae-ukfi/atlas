@@ -165,5 +165,3 @@ table gold_dim_date
 			schemaName: dbo
 			expressionSource: 'DirectLake - lh_atlas_dev'
 
-	changedProperty = Name
-

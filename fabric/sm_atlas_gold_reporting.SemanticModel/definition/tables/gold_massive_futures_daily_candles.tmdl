@@ -1,0 +1,797 @@
+table gold_massive_futures_daily_candles
+	lineageTag: 40b9e56b-0cce-4a9d-b5b3-e572c8f748cf
+	sourceLineageTag: [dbo].[gold_massive_futures_daily_candles]
+
+	measure 'Massive Selected Period Close' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR LatestSelectedTradingDate =
+			    MAX (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract,
+			        BLANK (),
+			        CALCULATE (
+			            MAX (
+			                gold_massive_futures_daily_candles[Close]
+			            ),
+			            gold_massive_futures_daily_candles[TradingDate]
+			                = LatestSelectedTradingDate
+			        )
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Daily Price
+		lineageTag: e9160671-7f79-46bd-842d-e98aa67e74fd
+
+	measure 'Massive Selected Period Open' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR EarliestSelectedTradingDate =
+			    MIN (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract,
+			        BLANK (),
+			        CALCULATE (
+			            MAX (
+			                gold_massive_futures_daily_candles[Open]
+			            ),
+			            gold_massive_futures_daily_candles[TradingDate]
+			                = EarliestSelectedTradingDate
+			        )
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Daily Price
+		lineageTag: 05167252-a605-4eeb-b44c-3b1397ce4164
+
+	measure 'Massive Selected Period High' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract,
+			        BLANK (),
+			        MAX (
+			            gold_massive_futures_daily_candles[High]
+			        )
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Daily Price
+		lineageTag: dae8193c-8dda-4b2c-b072-f52c22a95b3a
+
+	measure 'Massive Selected Period Low' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract,
+			        BLANK (),
+			        MIN (
+			            gold_massive_futures_daily_candles[Low]
+			        )
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Daily Price
+		lineageTag: 64514ed5-04ad-4d9b-900c-eeb61741f7a7
+
+	measure 'Massive Selected Period Return %' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR EarliestSelectedTradingDate =
+			    MIN (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			VAR LatestSelectedTradingDate =
+			    MAX (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			VAR PeriodOpen =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_daily_candles[Open]
+			        ),
+			        gold_massive_futures_daily_candles[TradingDate]
+			            = EarliestSelectedTradingDate
+			    )
+			VAR PeriodClose =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_daily_candles[Close]
+			        ),
+			        gold_massive_futures_daily_candles[TradingDate]
+			            = LatestSelectedTradingDate
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( PeriodOpen )
+			            || ISBLANK ( PeriodClose ),
+			        BLANK (),
+			        DIVIDE (
+			            PeriodClose - PeriodOpen,
+			            PeriodOpen
+			        )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Massive\Daily Price
+		lineageTag: 0f3af906-8c1c-429d-8281-fd1d5a5d2cec
+
+	measure 'Massive Selected Period Range' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR PeriodHigh =
+			    MAX (
+			        gold_massive_futures_daily_candles[High]
+			    )
+			VAR PeriodLow =
+			    MIN (
+			        gold_massive_futures_daily_candles[Low]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract,
+			        BLANK (),
+			        PeriodHigh - PeriodLow
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Daily Price
+		lineageTag: 2dadd3e2-f8a3-4655-b65e-34e4af2b3ac9
+
+	measure 'Massive Selected Period Range %' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR EarliestSelectedTradingDate =
+			    MIN (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			VAR PeriodOpen =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_daily_candles[Open]
+			        ),
+			        gold_massive_futures_daily_candles[TradingDate]
+			            = EarliestSelectedTradingDate
+			    )
+			VAR PeriodHigh =
+			    MAX (
+			        gold_massive_futures_daily_candles[High]
+			    )
+			VAR PeriodLow =
+			    MIN (
+			        gold_massive_futures_daily_candles[Low]
+			    )
+			VAR PeriodRange =
+			    PeriodHigh - PeriodLow
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( PeriodOpen ),
+			        BLANK (),
+			        DIVIDE (
+			            PeriodRange,
+			            PeriodOpen
+			        )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Massive\Daily Price
+		lineageTag: 56e77313-bcca-4687-88b4-90ed2fe11878
+
+	measure 'Massive Trading Days' =
+			
+			DISTINCTCOUNT (
+			    gold_massive_futures_daily_candles[TradingDate]
+			)
+		formatString: #,0
+		displayFolder: Massive\Daily Time Intelligence
+		lineageTag: 37bff484-ef9c-4609-af59-bedc8db4a825
+
+	measure 'Massive Selected Trading Date' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract,
+			        BLANK (),
+			        MAX (
+			            gold_massive_futures_daily_candles[TradingDate]
+			        )
+			    )
+		formatString: dd/MM/yyyy
+		displayFolder: Massive\Daily Time Intelligence
+		lineageTag: 6b2f5e30-bcb0-4d00-86f0-abb4f77792c0
+
+	measure 'Massive Previous Trading Date' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR SelectedTradingDate =
+			    MAX (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( SelectedTradingDate ),
+			        BLANK (),
+			        CALCULATE (
+			            MAX (
+			                gold_massive_futures_daily_candles[TradingDate]
+			            ),
+			            REMOVEFILTERS ( gold_dim_date ),
+			            REMOVEFILTERS (
+			                gold_massive_futures_daily_candles[TradingDate]
+			            ),
+			            gold_massive_futures_daily_candles[TradingDate]
+			                < SelectedTradingDate
+			        )
+			    )
+		formatString: dd/MM/yyyy
+		displayFolder: Massive\Daily Time Intelligence
+		lineageTag: 492efb8f-32e6-484e-b4dd-6d616502217b
+
+	measure 'Massive Selected Trading Day Close' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR SelectedTradingDate =
+			    MAX (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( SelectedTradingDate ),
+			        BLANK (),
+			        CALCULATE (
+			            MAX (
+			                gold_massive_futures_daily_candles[Close]
+			            ),
+			            gold_massive_futures_daily_candles[TradingDate]
+			                = SelectedTradingDate
+			        )
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Daily Time Intelligence
+		lineageTag: 609aaaff-281f-476a-8fa1-0744ca25206c
+
+	measure 'Massive Previous Trading Day Close' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR SelectedTradingDate =
+			    MAX (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			VAR PreviousTradingDate =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_daily_candles[TradingDate]
+			        ),
+			        REMOVEFILTERS ( gold_dim_date ),
+			        REMOVEFILTERS (
+			            gold_massive_futures_daily_candles[TradingDate]
+			        ),
+			        gold_massive_futures_daily_candles[TradingDate]
+			            < SelectedTradingDate
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( PreviousTradingDate ),
+			        BLANK (),
+			        CALCULATE (
+			            MAX (
+			                gold_massive_futures_daily_candles[Close]
+			            ),
+			            REMOVEFILTERS ( gold_dim_date ),
+			            REMOVEFILTERS (
+			                gold_massive_futures_daily_candles[TradingDate]
+			            ),
+			            gold_massive_futures_daily_candles[TradingDate]
+			                = PreviousTradingDate
+			        )
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Daily Time Intelligence
+		lineageTag: f23ab4a8-5123-4a0d-b2b1-a4f279c318a0
+
+	measure 'Massive Trading Day Change' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR SelectedTradingDate =
+			    MAX (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			VAR PreviousTradingDate =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_daily_candles[TradingDate]
+			        ),
+			        REMOVEFILTERS ( gold_dim_date ),
+			        REMOVEFILTERS (
+			            gold_massive_futures_daily_candles[TradingDate]
+			        ),
+			        gold_massive_futures_daily_candles[TradingDate]
+			            < SelectedTradingDate
+			    )
+			VAR SelectedClose =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_daily_candles[Close]
+			        ),
+			        gold_massive_futures_daily_candles[TradingDate]
+			            = SelectedTradingDate
+			    )
+			VAR PreviousClose =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_daily_candles[Close]
+			        ),
+			        REMOVEFILTERS ( gold_dim_date ),
+			        REMOVEFILTERS (
+			            gold_massive_futures_daily_candles[TradingDate]
+			        ),
+			        gold_massive_futures_daily_candles[TradingDate]
+			            = PreviousTradingDate
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( PreviousTradingDate )
+			            || ISBLANK ( SelectedClose )
+			            || ISBLANK ( PreviousClose ),
+			        BLANK (),
+			        SelectedClose - PreviousClose
+			    )
+		formatString: #,0.00;-#,0.00;0.00
+		displayFolder: Massive\Daily Time Intelligence
+		lineageTag: b01384de-2f40-49a4-967d-229d87cb0856
+
+	measure 'Massive Trading Day Change %' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR SelectedTradingDate =
+			    MAX (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			VAR PreviousTradingDate =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_daily_candles[TradingDate]
+			        ),
+			        REMOVEFILTERS ( gold_dim_date ),
+			        REMOVEFILTERS (
+			            gold_massive_futures_daily_candles[TradingDate]
+			        ),
+			        gold_massive_futures_daily_candles[TradingDate]
+			            < SelectedTradingDate
+			    )
+			VAR SelectedClose =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_daily_candles[Close]
+			        ),
+			        gold_massive_futures_daily_candles[TradingDate]
+			            = SelectedTradingDate
+			    )
+			VAR PreviousClose =
+			    CALCULATE (
+			        MAX (
+			            gold_massive_futures_daily_candles[Close]
+			        ),
+			        REMOVEFILTERS ( gold_dim_date ),
+			        REMOVEFILTERS (
+			            gold_massive_futures_daily_candles[TradingDate]
+			        ),
+			        gold_massive_futures_daily_candles[TradingDate]
+			            = PreviousTradingDate
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( PreviousTradingDate )
+			            || ISBLANK ( SelectedClose )
+			            || ISBLANK ( PreviousClose ),
+			        BLANK (),
+			        DIVIDE (
+			            SelectedClose - PreviousClose,
+			            PreviousClose
+			        )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Massive\Daily Time Intelligence
+		lineageTag: c9aee85a-a3cb-45d8-89c8-56ae794cd9fc
+
+	measure 'Massive 5-Day MA Close' =
+			
+			VAR HasOneContract =
+			    HASONEVALUE (
+			        gold_dim_instrument[AtlasContractKey]
+			    )
+			VAR CurrentTradingDate =
+			    MAX (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			VAR LastFiveTradingDates =
+			    TOPN (
+			        5,
+			        CALCULATETABLE (
+			            VALUES (
+			                gold_massive_futures_daily_candles[TradingDate]
+			            ),
+			            REMOVEFILTERS ( gold_dim_date ),
+			            REMOVEFILTERS (
+			                gold_massive_futures_daily_candles[TradingDate]
+			            ),
+			            gold_massive_futures_daily_candles[TradingDate]
+			                <= CurrentTradingDate
+			        ),
+			        gold_massive_futures_daily_candles[TradingDate],
+			        DESC
+			    )
+			RETURN
+			    IF (
+			        NOT HasOneContract
+			            || ISBLANK ( CurrentTradingDate ),
+			        BLANK (),
+			        AVERAGEX (
+			            LastFiveTradingDates,
+			            VAR TradingDateValue =
+			                gold_massive_futures_daily_candles[TradingDate]
+			            RETURN
+			                CALCULATE (
+			                    MAX (
+			                        gold_massive_futures_daily_candles[Close]
+			                    ),
+			                    REMOVEFILTERS ( gold_dim_date ),
+			                    REMOVEFILTERS (
+			                        gold_massive_futures_daily_candles[TradingDate]
+			                    ),
+			                    gold_massive_futures_daily_candles[TradingDate]
+			                        = TradingDateValue
+			                )
+			        )
+			    )
+		formatString: #,0.00
+		displayFolder: Massive\Daily Time Intelligence
+		lineageTag: 977c7565-5245-476d-b711-43104328f340
+
+	measure 'Massive Total Volume' =
+			
+			SUM (
+			    gold_massive_futures_daily_candles[TotalVolume]
+			)
+		formatString: #,0
+		displayFolder: Massive\Daily Activity
+		lineageTag: d556f286-af7a-4dc2-8139-3f24b900dfa6
+
+	measure 'Massive Total Transactions' =
+			
+			SUM (
+			    gold_massive_futures_daily_candles[TotalTransactions]
+			)
+		formatString: #,0
+		displayFolder: Massive\Daily Activity
+		lineageTag: 28a0412b-52b7-4623-b713-6606bcb314db
+
+	measure 'Massive Total Dollar Volume' =
+			
+			SUM (
+			    gold_massive_futures_daily_candles[TotalDollarVolume]
+			)
+		formatString: #,0.00
+		displayFolder: Massive\Daily Activity
+		lineageTag: 88a66cfe-64d2-4a40-893b-661c7f406d39
+
+	measure 'Massive Total Minute Bars' =
+			
+			SUM (
+			    gold_massive_futures_daily_candles[MinuteBarCount]
+			)
+		formatString: #,0
+		displayFolder: Massive\Daily Activity
+		lineageTag: fd547e6f-2af6-4add-ae3b-d16c13f8628f
+
+	measure 'Massive Average Volume / Day' =
+			
+			DIVIDE (
+			    SUM (
+			        gold_massive_futures_daily_candles[TotalVolume]
+			    ),
+			    DISTINCTCOUNT (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Massive\Daily Activity
+		lineageTag: da709558-1bd0-4d34-9606-292c4178017d
+
+	measure 'Massive Average Transactions / Day' =
+			
+			DIVIDE (
+			    SUM (
+			        gold_massive_futures_daily_candles[TotalTransactions]
+			    ),
+			    DISTINCTCOUNT (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Massive\Daily Activity
+		lineageTag: e6150c0e-ec59-4329-956e-84fb41e398ab
+
+	measure 'Massive Average Dollar Volume / Day' =
+			
+			DIVIDE (
+			    SUM (
+			        gold_massive_futures_daily_candles[TotalDollarVolume]
+			    ),
+			    DISTINCTCOUNT (
+			        gold_massive_futures_daily_candles[TradingDate]
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Massive\Daily Activity
+		lineageTag: 4b60117c-0ed8-434b-9e55-60cc59652e4c
+
+	measure 'Massive Average Volume / Minute' =
+			
+			DIVIDE (
+			    SUM (
+			        gold_massive_futures_daily_candles[TotalVolume]
+			    ),
+			    SUM (
+			        gold_massive_futures_daily_candles[MinuteBarCount]
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Massive\Daily Activity
+		lineageTag: 08a43700-a723-4326-a51d-8d2f09f3b3ab
+
+	measure 'Massive Average Transactions / Minute' =
+			
+			DIVIDE (
+			    SUM (
+			        gold_massive_futures_daily_candles[TotalTransactions]
+			    ),
+			    SUM (
+			        gold_massive_futures_daily_candles[MinuteBarCount]
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Massive\Daily Activity
+		lineageTag: 7c44e74e-2e23-4fc3-986b-4d3615f0a430
+
+	measure 'Massive Average Dollar Volume / Minute' =
+			
+			DIVIDE (
+			    SUM (
+			        gold_massive_futures_daily_candles[TotalDollarVolume]
+			    ),
+			    SUM (
+			        gold_massive_futures_daily_candles[MinuteBarCount]
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Massive\Daily Activity
+		lineageTag: 92bb9801-df9b-4357-aea5-cdbdb7c981d9
+
+	column AtlasContractKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 09eab617-d479-4bd8-8c79-caed2b06254b
+		sourceLineageTag: AtlasContractKey
+		summarizeBy: none
+		sourceColumn: AtlasContractKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column AtlasContractBusinessKey
+		dataType: string
+		lineageTag: 894ed9be-1dc0-4900-8319-367c0874672f
+		sourceLineageTag: AtlasContractBusinessKey
+		summarizeBy: none
+		sourceColumn: AtlasContractBusinessKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column AtlasProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: bd5c9bd3-2f8c-477c-b2e1-1d01a0a6f28b
+		sourceLineageTag: AtlasProductKey
+		summarizeBy: count
+		sourceColumn: AtlasProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column AtlasProductBusinessKey
+		dataType: string
+		lineageTag: 381c6ea4-824c-4b26-9350-3f1e8f8ba56c
+		sourceLineageTag: AtlasProductBusinessKey
+		summarizeBy: none
+		sourceColumn: AtlasProductBusinessKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Instrument
+		dataType: string
+		lineageTag: 54f1d06e-4146-4b6c-8e68-dc74b6bc13a7
+		sourceLineageTag: Instrument
+		summarizeBy: none
+		sourceColumn: Instrument
+
+		annotation SummarizationSetBy = Automatic
+
+	column TradingDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: cf22d2fd-06dc-49ae-af5c-83e8b609b599
+		sourceLineageTag: TradingDate
+		summarizeBy: none
+		sourceColumn: TradingDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Open
+		dataType: double
+		lineageTag: 6b748673-852f-4a9f-9c26-9e30cf83f15a
+		sourceLineageTag: Open
+		summarizeBy: sum
+		sourceColumn: Open
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column High
+		dataType: double
+		lineageTag: de67303a-f948-468b-b0ec-542bff67f436
+		sourceLineageTag: High
+		summarizeBy: sum
+		sourceColumn: High
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Low
+		dataType: double
+		lineageTag: 70ffa379-64f9-468a-960a-3e995c54186c
+		sourceLineageTag: Low
+		summarizeBy: sum
+		sourceColumn: Low
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Close
+		dataType: double
+		lineageTag: 0dae7bca-732e-4e84-bdcf-f37846508dac
+		sourceLineageTag: Close
+		summarizeBy: sum
+		sourceColumn: Close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TotalVolume
+		dataType: int64
+		formatString: 0
+		lineageTag: fec1bbf9-433b-4fa7-aab2-babb921a5399
+		sourceLineageTag: TotalVolume
+		summarizeBy: sum
+		sourceColumn: TotalVolume
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalTransactions
+		dataType: int64
+		formatString: 0
+		lineageTag: d0c156a3-b813-4a37-a080-f3ef6e586a78
+		sourceLineageTag: TotalTransactions
+		summarizeBy: sum
+		sourceColumn: TotalTransactions
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalDollarVolume
+		dataType: double
+		lineageTag: 1053f527-768b-42ff-84f4-ad4017b6c890
+		sourceLineageTag: TotalDollarVolume
+		summarizeBy: sum
+		sourceColumn: TotalDollarVolume
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MinuteBarCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 34fe7cbc-b44d-4267-8f80-3d1f97dee8ed
+		sourceLineageTag: MinuteBarCount
+		summarizeBy: sum
+		sourceColumn: MinuteBarCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column SessionStartTimestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8ca89d32-66dd-451a-ab56-b8b0a55d5a7e
+		sourceLineageTag: SessionStartTimestamp
+		summarizeBy: none
+		sourceColumn: SessionStartTimestamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column SessionEndTimestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d76852a8-2bb6-4446-9570-56c9afeb3611
+		sourceLineageTag: SessionEndTimestamp
+		summarizeBy: none
+		sourceColumn: SessionEndTimestamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column GoldLoadedUTC
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 19db58be-8759-4d2a-b8d7-d0344e55bb9e
+		sourceLineageTag: GoldLoadedUTC
+		summarizeBy: none
+		sourceColumn: GoldLoadedUTC
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_massive_futures_daily_candles = entity
+		mode: directLake
+		source
+			entityName: gold_massive_futures_daily_candles
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_atlas_dev'
+

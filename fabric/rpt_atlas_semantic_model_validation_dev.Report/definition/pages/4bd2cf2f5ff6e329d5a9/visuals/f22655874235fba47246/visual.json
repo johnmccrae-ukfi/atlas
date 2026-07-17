@@ -1,0 +1,74 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "f22655874235fba47246",
+  "position": {
+    "x": 9.7180043383947936,
+    "y": 237.39696312364424,
+    "z": 2,
+    "height": 97.180043383947933,
+    "width": 280.43383947939259,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold_massive_futures_daily_candles"
+                    }
+                  },
+                  "Property": "Massive Selected Period High"
+                }
+              },
+              "queryRef": "gold_massive_futures_daily_candles.Massive Selected Period High",
+              "nativeQueryRef": "Massive Selected Period High"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "gold_massive_futures_daily_candles"
+                  }
+                },
+                "Property": "Massive Selected Period High"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "03f69195ea349fde8282",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold_massive_futures_daily_candles"
+              }
+            },
+            "Property": "Massive Selected Period High"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

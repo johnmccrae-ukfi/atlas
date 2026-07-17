@@ -1,0 +1,74 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "47dc960838dd427dbf40",
+  "position": {
+    "x": 337.35357917570497,
+    "y": 623.34056399132317,
+    "z": 12,
+    "height": 97.180043383947933,
+    "width": 280.43383947939259,
+    "tabOrder": 12
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold_massive_futures_minute_candles"
+                    }
+                  },
+                  "Property": "Massive Session Volume"
+                }
+              },
+              "queryRef": "gold_massive_futures_minute_candles.Massive Session Volume",
+              "nativeQueryRef": "Massive Session Volume"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "gold_massive_futures_minute_candles"
+                  }
+                },
+                "Property": "Massive Session Volume"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "2d593abce9282e249f27",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold_massive_futures_minute_candles"
+              }
+            },
+            "Property": "Massive Session Volume"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
