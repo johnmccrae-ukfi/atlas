@@ -1,0 +1,140 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "1525a2d17d1204f8046e",
+  "position": {
+    "x": 605.29284164859,
+    "y": 162.42950108459868,
+    "z": 13,
+    "height": 280.43383947939259,
+    "width": 674.70715835140993,
+    "tabOrder": 13
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold_dim_instrument"
+                    }
+                  },
+                  "Property": "ContractDisplayName"
+                }
+              },
+              "queryRef": "gold_dim_instrument.ContractDisplayName",
+              "nativeQueryRef": "ContractDisplayName"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold_massive_futures_daily_candles"
+                    }
+                  },
+                  "Property": "Massive Selected Period Close"
+                }
+              },
+              "queryRef": "gold_massive_futures_daily_candles.Massive Selected Period Close",
+              "nativeQueryRef": "Massive Selected Period Close"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold_massive_futures_minute_candles"
+                    }
+                  },
+                  "Property": "Massive Last Price"
+                }
+              },
+              "queryRef": "gold_massive_futures_minute_candles.Massive Last Price",
+              "nativeQueryRef": "Massive Last Price"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold_massive_futures_minute_candles"
+                    }
+                  },
+                  "Property": "Massive Session Volume"
+                }
+              },
+              "queryRef": "gold_massive_futures_minute_candles.Massive Session Volume",
+              "nativeQueryRef": "Massive Session Volume"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "000936fecdd3aa1ebed6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold_dim_instrument"
+              }
+            },
+            "Property": "ContractDisplayName"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "80ed0061766fc2777bc9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold_massive_futures_daily_candles"
+              }
+            },
+            "Property": "Massive Selected Period Close"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "bea0892c5b3de6fbf36f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold_massive_futures_minute_candles"
+              }
+            },
+            "Property": "Massive Last Price"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "206f8754c27bb1cad27c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold_massive_futures_minute_candles"
+              }
+            },
+            "Property": "Massive Session Volume"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

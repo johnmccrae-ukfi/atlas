@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "rpt_atlas_semantic_model_validation_dev"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3492b5d6-2054-ae19-429c-02bf2c005241"
+  }
+}

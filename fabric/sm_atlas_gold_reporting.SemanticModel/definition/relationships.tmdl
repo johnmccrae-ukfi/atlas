@@ -6,3 +6,19 @@ relationship 6d7e1e06-01b8-14f4-6e1d-5ef885eae88a
 	fromColumn: 'Minute Candles'.TradingDate
 	toColumn: gold_dim_date.Date
 
+relationship a8b0136d-8261-30a3-4e0d-d6d1e7702086
+	fromColumn: gold_massive_futures_daily_candles.AtlasContractKey
+	toColumn: gold_dim_instrument.AtlasContractKey
+
+relationship 7bfff59c-e3e9-3e72-1540-07f1882c12c0
+	fromColumn: gold_massive_futures_minute_candles.AtlasContractKey
+	toColumn: gold_dim_instrument.AtlasContractKey
+
+relationship df5d70a9-cb4a-b671-05bc-058bd425f3aa
+	fromColumn: gold_massive_futures_daily_candles.TradingDate
+	toColumn: gold_dim_date.Date
+
+relationship cd16996f-280f-5abb-7a07-40054eb0c50e
+	fromColumn: gold_massive_futures_minute_candles.TradingDate
+	toColumn: gold_dim_date.Date
+

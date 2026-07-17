@@ -1,0 +1,279 @@
+table gold_dim_instrument
+	lineageTag: bc9da3b8-686c-412b-a1f5-bf985defbe27
+	sourceLineageTag: [dbo].[gold_dim_instrument]
+
+	column AtlasContractKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: af0eae3e-82c6-438d-8ac0-31538f9aed63
+		sourceLineageTag: AtlasContractKey
+		summarizeBy: none
+		sourceColumn: AtlasContractKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column AtlasContractBusinessKey
+		dataType: string
+		isHidden
+		lineageTag: 8069fa83-1fc7-4869-8a11-518cce05589d
+		sourceLineageTag: AtlasContractBusinessKey
+		summarizeBy: none
+		sourceColumn: AtlasContractBusinessKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column AtlasProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 60e00a01-f8a3-4452-b654-4932d058a2e2
+		sourceLineageTag: AtlasProductKey
+		summarizeBy: none
+		sourceColumn: AtlasProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column AtlasProductBusinessKey
+		dataType: string
+		isHidden
+		lineageTag: 1a4e1b55-3970-461e-82cd-884d8c834f6b
+		sourceLineageTag: AtlasProductBusinessKey
+		summarizeBy: none
+		sourceColumn: AtlasProductBusinessKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column AssetClass
+		dataType: string
+		lineageTag: 0e2791f4-96a7-4790-8e9a-fe139b3a406e
+		sourceLineageTag: AssetClass
+		summarizeBy: none
+		sourceColumn: AssetClass
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCode
+		dataType: string
+		lineageTag: 2e5b0797-1662-4e1c-80d5-803d288098d2
+		sourceLineageTag: ProductCode
+		summarizeBy: none
+		sourceColumn: ProductCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: bd4948a0-f0c1-4e5b-8c27-1a6f0860d455
+		sourceLineageTag: ProductName
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContractCode
+		dataType: string
+		lineageTag: c36476fc-7c58-4b55-b2a2-6f893b72eea9
+		sourceLineageTag: ContractCode
+		summarizeBy: none
+		sourceColumn: ContractCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContractMonthCode
+		dataType: string
+		lineageTag: fc12882a-ddad-4937-8b32-6898a720e6eb
+		sourceLineageTag: ContractMonthCode
+		summarizeBy: none
+		sourceColumn: ContractMonthCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContractMonthNumber
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d095abf8-ac04-44f5-991c-79361f2f19ab
+		sourceLineageTag: ContractMonthNumber
+		summarizeBy: none
+		sourceColumn: ContractMonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContractMonthName
+		dataType: string
+		lineageTag: ebdefbe7-194f-41ac-a9d9-f896d62134e5
+		sourceLineageTag: ContractMonthName
+		summarizeBy: none
+		sourceColumn: ContractMonthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContractYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 0cdd54c2-3173-4209-af35-409175a2e8b1
+		sourceLineageTag: ContractYear
+		summarizeBy: none
+		sourceColumn: ContractYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContractDisplayName
+		dataType: string
+		lineageTag: a6703eeb-3cdb-4d28-b014-7248c839f633
+		sourceLineageTag: ContractDisplayName
+		summarizeBy: none
+		sourceColumn: ContractDisplayName
+		sortByColumn: InstrumentSortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column TradingVenue
+		dataType: string
+		lineageTag: 576fb3dc-c195-4be0-ae13-5417a701548d
+		sourceLineageTag: TradingVenue
+		summarizeBy: none
+		sourceColumn: TradingVenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column TradeTickSize
+		dataType: double
+		formatString: #,0.00000
+		lineageTag: 15239084-fab1-4425-b80d-8422e6539c1a
+		sourceLineageTag: TradeTickSize
+		summarizeBy: none
+		sourceColumn: TradeTickSize
+
+		annotation SummarizationSetBy = Automatic
+
+	column SettlementTickSize
+		dataType: double
+		formatString: #,0.00000
+		lineageTag: 66018b3b-4f0e-4377-9a5a-2480dbde2187
+		sourceLineageTag: SettlementTickSize
+		summarizeBy: none
+		sourceColumn: SettlementTickSize
+
+		annotation SummarizationSetBy = Automatic
+
+	column SpreadTickSize
+		dataType: double
+		formatString: #,0.00000
+		lineageTag: 596f577b-f3c4-4b71-8dd4-b9e9bac72c32
+		sourceLineageTag: SpreadTickSize
+		summarizeBy: none
+		sourceColumn: SpreadTickSize
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstTradeDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0362e176-1812-4d77-af27-99182d7a4df5
+		sourceLineageTag: FirstTradeDate
+		summarizeBy: none
+		sourceColumn: FirstTradeDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastTradeDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 15fe5f31-b3f3-42b6-88f2-8d8daddd5e40
+		sourceLineageTag: LastTradeDate
+		summarizeBy: none
+		sourceColumn: LastTradeDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column SettlementDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: ed9a66fa-afe2-4c81-ad72-9184cec0bf8a
+		sourceLineageTag: SettlementDate
+		summarizeBy: none
+		sourceColumn: SettlementDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsActive
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e340642d-6549-4070-be44-63ef60c1c758
+		sourceLineageTag: IsActive
+		summarizeBy: none
+		sourceColumn: IsActive
+
+		annotation SummarizationSetBy = Automatic
+
+	column SourceProvider
+		dataType: string
+		isHidden
+		lineageTag: e6d078e4-22f9-486c-b85d-1c0c5634ea21
+		sourceLineageTag: SourceProvider
+		summarizeBy: none
+		sourceColumn: SourceProvider
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderTicker
+		dataType: string
+		isHidden
+		lineageTag: d0383f2f-2854-44e4-a003-6af927e8455d
+		sourceLineageTag: ProviderTicker
+		summarizeBy: none
+		sourceColumn: ProviderTicker
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderGroupCode
+		dataType: string
+		isHidden
+		lineageTag: fc1dce70-0e34-4370-9602-5d93fd83ffff
+		sourceLineageTag: ProviderGroupCode
+		summarizeBy: none
+		sourceColumn: ProviderGroupCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderContractType
+		dataType: string
+		isHidden
+		lineageTag: e9acc677-5e38-478a-95a3-ed1d4865ac29
+		sourceLineageTag: ProviderContractType
+		summarizeBy: none
+		sourceColumn: ProviderContractType
+
+		annotation SummarizationSetBy = Automatic
+
+	column InstrumentSortOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8543ce82-9fa3-4d63-a5f3-e544246067c3
+		sourceLineageTag: InstrumentSortOrder
+		summarizeBy: none
+		sourceColumn: InstrumentSortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column GoldLoadedUTC
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: fca6fd09-3c98-4a01-9d97-55873d2b59aa
+		sourceLineageTag: GoldLoadedUTC
+		summarizeBy: none
+		sourceColumn: GoldLoadedUTC
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_dim_instrument = entity
+		mode: directLake
+		source
+			entityName: gold_dim_instrument
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_atlas_dev'
+

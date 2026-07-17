@@ -1,0 +1,74 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "d28bbd8e9045821045bc",
+  "position": {
+    "x": 9.7180043383947936,
+    "y": 431.75704989154013,
+    "z": 4,
+    "height": 97.180043383947933,
+    "width": 280.43383947939259,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold_massive_futures_daily_candles"
+                    }
+                  },
+                  "Property": "Massive Selected Period Close"
+                }
+              },
+              "queryRef": "gold_massive_futures_daily_candles.Massive Selected Period Close",
+              "nativeQueryRef": "Massive Selected Period Close"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "gold_massive_futures_daily_candles"
+                  }
+                },
+                "Property": "Massive Selected Period Close"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "697ff0e8712c8fefb29d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold_massive_futures_daily_candles"
+              }
+            },
+            "Property": "Massive Selected Period Close"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

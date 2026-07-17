@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_atlas_gold_dim_instrument"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "b4fb40bd-c67a-bc7c-4079-6eb838dc50cb"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_atlas_silver_massive_futures_minute_aggregates"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "81dc84ca-01a7-88a1-486f-e98dde969e1d"
+  }
+}
