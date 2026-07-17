@@ -6,6 +6,315 @@ The format is based on the principles of **Keep a Changelog**, with releases org
 
 ---
 
+# v1.3.0 — Multi-Instrument Architecture
+
+**Status:** Implementation complete; release consolidation in progress
+
+## Added
+
+- Massive Futures historical Flat File ingestion through the provider’s S3-compatible endpoint
+- Controlled historical scope covering:
+  - `MESU6` — Micro E-mini S&P 500 September 2026
+  - `MNQU6` — Micro E-mini Nasdaq-100 September 2026
+  - trading session ending `2026-07-14`
+- Azure Key Vault-backed Massive credentials:
+  - Key Vault: `kv-atlas-dev-ukfi`
+  - secrets:
+    - `massive-s3-access-key`
+    - `massive-s3-secret-key`
+- Governed Atlas Futures identity model separating:
+  - provider;
+  - provider ticker;
+  - trading venue;
+  - product;
+  - dated Futures contract;
+  - Atlas product identity;
+  - Atlas contract identity.
+- Stable Atlas product keys:
+  - `1001` → `FUT-XCME-MES`
+  - `1002` → `FUT-XCME-MNQ`
+- Stable Atlas contract keys:
+  - `2001` → `FUT-XCME-MES-2026-09`
+  - `2002` → `FUT-XCME-MNQ-2026-09`
+- Governed Gold instrument dimension:
+  - `gold_dim_instrument`
+  - one row per governed dated Futures contract
+  - provider-neutral contract relationships
+  - deterministic contract display ordering
+  - validated provider and contract metadata
+- Fabric notebook:
+  - `nb_atlas_gold_dim_instrument`
+  - explicit governed seed mappings
+  - contract and product identity validation
+  - provider-reference metadata
+  - pre-write and persisted-table validation
+- Massive historical Bronze table:
+  - `bronze_massive_futures_minute_aggregates`
+  - one row per physical Massive CSV source row
+  - source object and row-level lineage
+  - raw provider values preserved
+- Fabric notebook:
+  - `nb_atlas_bronze_massive_futures_minute_aggregates`
+  - Massive Flat File retrieval
+  - exchange-wide source-object inspection
+  - controlled ticker filtering
+  - Azure Key Vault secret retrieval
+  - physical source identity validation
+- Massive historical Silver table:
+  - `silver_massive_futures_minute_aggregates`
+  - strongly typed provider-generated minute aggregates
+  - Atlas product and contract enrichment
+  - UTC minute timestamps
+  - provider session-date preservation
+  - OHLC and activity validation
+  - exact and conflicting duplicate detection
+  - physical source lineage retention
+- Fabric notebook:
+  - `nb_atlas_silver_massive_futures_minute_aggregates`
+  - trusted-row quality rules
+  - provider-to-contract mapping
+  - duplicate and conflict checks
+  - pre-write and persisted-table validation
+- Massive historical Gold tables:
+  - `gold_massive_futures_minute_candles`
+  - `gold_massive_futures_daily_candles`
+- Fabric notebook:
+  - `nb_atlas_gold_massive_futures_candles`
+  - reporting-friendly minute projection
+  - deterministic daily OHLC generation
+  - Volume, Transaction and Dollar Volume aggregation
+  - session timestamp derivation
+  - minute-to-daily reconciliation
+  - persisted-table validation
+- Massive Direct Lake semantic-model tables:
+  - `gold_massive_futures_daily_candles`
+  - `gold_massive_futures_minute_candles`
+  - `gold_dim_instrument`
+- Four new active semantic-model relationships:
+  - `gold_dim_date[Date]` → `gold_massive_futures_daily_candles[TradingDate]`
+  - `gold_dim_date[Date]` → `gold_massive_futures_minute_candles[TradingDate]`
+  - `gold_dim_instrument[AtlasContractKey]` → `gold_massive_futures_daily_candles[AtlasContractKey]`
+  - `gold_dim_instrument[AtlasContractKey]` → `gold_massive_futures_minute_candles[AtlasContractKey]`
+- Massive daily semantic-model measures covering:
+  - selected-period Open, High, Low and Close;
+  - selected-period Return and Range;
+  - selected and previous trading dates;
+  - selected and previous trading-day Close;
+  - trading-day Change and Change percentage;
+  - five-trading-day moving average;
+  - Volume, Transactions, Dollar Volume and minute-bar activity.
+- Massive intraday semantic-model measures covering:
+  - Last Price;
+  - Session Open, High, Low and Close;
+  - Session Change and Range;
+  - Volume, Transactions and Dollar Volume;
+  - minute-bar count;
+  - first and last minute timestamps.
+- Governed Massive measure display folders:
+  - `Massive\Daily Price`
+  - `Massive\Daily Time Intelligence`
+  - `Massive\Daily Activity`
+  - `Massive\Intraday Price`
+  - `Massive\Intraday Activity`
+  - `Massive\Intraday Time`
+- Single-contract guards for Massive price and point-in-time measures
+- Development semantic-model validation report:
+  - `rpt_atlas_semantic_model_validation_dev`
+- Updated portfolio visuals:
+  - `multi_instrument_semantic_model.png`
+  - revised `architecture_overview.png`
+  - revised `medallion_architecture.png`
+- Architecture and contract documentation:
+  - `Atlas_Multi_Instrument_Identity_and_Grain_Design.md`
+  - `Massive_Futures_Bronze_Contract.md`
+  - `Massive_Futures_Silver_Contract.md`
+  - `Massive_Futures_Gold_Contract.md`
+
+## Changed
+
+- Extended Atlas historical processing from a single CQG source path to two provider-appropriate historical paths:
+  - CQG event-level historical data;
+  - Massive provider-generated historical minute aggregates.
+- Expanded `sm_atlas_gold_reporting` from three to six tables
+- Introduced governed Instrument filtering alongside the existing governed Date filtering
+- Retained separate CQG and Massive physical fact tables because their source grains and activity semantics differ
+- Preserved the existing CQG historical implementation without adding `AtlasContractKey` to CQG facts
+- Preserved the separate v1.1.0 Eventstream and Eventhouse pathway
+- Changed the historical reporting architecture from fact-table instrument text filtering to governed Massive contract filtering through `gold_dim_instrument`
+- Added deterministic `ContractDisplayName` sorting through `InstrumentSortOrder`
+- Hid technical contract, product, provider and load fields from normal report authors
+- Prevented price measures from silently combining unrelated Futures contracts
+- Retained additive Massive activity behaviour where clearly labelled
+- Preserved `Decimal(18,5)` OHLC precision for the selected contracts
+- Preserved provider-supplied `session_end_date` as the governed Massive `TradingDate`
+- Preserved provider symbols as source attributes rather than canonical relationship keys
+- Updated the Atlas Master Context to reflect the completed controlled v1.3.0 implementation
+- Rewrote the public README as a shorter, visual-first portfolio landing page
+- Moved the strongest Power BI, semantic-model and Real-Time Intelligence visuals closer to the top of the README
+- Updated architecture diagrams to show:
+  - CQG and Massive historical paths;
+  - Massive Real-Time Intelligence;
+  - `gold_dim_date`;
+  - `gold_dim_instrument`;
+  - separate provider-specific facts;
+  - Direct Lake and Power BI;
+  - environment-limited hosted AI inference.
+
+## Validation
+
+### Source Discovery
+
+- Confirmed all documented Massive Futures Flat File dataset prefixes were listable
+- Confirmed the selected CME minute-aggregate object:
+  - `us_futures_cme/minute_aggs_v1/2026/07/2026-07-14.csv.gz`
+- Confirmed source-object content:
+  - `89,951` physical rows
+  - `937` unique provider tickers
+  - `1,380` `MESU6` rows
+  - `1,380` `MNQU6` rows
+- Confirmed the source object was exchange-wide rather than instrument-specific
+- Confirmed the selected contracts had no conflicting duplicate minute records
+
+### Instrument Dimension
+
+- Confirmed exactly two governed contract rows
+- Confirmed unique and non-null:
+  - `AtlasContractKey`
+  - `AtlasContractBusinessKey`
+  - provider and ticker mapping
+  - `InstrumentSortOrder`
+- Confirmed each contract maps to exactly one product
+- Confirmed stable key allocation:
+  - `MESU6` → `AtlasContractKey 2001`
+  - `MNQU6` → `AtlasContractKey 2002`
+- Confirmed trade, settlement and spread tick sizes
+- Confirmed first-trade, last-trade and settlement dates
+- Confirmed `ContractDisplayName` sorting
+- Confirmed technical fields are hidden in the semantic model
+
+### Bronze
+
+- Confirmed `2,760` persisted Bronze rows
+- Confirmed:
+  - `1,380` `MESU6` rows
+  - `1,380` `MNQU6` rows
+- Confirmed physical source identity uniqueness using:
+  - source provider;
+  - source dataset;
+  - source object key;
+  - source row number.
+- Confirmed complete source lineage
+- Confirmed no source row was introduced or lost during persistence
+
+### Silver
+
+- Confirmed `2,760` trusted Silver rows
+- Confirmed every row maps to one Atlas contract and one Atlas product
+- Confirmed valid UTC minute-boundary timestamps
+- Confirmed provider session-date preservation
+- Confirmed valid OHLC relationships
+- Confirmed non-negative Volume, Transactions and Dollar Volume
+- Confirmed zero conflicting duplicate business keys for the selected contracts
+- Confirmed unique trusted Silver grain
+- Confirmed no invalid row entered trusted Silver
+- Confirmed persisted row counts and schema
+
+### Gold
+
+- Confirmed `2,760` Massive Gold minute rows
+- Confirmed:
+  - `1,380` `MESU6` minute rows
+  - `1,380` `MNQU6` minute rows
+- Confirmed two Massive Gold daily rows
+- Confirmed unique minute grain:
+  - `AtlasContractKey + MinuteTimestamp`
+- Confirmed unique daily grain:
+  - `AtlasContractKey + TradingDate`
+- Confirmed controlled session:
+  - start: `2026-07-13 22:00:00 UTC`
+  - end: `2026-07-14 20:59:00 UTC`
+  - `TradingDate`: `2026-07-14`
+- Confirmed daily Open equals the first chronological minute Open
+- Confirmed daily Close equals the last chronological minute Close
+- Confirmed daily High and Low reconcile with minute extrema
+- Confirmed daily Volume reconciliation
+- Confirmed daily Transaction reconciliation
+- Confirmed daily Dollar Volume reconciliation
+- Confirmed `MinuteBarCount = 1,380` for both contracts
+- Confirmed no row was introduced or lost during persistence
+- Confirmed `Decimal(18,5)` OHLC precision
+
+### Semantic Model
+
+- Confirmed all four new relationships are:
+  - active;
+  - one-to-many;
+  - single-direction;
+  - filtered from the dimension to the fact table.
+- Confirmed `gold_dim_date` filters both Massive facts
+- Confirmed `gold_dim_instrument` filters both Massive facts
+- Confirmed no direct fact-to-fact relationships
+- Confirmed existing CQG relationships remain unchanged
+- Confirmed `MESU6` and `MNQU6` selection updates both daily and intraday measures consistently
+- Confirmed guarded price measures return blank for zero or multiple governed contracts
+- Confirmed additive activity measures remain available where appropriate
+
+### Validated MESU6 Results
+
+- Open: `7,558.25`
+- High: `7,613.75`
+- Low: `7,531.75`
+- Close: `7,590.50`
+- Return: approximately `0.43%`
+- Range: `82.00`
+- Session Volume: `958,226`
+
+### Validated MNQU6 Results
+
+- Open: `29,440.00`
+- High: `29,922.00`
+- Low: `29,303.25`
+- Close: `29,794.75`
+- Return: approximately `1.20%`
+- Range: `618.75`
+- Session Volume: `2,726,737`
+
+### Regression
+
+- Confirmed existing CQG fact tables remain unchanged
+- Confirmed existing CQG Date relationships remain active
+- Confirmed existing selected-period measures remain available
+- Confirmed existing previous-trading-day measures remain available
+- Confirmed the existing CQG five-trading-day moving average remains unchanged
+- Confirmed the v1.1.0 Eventstream and Eventhouse path remains separate
+- Confirmed no proprietary Massive market-data files were added to the public repository
+- Confirmed no Key Vault secret values were committed or documented
+
+## Known Limitations
+
+- The Massive historical implementation currently covers one controlled trading session
+- Only `MESU6` and `MNQU6` are included in the first governed Massive historical scope
+- Multiple contract months and expired contract chains are not yet implemented
+- Automatic Futures contract rollover is not implemented
+- Continuous contracts are not implemented
+- Massive provider correction precedence is not defined
+- Broader exchange-wide data is inspected but not persisted
+- `Decimal(18,5)` is validated only for the selected contracts and is not approved universally across all Futures products
+- Currency and contract multiplier are not yet present in `gold_dim_instrument`
+- Massive numeric exchange-code mapping is not yet governed
+- CQG facts are not yet mapped into `gold_dim_instrument`
+- CQG and Massive facts remain physically separate
+- The historical and near-real-time Massive paths are not reconciled
+- The Eventhouse pathway does not yet use `AtlasContractKey`
+- Streaming Silver and Gold tables are not implemented
+- Previous-trading-day Massive measures remain blank with one available session
+- `Massive 5-Day MA Close` currently averages the available one-session history
+- The semantic-model validation report remains a temporary development asset pending a release-retention decision
+- Production orchestration, incremental historical loading and partitioning remain future work
+- Hosted production-style AI inference remains environment-limited
+
+---
+
 # v1.2.0 — Reporting Navigation and Time Intelligence
 
 ## Added

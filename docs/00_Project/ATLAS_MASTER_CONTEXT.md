@@ -2,13 +2,14 @@
 
 ## Master Project Context
 
-**Document:** `ATLAS_MASTER_CONTEXT.md`
-**Project:** Atlas Enterprise AI Intelligence Platform
-**Repository:** `johnmccrae-ukfi/atlas`
-**Current Release:** `v1.2.0`
-**Current Phase:** Post-MVP platform evolution
-**Primary Platform:** Microsoft Fabric
-**Document Status:** Living authoritative reference
+**Document:** `ATLAS_MASTER_CONTEXT.md`  
+**Project:** Atlas Enterprise AI Intelligence Platform  
+**Repository:** `johnmccrae-ukfi/atlas`  
+**Current Released Version:** `v1.2.0`  
+**Current Development Version:** `v1.3.0`  
+**Current Phase:** Multi-instrument release consolidation  
+**Primary Platform:** Microsoft Fabric  
+**Document Status:** Living authoritative reference  
 
 ---
 
@@ -70,6 +71,33 @@ The reporting architecture was subsequently strengthened through:
 This introduced a governed Gold date dimension, validated semantic-model relationships, reusable selected-period and trading-day measures, shared Date filtering across daily and minute analytical tables, and clearer report-page navigation.
 
 Atlas is no longer treated as a disposable demonstration or short-lived proof of concept. It is a long-term engineering platform that evolves incrementally through documented releases, explicit contracts, governed architecture and validated implementation.
+
+Atlas has subsequently implemented the controlled development scope for:
+
+> **v1.3.0 — Multi-Instrument Architecture**
+
+The implementation introduces the first governed Massive historical Lakehouse pathway for two Futures contracts:
+
+```text
+MESU6
+MNQU6
+```
+
+The release development includes:
+
+- Massive Futures Flat File discovery and controlled historical ingestion;
+- Azure Key Vault-backed provider credentials;
+- source-faithful Massive Bronze storage;
+- validated and contract-enriched Massive Silver minute aggregates;
+- Massive Gold minute and daily candle tables;
+- stable Atlas product and contract identity;
+- the governed `gold_dim_instrument` dimension;
+- Direct Lake relationships from Date and Instrument dimensions;
+- guarded daily and intraday measures;
+- validated multi-instrument Power BI filtering;
+- preservation of the existing CQG and near-real-time pathways.
+
+The v1.3.0 implementation is complete for its controlled two-contract, one-session scope and is now progressing through documentation, source control, pull-request and release consolidation.
 
 ---
 
@@ -190,38 +218,60 @@ Demonstrate architecture governance, semantic versioning, controlled releases, d
 
 ## 5.1 Current Version
 
-**Current production-style repository release:** `v1.2.0`
+**Latest completed repository release:** `v1.2.0`
 
-**Release name:** Reporting Navigation and Time Intelligence
+**Current development release:** `v1.3.0`
+
+**Development release name:** Multi-Instrument Architecture
+
+The v1.3.0 implementation is complete for the controlled historical Massive scope but has not yet been merged, tagged or published as a GitHub release.
 
 ## 5.2 Current Lifecycle Stage
 
 The MVP phase is complete.
 
-Atlas has now completed three major platform stages:
+Atlas has completed the implementation work for four major platform stages:
 
-1. the `v1.0.0` historical Data and AI MVP;
-2. the `v1.1.0` Near-Real-Time Market Data Foundation;
-3. the `v1.2.0` Reporting Navigation and Time Intelligence release.
+1. `v1.0.0` — Historical Data and AI MVP;
+2. `v1.1.0` — Near-Real-Time Market Data Foundation;
+3. `v1.2.0` — Reporting Navigation and Time Intelligence;
+4. `v1.3.0` — controlled Multi-Instrument Architecture implementation.
 
-The project is now preparing for `v1.3.0 — Multi-Instrument Architecture`.
+The current phase is:
+
+```text
+v1.3.0 documentation
+→ Fabric source-control consolidation
+→ local repository updates
+→ regression validation
+→ pull request
+→ release
+```
 
 ## 5.3 Current Capability Summary
 
 Atlas currently includes:
 
 - provider abstraction for historical and streaming market data;
-- legacy CQG tick-data ingestion;
-- Bronze Parquet storage in OneLake;
-- source and deterministic ordering metadata;
-- a canonical Silver tick model;
-- minute and daily Gold OHLC candles;
-- a governed Gold date dimension;
-- a Direct Lake semantic model;
-- reusable selected-period and trading-day measures;
-- Power BI daily and intraday candlestick reporting;
-- shared Date filtering across daily and minute analytical tables;
-- explicit report-page navigation;
+- legacy CQG event-level historical ingestion;
+- Massive Futures historical Flat File ingestion;
+- Azure Key Vault-backed Massive S3 credentials;
+- source-aligned Bronze structures for CQG and Massive;
+- deterministic CQG event-ordering metadata;
+- physical Massive source-row lineage;
+- CQG event-level Silver data;
+- Massive provider-generated minute-aggregate Silver data;
+- CQG minute and daily Gold candles;
+- Massive minute and daily Gold candles;
+- stable Atlas product and contract keys;
+- governed product and contract business keys;
+- `gold_dim_date`;
+- `gold_dim_instrument`;
+- a six-table Direct Lake semantic model;
+- reusable CQG and Massive measures;
+- guarded single-contract price calculations;
+- Power BI daily and intraday reporting;
+- a multi-instrument semantic-model validation report;
 - deterministic session summaries;
 - an AI market-commentary framework;
 - a development-hosted near-real-time streaming adapter;
@@ -232,75 +282,44 @@ Atlas currently includes:
 - Fabric Git integration;
 - semantic versioning;
 - Architecture Decision Records;
-- installation, workflow and release documentation;
-- a professionally presented public GitHub repository.
+- implementation contracts;
+- professional workflow and release documentation.
 
 ## 5.4 Current Development Direction
 
-The next planned release is:
+The immediate objective is to complete and release:
 
 > **Atlas v1.3.0 — Multi-Instrument Architecture**
 
-The next phase will focus on expanding Atlas beyond its initial historical CQG dataset and the single delayed Massive Futures contract used by the near-real-time pathway.
+After v1.3.0, the next planned development phase is:
+
+> **v1.4.0 — Production-Style AI Inference**
+
+The next phase should build on the trusted multi-instrument Gold and semantic-model outputs rather than changing the deterministic market-data calculations.
 
 ---
 
 # 6. Current Architecture
 
-Atlas currently contains two complementary market-data pathways:
+Atlas contains three complementary market-data paths:
 
-1. a historical Lakehouse and Direct Lake analytical path;
-2. a near-real-time Eventstream and Eventhouse path.
+1. the CQG historical event-level Lakehouse path;
+2. the Massive historical aggregate Lakehouse path;
+3. the Massive near-real-time Eventstream and Eventhouse path.
 
-These pathways are intentionally separate at the current stage.
+The two historical paths converge at governed semantic-model dimensions while remaining physically separate at their provider-appropriate grains.
+
+The near-real-time path remains intentionally separate.
 
 ## 6.1 Historical Analytical Architecture
 
-The historical logical flow is:
+The implemented historical architecture is:
 
 ```text
-Historical Market Data Sources
+CQG legacy event data
         |
         v
-Provider Abstraction
-        |
-        v
-Bronze Layer
-Source-aligned market data and lineage metadata
-        |
-        v
-Silver Layer
-Canonical and validated market events
-        |
-        v
-Gold Layer
-Minute candles, daily candles, date dimension and analytical summaries
-        |
-        +----------------------+
-        |                      |
-        v                      v
-Direct Lake              AI Analytics
-Semantic Model           and Commentary
-        |                      |
-        +----------+-----------+
-                   |
-                   v
-              Power BI
-```
-
-The current implemented historical physical flow is:
-
-```text
-CQG legacy .ts file
-        |
-        v
-CQGLegacyProvider
-        |
-        v
-Bronze Parquet files in OneLake
-        |
-        v
-Bronze Fabric ingestion notebook
+CQG Bronze
         |
         v
 silver_cqg_ticks
@@ -310,23 +329,56 @@ gold_cqg_minute_candles
         |
         v
 gold_cqg_daily_candles
-        |
-        +----------------------+
-        |                      |
-        v                      v
-gold_dim_date          Gold AI summaries
-        |                      |
-        v                      v
-sm_atlas_gold_reporting
-        |
-        v
-Power BI Market Overview
-and Intraday Analysis
 ```
 
-The governed date dimension provides shared filtering across daily and minute candle tables.
+and:
 
-The daily and minute candle tables remain separate analytical tables at different grains and are not related directly to each other.
+```text
+Massive Futures Flat File
+        |
+        v
+bronze_massive_futures_minute_aggregates
+        |
+        v
+silver_massive_futures_minute_aggregates
+        |
+        v
+gold_massive_futures_minute_candles
+        |
+        v
+gold_massive_futures_daily_candles
+```
+
+The reporting layer is:
+
+```text
+                 gold_dim_date
+                      |
+          +-----------+-----------+
+          |           |           |
+          v           v           v
+     CQG facts   Massive daily  Massive minute
+                   facts          facts
+
+              gold_dim_instrument
+                      |
+                 +----+----+
+                 |         |
+                 v         v
+             Massive    Massive
+              daily      minute
+              facts      facts
+```
+
+All governed reporting tables are exposed through:
+
+```text
+sm_atlas_gold_reporting
+```
+
+The initial instrument dimension filters the Massive historical facts only.
+
+The existing CQG facts remain unchanged and are not yet assigned an `AtlasContractKey`.
 
 ## 6.2 Near-Real-Time Architecture
 
@@ -376,61 +428,78 @@ The streaming adapter:
 
 ## 6.3 Current Architectural Separation
 
-The historical Lakehouse path and near-real-time Eventhouse path are intentionally separate.
+The historical Lakehouse paths and near-real-time Eventhouse path remain intentionally separate.
 
 The current architecture does not yet provide:
 
 - streaming Silver tables;
 - streaming Gold candle tables;
-- automatic reconciliation between historical and streamed data;
-- promotion from Eventhouse into the canonical Lakehouse model;
+- promotion from Eventhouse into governed historical Lakehouse tables;
+- automatic reconciliation between historical and streamed bars;
+- provider correction and late-arrival handling across both paths;
+- propagation of `AtlasContractKey` into the Eventhouse pathway;
 - automatic futures-contract rollover;
 - production cloud hosting for the streaming adapter.
+
+The v1.3.0 instrument-identity design establishes a foundation for future convergence without claiming that convergence has already been implemented.
 
 These remain future architectural increments rather than hidden implementation gaps.
 
 ## 6.4 Reporting Architecture Integration
 
-The historical reporting path uses:
+The semantic model now contains:
 
 ```text
+Daily Candles
+Minute Candles
 gold_dim_date
-        |
-        +------------------------------+
-        |                              |
-        v                              v
-gold_cqg_daily_candles       gold_cqg_minute_candles
-        |                              |
-        +---------------+--------------+
-                        |
-                        v
-             sm_atlas_gold_reporting
-                        |
-                        v
-                    Power BI
+gold_dim_instrument
+gold_massive_futures_daily_candles
+gold_massive_futures_minute_candles
 ```
 
-The semantic model provides:
+Implemented Date relationships:
 
-- active one-to-many Date relationships;
-- single-direction filtering from `gold_dim_date`;
-- reusable selected-period measures;
-- reusable previous-trading-day measures;
-- shared Date filtering across report pages;
-- daily and intraday analytical experiences.
+```text
+gold_dim_date[Date]
+    1 → *
+Daily Candles[TradingDate]
 
-## 6.5 Architectural Direction
+gold_dim_date[Date]
+    1 → *
+Minute Candles[TradingDate]
 
-Future development should preserve the separation of responsibilities already established.
+gold_dim_date[Date]
+    1 → *
+gold_massive_futures_daily_candles[TradingDate]
 
-Historical and near-real-time data should converge only when Atlas has:
+gold_dim_date[Date]
+    1 → *
+gold_massive_futures_minute_candles[TradingDate]
+```
 
-- provider-neutral instrument identity;
-- multi-instrument canonical modelling;
-- explicit streaming Silver and Gold contracts;
-- duplicate and correction handling;
-- historical and streaming reconciliation rules;
-- production-style hosting and operational controls.
+Implemented instrument relationships:
+
+```text
+gold_dim_instrument[AtlasContractKey]
+    1 → *
+gold_massive_futures_daily_candles[AtlasContractKey]
+
+gold_dim_instrument[AtlasContractKey]
+    1 → *
+gold_massive_futures_minute_candles[AtlasContractKey]
+```
+
+All relationships are:
+
+- active;
+- one-to-many;
+- single-direction;
+- filtered from the dimension to the fact table.
+
+No fact-to-fact relationships exist.
+
+Price measures that return one market value require exactly one governed Atlas contract in filter context.
 
 ---
 
@@ -438,137 +507,222 @@ Historical and near-real-time data should converge only when Atlas has:
 
 ## 7.1 Bronze Layer
 
-The Bronze layer preserves data as close as reasonably possible to its source representation while adding technical metadata required for lineage, replay, validation, and deterministic ordering.
+The Bronze layer now contains two distinct historical source models.
 
-### Current Bronze Sources
+### CQG Bronze
 
-* CQG legacy tick data;
-* provider-generated Parquet files;
-* Massive REST and delayed Futures WebSocket provider framework.
+CQG Bronze preserves:
 
-### Bronze Responsibilities
+- source-file identity;
+- source row number;
+- deterministic event ordering;
+- provider event values;
+- technical load metadata.
 
-* ingest source data;
-* preserve source values;
-* preserve source-file identity;
-* retain source row ordering;
-* record technical ingestion metadata;
-* avoid premature business transformation;
-* support replay and investigation;
-* provide a stable input for Silver transformations.
+CQG physical grain is:
 
-### Important Bronze Metadata
+> One row per source market event.
 
-The Bronze implementation includes metadata such as:
+### Massive Bronze
 
-* `source_file_name`;
-* `source_file_path`;
-* `source_row_number`;
-* `event_sequence_in_file`.
-
-Exact column names should remain aligned with the current implementation and Bronze contract.
-
-### Current Validated CQG Dataset
-
-The MVP reference dataset is:
+The implemented table is:
 
 ```text
-File: F.US.EU6M12_201203.ts
-Instrument: F.US.EU6M12
-Approximate size: 722.7 MB
-Validated rows: 17,317,408
-Trading days represented: 26
-Bronze Parquet chunks: 18
-Detected event-ordering issues: 0
+bronze_massive_futures_minute_aggregates
 ```
 
-The preservation of event order is a deliberate architectural requirement because multiple market events may share the same displayed timestamp.
+Its physical grain is:
 
----
+> One row per physical Massive CSV source row.
+
+Physical source identity is:
+
+```text
+source_provider
++ source_dataset
++ source_object_key
++ source_row_number
+```
+
+The first controlled source object is:
+
+```text
+us_futures_cme/minute_aggs_v1/2026/07/2026-07-14.csv.gz
+```
+
+The source object contained:
+
+```text
+89,951 total rows
+937 unique provider tickers
+1,380 MESU6 rows
+1,380 MNQU6 rows
+```
+
+The controlled Bronze implementation persisted:
+
+```text
+2,760 rows
+```
+
+Bronze preserves provider values and source lineage before canonical identity enrichment.
+
+It does not apply arbitrary deduplication.
 
 ## 7.2 Silver Layer
 
-The Silver layer converts source-specific Bronze data into a canonical market-data representation.
+Atlas now contains two provider-appropriate Silver models.
 
-### Current Silver Table
+### CQG Silver
 
 ```text
 silver_cqg_ticks
 ```
 
-### Silver Responsibilities
+Grain:
 
-* standardise field names;
-* convert source values into agreed types;
-* create a consistent market tick schema;
-* preserve event ordering;
-* separate source-specific ingestion concerns from downstream analytics;
-* validate required fields;
-* expose a stable contract to Gold transformations.
+> One row per CQG source market event.
 
-### Silver Design Principle
+CQG Silver preserves event-level ordering required to derive Atlas-generated Open and Close values.
 
-Downstream analytical logic should not need to understand the original CQG file layout.
+### Massive Silver
 
-Future providers should map their source data into the same canonical model wherever the underlying business meaning is equivalent.
+```text
+silver_massive_futures_minute_aggregates
+```
 
-Provider-specific differences must be handled deliberately rather than hidden through unsafe assumptions.
+Expected business grain:
 
----
+```text
+source_provider
++ provider_ticker
++ minute_timestamp
+```
+
+Massive Silver:
+
+- validates provider ticker;
+- maps each selected ticker to one Atlas contract;
+- converts timestamps and numerical values;
+- validates UTC minute boundaries;
+- preserves provider `session_end_date`;
+- validates OHLC relationships;
+- validates non-negative activity values;
+- detects duplicate and conflicting business-grain rows;
+- retains physical source lineage.
+
+The controlled implementation persisted:
+
+```text
+2,760 valid rows
+```
+
+No conflicting duplicate was present for:
+
+```text
+MESU6
+MNQU6
+```
+
+Massive Silver does not fabricate CQG event-sequence fields because Massive supplies provider-generated minute bars rather than source market events.
 
 ## 7.3 Gold Layer
 
-The Gold layer contains analytics-ready datasets designed for semantic models, reporting, business calculations, and AI enrichment.
-
-### Current Gold Tables
+Current Gold tables are:
 
 ```text
 gold_cqg_minute_candles
 gold_cqg_daily_candles
+gold_massive_futures_minute_candles
+gold_massive_futures_daily_candles
 gold_dim_date
+gold_dim_instrument
 ```
 
-### Minute Candle Grain
-
-One row per:
+### CQG Minute Grain
 
 ```text
-instrument
-+ minute_timestamp
+Instrument
++ MinuteTimestamp
 ```
 
-### Daily Candle Grain
-
-One row per:
+### CQG Daily Grain
 
 ```text
-instrument
-+ trading_date
+Instrument
++ TradingDate
 ```
 
-### Current Gold Measures and Attributes
+### Massive Minute Grain
 
-Gold datasets include values such as:
+```text
+AtlasContractKey
++ MinuteTimestamp
+```
 
-* open price;
-* high price;
-* low price;
-* close price;
-* trade count;
-* total trades;
-* daily range;
-* session-level metrics;
-* chronological candle timestamps.
+### Massive Daily Grain
 
-### Numeric Precision
+```text
+AtlasContractKey
++ TradingDate
+```
 
-Price values use an agreed high-precision decimal representation, currently:
+The controlled Massive Gold implementation produced:
+
+```text
+2,760 minute rows
+2 daily rows
+```
+
+Daily Massive candles are derived deterministically from the persisted Massive minute table.
+
+Daily values use:
+
+```text
+Open
+→ first chronological minute Open
+
+High
+→ maximum minute High
+
+Low
+→ minimum minute Low
+
+Close
+→ last chronological minute Close
+
+TotalVolume
+→ sum of minute Volume
+
+TotalTransactions
+→ sum of minute TransactionCount
+
+TotalDollarVolume
+→ sum of minute DollarVolume
+```
+
+The controlled session covers:
+
+```text
+TradingDate:
+2026-07-14
+
+Session start:
+2026-07-13 22:00:00 UTC
+
+Session end:
+2026-07-14 20:59:00 UTC
+```
+
+OHLC values use:
 
 ```text
 Decimal(18,5)
 ```
 
-Changes to financial precision must be treated as architectural and contract changes rather than cosmetic implementation details.
+for the selected contracts.
+
+That precision is not approved as universal across all Futures products.
 
 ---
 
@@ -576,13 +730,60 @@ Changes to financial precision must be treated as architectural and contract cha
 
 ## 8.1 Semantic Model
 
-The current semantic model is:
+The historical semantic model is:
 
 ```text
 sm_atlas_gold_reporting
 ```
 
-It uses Direct Lake against Fabric Gold-layer data.
+It uses Direct Lake against Fabric Gold-layer tables.
+
+It contains six tables:
+
+```text
+Daily Candles
+Minute Candles
+gold_dim_date
+gold_dim_instrument
+gold_massive_futures_daily_candles
+gold_massive_futures_minute_candles
+```
+
+The instrument dimension currently contains:
+
+```text
+AtlasContractKey 2001
+→ MESU6
+→ Micro E-mini S&P 500 Sep 2026
+
+AtlasContractKey 2002
+→ MNQU6
+→ Micro E-mini Nasdaq-100 Sep 2026
+```
+
+`ContractDisplayName` is sorted by:
+
+```text
+InstrumentSortOrder
+```
+
+Technical contract, product, provider and load fields are hidden from normal report authors while remaining available for relationships and calculations.
+
+Massive measures are organised into:
+
+```text
+Massive
+├── Daily Activity
+├── Daily Price
+├── Daily Time Intelligence
+├── Intraday Activity
+├── Intraday Price
+└── Intraday Time
+```
+
+Single-value Massive price measures return blank unless exactly one governed contract is selected.
+
+---
 
 ## 8.2 Current Reports
 
@@ -811,7 +1012,7 @@ The Lakehouse contains the historical Bronze, Silver and Gold analytical assets 
 
 ## 11.3 Historical Data Tables
 
-Current principal historical analytical tables include:
+Current principal historical tables include:
 
 ```text
 silver_cqg_ticks
@@ -819,9 +1020,12 @@ gold_cqg_minute_candles
 gold_cqg_daily_candles
 gold_dim_date
 gold_ai_session_summary
+bronze_massive_futures_minute_aggregates
+silver_massive_futures_minute_aggregates
+gold_massive_futures_minute_candles
+gold_massive_futures_daily_candles
+gold_dim_instrument
 ```
-
-The exact complete table inventory remains governed by the relevant Bronze, Silver and Gold contracts.
 
 ## 11.4 Fabric Notebooks
 
@@ -835,9 +1039,49 @@ nb_gold_cqg_ohlc_candles
 nb_gold_dim_date
 nb_gold_ai_session_summary
 nb_gold_ai_market_commentary
+nb_atlas_gold_dim_instrument
+nb_atlas_bronze_massive_futures_minute_aggregates
+nb_atlas_silver_massive_futures_minute_aggregates
+nb_atlas_gold_massive_futures_candles
 ```
 
-`nb_gold_dim_date` generates and validates the governed Gold date dimension from the minimum and maximum `TradingDate` values present across the Gold daily and minute candle tables.
+### `nb_atlas_gold_dim_instrument`
+
+Creates and validates:
+
+```text
+gold_dim_instrument
+```
+
+The initial implementation contains two governed dated Futures contracts.
+
+### `nb_atlas_bronze_massive_futures_minute_aggregates`
+
+Reads the controlled Massive S3-compatible Flat File using credentials retrieved from Azure Key Vault.
+
+It filters the exchange-wide source object to:
+
+```text
+MESU6
+MNQU6
+```
+
+and persists source-faithful physical rows.
+
+### `nb_atlas_silver_massive_futures_minute_aggregates`
+
+Validates, types and enriches Massive minute aggregates with governed Atlas contract and product identity.
+
+### `nb_atlas_gold_massive_futures_candles`
+
+Creates and validates:
+
+```text
+gold_massive_futures_minute_candles
+gold_massive_futures_daily_candles
+```
+
+It validates both prepared and persisted datasets.
 
 ## 11.5 Semantic Model
 
@@ -845,55 +1089,46 @@ nb_gold_ai_market_commentary
 sm_atlas_gold_reporting
 ```
 
-The semantic model uses Direct Lake against governed Gold tables.
+The semantic model now includes:
 
-It currently includes:
-
-- daily candle data;
-- minute candle data;
+- CQG daily and minute candle facts;
+- Massive daily and minute candle facts;
 - `gold_dim_date`;
-- active one-to-many Date relationships;
-- reusable selected-period measures;
-- reusable previous-trading-day measures;
-- trading KPIs;
-- the validated five-trading-day moving average.
+- `gold_dim_instrument`;
+- six active dimension-to-fact relationships;
+- reusable CQG measures;
+- guarded Massive daily measures;
+- guarded Massive intraday measures;
+- measure display folders;
+- hidden technical instrument fields;
+- deterministic instrument display sorting.
 
-## 11.6 Historical Power BI Report
+## 11.6 Historical Power BI Reports
 
-The current historical report asset is:
+The principal production-style historical report remains:
 
 ```text
 rpt_atlas_market_overview
 ```
 
-It contains:
+A development validation report has also been created:
 
-### Market Overview
+```text
+rpt_atlas_semantic_model_validation_dev
+```
 
-- daily candlestick analysis;
-- adjustable date-range filtering;
-- instrument filtering;
-- selected-period Open, High, Low and Close measures;
-- selected-period Range and Range percentage;
-- selected-period Return percentage;
-- distinct Trading Days;
-- Trading Day Change percentage;
-- Total Trades;
-- five-trading-day moving average;
-- navigation to Intraday Analysis.
+The validation report confirms:
 
-### Intraday Analysis
+- instrument filtering across both Massive facts;
+- synchronised daily and intraday measures;
+- correct MESU6 values;
+- correct MNQU6 values;
+- deterministic contract display ordering;
+- guarded single-contract price behaviour.
 
-- minute-level candlestick analysis;
-- single-date selection;
-- instrument filtering;
-- Last Price;
-- Session High;
-- Session Low;
-- Session Trade Count;
-- page navigation back to Market Overview.
+The report may be retained as a regression asset or deleted before release after an explicit retention decision.
 
-Daily-to-intraday drill-through was evaluated but is not currently implemented because the selected free candlestick custom visual does not expose compatible Power BI drill-through context.
+---
 
 ## 11.7 Eventstream
 
@@ -1401,6 +1636,166 @@ The report uses:
 
 The report should consume governed semantic-model measures rather than duplicate business logic inside visuals wherever practical.
 
+## 13.13 Massive Historical Flat File Ingestion
+
+Massive Futures historical data is accessed through an S3-compatible Flat File endpoint.
+
+Credentials are stored in:
+
+```text
+Azure Key Vault:
+kv-atlas-dev-ukfi
+```
+
+Secrets used by Fabric are:
+
+```text
+massive-s3-access-key
+massive-s3-secret-key
+```
+
+Secret values must never be committed, documented or displayed.
+
+The first controlled dataset is:
+
+```text
+CME Futures
+minute_aggs_v1
+2026-07-14
+```
+
+The provider file is exchange-wide rather than instrument-specific.
+
+Atlas therefore filters selected tickers explicitly after preserving the source object identity.
+
+## 13.14 Atlas Instrument Identity
+
+Atlas distinguishes:
+
+```text
+provider
+provider ticker
+trading venue
+product
+dated Futures contract
+Atlas product identity
+Atlas contract identity
+```
+
+Initial product keys:
+
+```text
+1001 → FUT-XCME-MES
+1002 → FUT-XCME-MNQ
+```
+
+Initial contract keys:
+
+```text
+2001 → FUT-XCME-MES-2026-09
+2002 → FUT-XCME-MNQ-2026-09
+```
+
+Keys are allocated through an explicit governed seed mapping.
+
+They must not be generated from:
+
+- source order;
+- provider response order;
+- alphabetical position;
+- runtime row numbering;
+- load timestamps.
+
+Provider tickers remain source attributes rather than permanent canonical relationship keys.
+
+## 13.15 Governed Instrument Dimension
+
+```text
+gold_dim_instrument
+```
+
+Grain:
+
+> One row per governed Atlas dated Futures contract.
+
+Initial rows:
+
+```text
+MESU6
+MNQU6
+```
+
+The dimension provides:
+
+- contract identity;
+- product identity;
+- provider-neutral relationships;
+- provider mapping;
+- descriptive contract attributes;
+- trading venue;
+- tick sizes;
+- first trade date;
+- last trade date;
+- settlement date;
+- deterministic slicer sorting.
+
+The first version does not provide:
+
+- automatic rollover;
+- continuous contracts;
+- currency;
+- contract multiplier;
+- authoritative numeric exchange-code mapping;
+- cross-provider reconciliation.
+
+## 13.16 Massive Semantic Measures
+
+Daily measure folders:
+
+```text
+Massive\Daily Price
+Massive\Daily Time Intelligence
+Massive\Daily Activity
+```
+
+Intraday measure folders:
+
+```text
+Massive\Intraday Price
+Massive\Intraday Activity
+Massive\Intraday Time
+```
+
+Validated values include:
+
+### MESU6
+
+```text
+Open:      7,558.25
+High:      7,613.75
+Low:       7,531.75
+Close:     7,590.50
+Return:    0.43%
+Range:     82.00
+Volume:    958,226
+```
+
+### MNQU6
+
+```text
+Open:      29,440.00
+High:      29,922.00
+Low:       29,303.25
+Close:     29,794.75
+Return:    1.20%
+Range:     618.75
+Volume:    2,726,737
+```
+
+The current controlled dataset contains one trading session.
+
+Previous-trading-day measures therefore return blank, and the five-day moving average uses the one available trading day.
+
 ---
 
 # 14. Naming Conventions
@@ -1575,7 +1970,7 @@ Use approved approaches such as:
 * environment variables;
 * local `.env` files excluded by `.gitignore`;
 * Fabric connections;
-* Azure Key Vault in future production-style deployments;
+* Azure Key Vault for governed external-provider credentials;
 * managed identity where supported.
 
 ---
@@ -2104,6 +2499,42 @@ Daily-to-intraday drill-through was evaluated and validated with standard Power 
 
 The release preserved the existing date-range analysis and implemented explicit page navigation instead.
 
+## v1.3.0 — Multi-Instrument Architecture
+
+**Status:** Implementation complete; release consolidation in progress
+
+The controlled development scope introduced:
+
+- Massive Futures historical Flat File discovery;
+- governed provider licensing and public-repository boundaries;
+- Azure Key Vault integration for Massive S3 credentials;
+- `gold_dim_instrument`;
+- stable Atlas product and contract keys;
+- provider-neutral contract business identity;
+- `bronze_massive_futures_minute_aggregates`;
+- `silver_massive_futures_minute_aggregates`;
+- `gold_massive_futures_minute_candles`;
+- `gold_massive_futures_daily_candles`;
+- two governed contracts: `MESU6` and `MNQU6`;
+- four new Direct Lake relationships;
+- guarded Massive daily and intraday measures;
+- model display folders and hidden technical fields;
+- deterministic contract display sorting;
+- the `rpt_atlas_semantic_model_validation_dev` report;
+- successful reconciliation of 2,760 minute rows and two daily rows;
+- preservation of the CQG historical pathway;
+- preservation of the v1.1.0 near-real-time pathway.
+
+The release does not introduce:
+
+- automatic futures rollover;
+- continuous contracts;
+- multiple historical sessions;
+- broad exchange-wide persistence;
+- provider correction precedence;
+- cross-provider fact consolidation;
+- historical and streaming reconciliation.
+
 ---
 
 # 23. Current Roadmap
@@ -2222,34 +2653,46 @@ The release retained:
 
 ## v1.3.0 — Multi-Instrument Architecture
 
-**Status:** Next planned release
+**Status:** Implementation complete; release consolidation in progress
 
-Planned focus:
+Implemented focus:
 
-- support multiple historical and near-real-time instruments;
-- ingest selected Massive historical datasets;
-- validate provider-neutral canonical modelling;
-- introduce or strengthen governed instrument dimensions;
-- distinguish provider identity, exchange identity, asset class and instrument identity;
-- define stable instrument keys;
-- review Silver and Gold keys, grain and partitioning;
-- validate date and instrument filtering together;
-- validate aggregation behaviour across instruments;
-- review semantic-model relationships for multiple fact tables and dimensions;
-- improve measure behaviour under multi-instrument selections;
-- progress the certified semantic-model approach;
-- review contract-month and futures-rollover representation;
-- assess current and next futures-contract coverage;
-- assess how historical and streamed instruments should converge on shared domain models;
-- document data-provider licensing and retention constraints.
+- selected the Massive historical Futures minute-aggregate dataset;
+- selected `MESU6` and `MNQU6`;
+- designed provider-neutral product and contract identity;
+- allocated stable Atlas product and contract keys;
+- created `gold_dim_instrument`;
+- created Massive historical Bronze, Silver and Gold contracts;
+- implemented controlled historical ingestion;
+- preserved physical source-row lineage;
+- validated duplicate and conflicting-record behaviour;
+- persisted 2,760 Bronze rows;
+- persisted 2,760 trusted Silver rows;
+- persisted 2,760 Gold minute rows;
+- persisted two Gold daily rows;
+- extended the Direct Lake semantic model;
+- added active Date and Instrument relationships;
+- added guarded daily and intraday Massive measures;
+- validated multi-instrument filtering in Power BI;
+- preserved existing CQG and near-real-time behaviour.
 
-This release should establish the structural foundation required for Atlas to move beyond:
+Remaining release work:
 
-- the initial CQG historical futures dataset;
-- the single `AM.MESU6` near-real-time subscription;
-- report assumptions based on one instrument.
-
-The release should not introduce automatic futures-contract rollover until instrument identity, contract identity and provider-neutral keys have been designed and validated.
+```text
+documentation consolidation
+Fabric source-control commit
+local repository synchronisation
+README update
+CHANGELOG update
+RELEASE_HISTORY update
+ADR review
+regression validation
+pull request
+merge
+tag
+GitHub release
+dev/main synchronisation
+```
 
 ## v1.4.0 — Production-Style AI Inference
 
@@ -2338,192 +2781,89 @@ The exact ordering of later capabilities will depend on:
 
 # 24. Immediate v1.3.0 Priorities
 
-The next engineering phase is:
+The v1.3.0 implementation phase is complete.
 
-> **Atlas v1.3.0 — Multi-Instrument Architecture**
+The remaining priorities are release consolidation.
 
-Before substantial implementation begins, Atlas should complete the following controlled planning and discovery work.
+## 24.1 Complete Architecture Documentation
 
-## 24.1 Confirm the Initial Instrument Scope
-
-Define the first multi-instrument dataset and provider scope.
-
-This should include:
-
-- which Massive historical datasets are available;
-- which futures contracts or instruments will be ingested first;
-- expected date coverage;
-- expected event or bar grain;
-- provider licensing and retention constraints;
-- whether current and expired contracts are both required;
-- whether the initial scope includes only futures or introduces another asset class.
-
-The first v1.3.0 increment should remain small enough to validate the architecture without introducing unnecessary breadth.
-
-## 24.2 Inspect Current Instrument Representation
-
-Review the current instrument fields and assumptions across:
-
-- Bronze data;
-- `silver_cqg_ticks`;
-- `gold_cqg_minute_candles`;
-- `gold_cqg_daily_candles`;
-- `gold_ai_session_summary`;
-- `sm_atlas_gold_reporting`;
-- Power BI slicers and measures;
-- the Massive near-real-time event envelope;
-- the raw Eventhouse table.
-
-Identify any places where a single-instrument assumption is embedded in:
-
-- keys;
-- grouping logic;
-- partitioning;
-- measure definitions;
-- report titles;
-- visual filters;
-- notebook parameters;
-- provider-specific symbols.
-
-## 24.3 Define Instrument Identity
-
-Design a provider-neutral instrument identity model before loading multiple datasets.
-
-The design should distinguish where required:
-
-- internal Atlas instrument key;
-- provider;
-- provider symbol;
-- asset class;
-- exchange;
-- underlying product;
-- contract month;
-- contract year;
-- full contract symbol;
-- currency;
-- tick size;
-- price precision;
-- active or expired status.
-
-Provider symbols must not automatically become the long-term canonical Atlas key.
-
-## 24.4 Define the Instrument Dimension
-
-Determine whether v1.3.0 should introduce a governed Gold instrument dimension such as:
+Update and verify:
 
 ```text
-gold_dim_instrument
+Atlas_Multi_Instrument_Identity_and_Grain_Design.md
+Massive_Futures_Bronze_Contract.md
+Massive_Futures_Silver_Contract.md
+Massive_Futures_Gold_Contract.md
+ATLAS_MASTER_CONTEXT.md
 ```
 
-The dimension should have:
+## 24.2 Update Public Repository Documentation
 
-- explicit grain;
-- a stable key;
-- documented source and ownership;
-- validated uniqueness;
-- reusable semantic-model relationships;
-- clear handling of contract-level and product-level identity.
-
-The design must avoid premature assumptions about automatic futures rollover or continuous-contract construction.
-
-## 24.5 Review Data Contracts
-
-Review and update the relevant contracts before changing table grain or keys.
-
-The review should cover:
-
-- Bronze provider contracts;
-- Silver canonical market-data contract;
-- Gold candle contract;
-- Gold date-dimension interaction;
-- future instrument-dimension contract;
-- streaming event-envelope contract;
-- semantic-model relationship expectations.
-
-Any change to grain, keys, financial precision or business meaning must be treated as a contract change.
-
-## 24.6 Review Partitioning and Performance
-
-Assess whether the existing historical tables should be partitioned or organised differently for multiple instruments and longer date ranges.
-
-Consider:
-
-- instrument;
-- trading date;
-- contract;
-- provider;
-- expected row volume;
-- overwrite and incremental-load behaviour;
-- Direct Lake performance;
-- Spark transformation cost;
-- future historical and streaming reconciliation.
-
-Partitioning decisions should be based on expected access patterns and data volume rather than convention alone.
-
-## 24.7 Review Semantic Model Design
-
-Validate how multiple instruments will interact with:
-
-- `gold_dim_date`;
-- daily candles;
-- minute candles;
-- future `gold_dim_instrument`;
-- selected-period measures;
-- previous-trading-day measures;
-- five-trading-day moving averages;
-- totals and averages;
-- instrument slicers;
-- report titles;
-- single-select and multi-select behaviour.
-
-Measures must not silently aggregate unrelated instruments into misleading values.
-
-## 24.8 Define the First Implementation Increment
-
-The smallest coherent v1.3.0 implementation increment should likely include:
-
-1. one additional historical instrument or contract;
-2. a documented provider-neutral identity mapping;
-3. validated Silver and Gold grain;
-4. a governed instrument dimension or equivalent stable model;
-5. semantic-model relationships;
-6. instrument filtering in the existing reports;
-7. reconciliation and regression validation;
-8. documentation updates.
-
-Automatic rollover, continuous contracts and broad multi-asset support should remain outside the first increment unless required by the validated design.
-
-## 24.9 Preserve Existing Capabilities
-
-All v1.3.0 work must preserve:
-
-- validated CQG historical ingestion;
-- deterministic event ordering;
-- OHLC precision;
-- `gold_dim_date`;
-- existing selected-period measures;
-- existing previous-trading-day measures;
-- the five-trading-day moving average;
-- current daily and intraday report behaviour;
-- the separate v1.1.0 near-real-time pathway;
-- the fixed Fabric and GitHub workflow.
-
-## 24.10 Complete Through the Established Workflow
-
-Each v1.3.0 increment should follow:
+Update:
 
 ```text
-inspect current implementation
-→ define contract and grain
-→ implement in Fabric or local source as appropriate
-→ validate data and relationships
-→ commit Fabric changes to dev
+README.md
+CHANGELOG.md
+RELEASE_HISTORY.md
+```
+
+The public documentation should describe:
+
+- the two-provider historical architecture;
+- the instrument dimension;
+- controlled Massive historical coverage;
+- semantic-model expansion;
+- validated measure behaviour;
+- security and licensing boundaries;
+- remaining exclusions.
+
+## 24.3 Review ADR Requirement
+
+Decide whether the following architecture requires a new ADR:
+
+```text
+stable Atlas product and contract identity
++ governed instrument dimension
++ separate provider-specific historical fact tables
+```
+
+A new ADR is appropriate if this is considered a durable architectural commitment rather than a release-local implementation detail.
+
+## 24.4 Commit Fabric Assets
+
+Commit the following Fabric changes through Fabric Git integration:
+
+- four new notebooks;
+- new Lakehouse tables as represented by Fabric items;
+- semantic-model table and measure changes;
+- relationship changes;
+- the validation report.
+
+## 24.5 Complete Regression Validation
+
+Confirm:
+
+- existing CQG report pages still work;
+- CQG measures remain unchanged;
+- Date relationships remain valid;
+- MESU6 filtering remains correct;
+- MNQU6 filtering remains correct;
+- multi-selection does not produce misleading prices;
+- no proprietary market data is committed.
+
+## 24.6 Complete the GitHub Release Workflow
+
+Follow the established process:
+
+```text
+commit Fabric changes to dev
 → pull dev locally
-→ update code and documentation
+→ commit documentation
 → push dev
-→ create pull request
+→ create PR dev to main
 → review and merge
-→ tag the completed release
+→ tag v1.3.0
+→ create GitHub release
 → synchronise dev from main
 ```
 
@@ -2583,17 +2923,48 @@ The repository must distinguish clearly between:
 
 # 26. Known Limitations
 
-## 26.1 Single Primary Historical Dataset
+## 26.1 Controlled Multi-Instrument Historical Scope
 
-The historical Lakehouse architecture is still validated principally against one large CQG futures dataset:
+Atlas now has a validated multi-instrument historical model, but the implemented Massive scope is deliberately narrow.
+
+Current Massive historical coverage is:
 
 ```text
-F.US.EU6M12
+Provider:
+Massive
+
+Contracts:
+MESU6
+MNQU6
+
+Trading sessions:
+1
+
+TradingDate:
+2026-07-14
 ```
 
-Atlas now has a governed date dimension and reusable reporting measures, but the historical model has not yet been fully validated across multiple instruments, providers, exchanges or asset classes.
+The implementation validates:
 
-Multi-instrument behaviour is the primary focus of `v1.3.0`.
+- two products;
+- two dated contracts;
+- stable Atlas identity;
+- instrument relationships;
+- Date relationships;
+- guarded semantic measures;
+- Power BI filtering.
+
+It does not yet validate:
+
+- multiple historical sessions;
+- expired contract chains;
+- different contract months;
+- automatic rollover;
+- continuous contracts;
+- multiple venues;
+- high-precision currency Futures;
+- multiple providers for the same contract;
+- broad cross-asset reporting.
 
 ## 26.2 Development-Hosted Near-Real-Time Streaming
 
@@ -2650,16 +3021,19 @@ Atlas documentation and screenshots must continue to describe this accurately.
 
 The historical Lakehouse path and near-real-time Eventhouse path remain intentionally separate.
 
+Atlas now has provider-neutral Atlas contract identity for the controlled Massive historical contracts, but this identity has not yet been propagated into the Eventhouse pathway.
+
 Atlas does not yet provide:
 
+- a streaming instrument dimension;
 - streaming Silver tables;
-- streaming Gold candle tables;
-- promotion from Eventhouse into canonical Lakehouse tables;
-- reconciliation between historical and streamed events;
-- late-arrival handling across both paths;
-- unified historical and near-real-time semantic models.
+- streaming Gold tables;
+- promotion from Eventhouse into historical Lakehouse facts;
+- reconciliation between streamed and historical minute bars;
+- correction and late-arrival handling across both paths;
+- one unified historical and near-real-time semantic model.
 
-This separation is deliberate until shared instrument identity, streaming contracts and reconciliation rules are defined.
+The v1.3.0 identity design establishes a foundation for future convergence without claiming that convergence is already implemented.
 
 ## 26.6 Duplicate and Correction Handling
 
@@ -2998,26 +3372,57 @@ Trading Day Change percentage: approximately -0.11%
 
 These values are reference checks for the current dataset rather than universal constants.
 
-## 28.7 Power BI Report Validation
+## 28.7 Massive Historical Validation
 
-Report validation should confirm:
+The controlled Massive historical implementation validated:
 
-- Market Overview uses the governed Date dimension;
-- Intraday Analysis uses the governed Date dimension;
-- adjustable date-range filtering works on Market Overview;
-- single-date selection works on Intraday Analysis;
-- weekend selections produce expected blank visuals where no market data exists;
-- artificial blank slicer members are excluded without removing genuine calendar dates;
-- all KPI cards respond to filter changes;
-- custom candlestick visuals render correctly;
-- the five-day moving-average line remains correct after refresh;
-- navigation between pages works in edit and reading modes;
-- card formatting and decimal precision are consistent;
-- titles and labels remain clear;
-- no temporary diagnostic visuals remain;
-- report visuals are bound to intended measures.
+```text
+Bronze rows:
+2,760
 
-Daily-to-intraday drill-through should not be reported as implemented unless the selected candlestick visual exposes compatible Power BI drill-through context.
+Silver rows:
+2,760
+
+Gold minute rows:
+2,760
+
+Gold daily rows:
+2
+```
+
+Per-contract minute counts:
+
+```text
+MESU6:
+1,380
+
+MNQU6:
+1,380
+```
+
+Validation confirmed:
+
+- physical source identity uniqueness;
+- complete source lineage;
+- valid provider tickers;
+- one contract mapping per selected ticker;
+- one product mapping per selected contract;
+- UTC minute boundaries;
+- provider session-date preservation;
+- valid OHLC relationships;
+- non-negative activity values;
+- no conflicting duplicate for selected contracts;
+- unique Silver and Gold business grain;
+- deterministic daily Open and Close;
+- daily High and Low reconciliation;
+- Volume reconciliation;
+- Transaction reconciliation;
+- Dollar Volume reconciliation;
+- persisted schema and row-count reconciliation;
+- active semantic-model relationships;
+- correct instrument filtering;
+- guarded single-contract measures;
+- unchanged CQG fact tables.
 
 ## 28.8 Near-Real-Time Transformation Validation
 
@@ -3289,56 +3694,75 @@ A development increment is considered complete when the applicable items below h
 
 # 32. Current Authoritative Summary
 
-At the completion of `v1.2.0`, Atlas is:
+At the current v1.3.0 release-consolidation stage, Atlas is:
 
 - a working Microsoft Fabric medallion architecture;
-- a large-volume historical market-data engineering solution;
-- a Bronze-to-Silver-to-Gold analytical pipeline;
-- a governed Gold reporting layer;
+- a large-volume CQG event-data engineering solution;
+- a controlled Massive historical aggregate-data solution;
+- a multi-provider historical platform;
+- a governed product and contract identity model;
+- a multi-instrument Gold architecture;
 - a Direct Lake semantic-model platform;
 - an interactive Power BI daily and intraday reporting solution;
 - a reusable time-intelligence and selected-period analytics model;
 - a development-hosted near-real-time streaming architecture;
 - an Eventstream and Eventhouse ingestion solution;
-- a KQL validation and market-monitoring environment;
+- a KQL validation and monitoring environment;
 - a live-refresh Real-Time Dashboard;
 - a deterministic AI analytical-preparation framework;
 - an extensible AI market-commentary architecture;
-- a professionally governed GitHub portfolio repository;
-- a foundation for multi-instrument, production-style AI and expanded Real-Time Intelligence development.
+- a professionally governed GitHub portfolio repository.
 
 ## 32.1 Historical Analytical Capability
 
-The historical pathway currently supports:
+Atlas supports two historical source models.
+
+### CQG
 
 ```text
-CQG legacy futures ticks
-→ Bronze Parquet and OneLake
+CQG legacy Futures events
+→ Bronze
 → silver_cqg_ticks
 → gold_cqg_minute_candles
 → gold_cqg_daily_candles
-→ gold_dim_date
-→ sm_atlas_gold_reporting
-→ Power BI Market Overview and Intraday Analysis
 ```
 
-The historical model includes:
+### Massive
 
-- deterministic event ordering;
-- minute and daily OHLC candles;
-- Decimal(18,5) financial precision;
-- a continuous governed date dimension;
-- active one-to-many Date relationships;
-- shared daily and intraday Date filtering;
-- reusable selected-period measures;
-- reusable previous-trading-day measures;
-- a distinct Trading Days calculation;
-- a validated five-trading-day moving average;
-- explicit navigation between reporting pages.
+```text
+Massive Futures Flat File
+→ bronze_massive_futures_minute_aggregates
+→ silver_massive_futures_minute_aggregates
+→ gold_massive_futures_minute_candles
+→ gold_massive_futures_daily_candles
+```
+
+The reporting layer is:
+
+```text
+gold_dim_date
+gold_dim_instrument
+        |
+        v
+sm_atlas_gold_reporting
+        |
+        v
+Power BI
+```
+
+The Massive historical model currently supports:
+
+```text
+MESU6
+MNQU6
+```
+
+The CQG and Massive historical facts remain physically separate because their source grains and activity semantics differ.
+
 
 ## 32.2 Near-Real-Time Capability
 
-The near-real-time pathway currently supports:
+The near-real-time pathway remains:
 
 ```text
 Massive delayed Futures WebSocket
@@ -3350,91 +3774,80 @@ Massive delayed Futures WebSocket
 → Real-Time Dashboard
 ```
 
-The current streaming implementation:
+It currently subscribes to:
 
-- subscribes to `AM.MESU6`;
-- receives delayed minute aggregates;
-- validates timestamps, interval values, OHLC and non-negative measures;
-- generates deterministic Atlas event identifiers;
-- preserves the raw provider payload;
-- publishes JSON events through the Fabric Eventstream custom endpoint;
-- stores events in a governed KQL table;
-- supports delay, latency, continuity and duplicate analysis;
-- refreshes the Real-Time Dashboard after ingestion.
+```text
+AM.MESU6
+```
 
-The adapter remains development-hosted and must currently run locally.
+The adapter remains development-hosted.
 
 ## 32.3 AI Capability
 
-Atlas currently separates deterministic analytical preparation from generative inference.
+Atlas separates deterministic analytical calculations from generative inference.
 
-The AI architecture includes:
+Production-style hosted AI remains the planned focus for:
 
-- deterministic session summaries;
-- validated market metrics;
-- AI-ready prompt templates;
-- configurable provider patterns;
-- inference metadata;
-- failure handling;
-- an extensible market-commentary framework.
-
-Production-style hosted inference remains dependent on suitable model deployment, capacity, secure configuration and cost controls.
+```text
+v1.4.0
+```
 
 ## 32.4 Current Reporting Position
 
-The historical report currently includes:
+The historical semantic model includes:
 
-- Market Overview;
-- Intraday Analysis;
-- shared governed Date filtering;
-- instrument filtering;
-- daily and minute candlestick analysis;
-- selected-period KPIs;
-- previous-trading-day comparison;
-- consistent KPI-card styling;
-- explicit page-navigation controls.
+- CQG daily and minute facts;
+- Massive daily and minute facts;
+- `gold_dim_date`;
+- `gold_dim_instrument`;
+- reusable CQG measures;
+- guarded Massive measures;
+- daily and intraday measure folders;
+- validated instrument and date filtering.
 
-Daily-to-intraday drill-through was evaluated but deferred because the current free candlestick custom visual does not expose compatible Power BI drill-through context.
+Reports currently include:
 
-This limitation is documented accurately and does not affect the semantic-model relationships or explicit page navigation.
+```text
+rpt_atlas_market_overview
+rpt_atlas_semantic_model_validation_dev
+```
 
 ## 32.5 Current Architectural Boundaries
 
 Atlas does not yet provide:
 
-- a fully validated multi-instrument historical model;
-- a governed instrument dimension;
-- automatic futures-contract rollover;
+- multiple Massive historical sessions;
+- automatic futures rollover;
+- continuous contracts;
+- CQG mapping into `gold_dim_instrument`;
+- broad exchange-wide historical persistence;
+- cross-provider fact consolidation;
+- provider correction precedence;
 - production cloud hosting for the streaming adapter;
-- durable streaming buffering and replay;
-- provider correction handling;
-- destination-level deduplication;
-- streaming Silver and Gold models;
-- historical and near-real-time reconciliation;
+- streaming Silver and Gold;
+- historical and streaming reconciliation;
 - production-style hosted AI inference;
 - formal exchange-calendar logic;
-- complete multi-environment deployment and orchestration.
+- complete multi-environment deployment;
+- production orchestration.
 
-These are planned architectural increments rather than implied implemented capabilities.
+## 32.6 Current Release Position
 
-## 32.6 Next Planned Release
+The v1.3.0 controlled implementation is complete.
 
-The next planned release is:
+The project is currently completing:
 
-> **Atlas v1.3.0 — Multi-Instrument Architecture**
+```text
+documentation
+→ source control
+→ regression validation
+→ pull request
+→ release
+```
 
-The immediate next engineering phase will focus on:
+After v1.3.0, the planned next release is:
 
-- selected Massive historical datasets;
-- additional futures instruments or contracts;
-- provider-neutral instrument identity;
-- stable instrument keys;
-- a governed instrument dimension;
-- Silver and Gold grain validation;
-- date and instrument filter interaction;
-- multi-instrument semantic-model behaviour;
-- report and measure validation across multiple instruments;
-- preparation for future historical and streaming convergence.
+> **v1.4.0 — Production-Style AI Inference**
 
 Atlas must continue to evolve through explicit contracts, small implementation increments, human validation, professional documentation and the established Fabric-to-GitHub workflow.
 

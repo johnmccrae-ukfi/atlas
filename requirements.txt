@@ -37,6 +37,12 @@ websocket-client
 python-dotenv>=1.0
 
 ###############################################################################
+# Python SDK option for Flat Files access
+###############################################################################
+
+boto3>=1.34.0
+
+###############################################################################
 # Microsoft Fabric Runtime
 #
 # The following packages are provided by the Microsoft Fabric notebook runtime
